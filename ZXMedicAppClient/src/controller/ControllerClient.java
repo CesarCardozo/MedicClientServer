@@ -109,8 +109,9 @@ public class ControllerClient implements ActionListener {
 	}
 
 	private void showAppointment() {
-		MedicalSpeciality speciality= MedicalSpeciality.CARDIOLOGIST;// se debe cerrar la vista
+		MedicalSpeciality speciality= MedicalSpeciality.CARDIOLOGIST;//Se debe establecer la especialidad medica desde la vista
 		client.showAppointment(speciality);
+		//se tiene que mostrar el array que dio el metodo anterior en la vista
 
 	}
 

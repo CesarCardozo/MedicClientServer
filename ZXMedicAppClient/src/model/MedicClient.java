@@ -134,19 +134,17 @@ public class MedicClient {
 	}
 
 	public ArrayList<Appointment> showAppointment(MedicalSpeciality speciality) {
-		String arrayAppointment = "";
 		try {
 			output.writeUTF(Actions.SHOW_APPOINTMENT.name());
 			String response = input.readUTF();
 			if (response.equals(Actions.OK.name())) {
-			output.writeUTF(""+speciality);
-			 arrayAppointment = input.readUTF();
+				output.writeUTF(speciality.name());
+				JSonUtil.toArrayAppoints(input.readUTF());
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return JSonUtil.toArrayAppoints(arrayAppointment);
-
+		return null;
 	}
 
 	public void showAppointmentDoctorStatus() {
@@ -175,7 +173,7 @@ public class MedicClient {
 			String response = input.readUTF();
 			if (response.equals(Actions.OK.name())) {
 				output.writeUTF(JSonUtil.toJson(a));
-				output.writeUTF(JSonUtil.toJson((Patient)this.client));
+				output.writeUTF(JSonUtil.toJson((Patient) this.client));
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
