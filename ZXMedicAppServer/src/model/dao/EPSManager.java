@@ -83,7 +83,7 @@ public class EPSManager {
 	 * @return
 	 * @throws Exception
 	 */
-	public TreeAvl<Appointment> showAppointementPatient(String idPAtient) throws Exception {
+	public ArrayList<Appointment> showAppointementPatient(String idPAtient) throws Exception {
 		Patient patient = this.patientList.search(new Patient(idPAtient)).getInfo();
 		TreeAvl<Appointment> appointmentsPatient = new TreeAvl<Appointment>();
 		ArrayList<Doctor> doctors = this.doctortList.inOrden();
@@ -95,7 +95,7 @@ public class EPSManager {
 				}
 			}
 		}
-		return appointmentsPatient;
+		return appointmentsPatient.inOrden();
 	}
 
 	/**
@@ -105,7 +105,7 @@ public class EPSManager {
 	 * @return
 	 * @throws Exception
 	 */
-	public TreeAvl<Appointment> showAppointementPatient(String idPAtient, AppointmentStatus appointmentStatus)
+	public ArrayList<Appointment> showAppointementPatient(String idPAtient, AppointmentStatus appointmentStatus)
 			throws Exception {
 		Patient patient = this.patientList.search(new Patient(idPAtient)).getInfo();
 		TreeAvl<Appointment> appointmentsPatient = new TreeAvl<Appointment>();
@@ -118,7 +118,7 @@ public class EPSManager {
 				}
 			}
 		}
-		return appointmentsPatient;
+		return appointmentsPatient.inOrden();
 	}
 
 	/**
@@ -128,9 +128,9 @@ public class EPSManager {
 	 * @return
 	 * @throws Exception
 	 */
-	public TreeAvl<Appointment> showAppointementDoctor(String idDoctor) throws Exception {
+	public ArrayList<Appointment> showAppointementDoctor(String idDoctor) throws Exception {
 		Doctor doctor = this.doctortList.search(new Doctor(idDoctor)).getInfo();
-		return doctor.getAppointmentList();
+		return doctor.getAppointmentList().inOrden();
 	}
 
 	/**
@@ -140,7 +140,7 @@ public class EPSManager {
 	 * @return
 	 * @throws Exception
 	 */
-	public TreeAvl<Appointment> showAppointementDoctor(String idDoctor, AppointmentStatus appointmentStatus)
+	public ArrayList<Appointment> showAppointementDoctor(String idDoctor, AppointmentStatus appointmentStatus)
 			throws Exception {
 		ArrayList<Appointment> appointments = this.doctortList.search(new Doctor(idDoctor)).getInfo()
 				.getAppointmentList().inOrden();
@@ -150,7 +150,7 @@ public class EPSManager {
 				appointmentsFromStatus.insert(appointment);
 			}
 		}
-		return appointmentsFromStatus;
+		return appointmentsFromStatus.inOrden();
 	}
 
 	/**
