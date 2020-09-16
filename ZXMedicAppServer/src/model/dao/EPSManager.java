@@ -34,8 +34,11 @@ public class EPSManager {
 	 */
 	public void createAppointment(Doctor doctor, Date date) throws Exception {
 		Appointment a = new Appointment(date);
-		a.setDoctor(doctor);
-		doctor.addAppointment(a);
+		Doctor d = doctortList.search(doctor).getInfo();
+		a.setDoctor(d.getId());
+		System.out.println(a.toString());
+
+		d.addAppointment(a);
 	}
 
 	/**
@@ -57,7 +60,7 @@ public class EPSManager {
 	 * @throws Exception
 	 */
 	public void cancelAppointment(Appointment a) throws Exception {
-		Appointment appointment = doctortList.search(a.getDoctor()).getInfo().getAppointmentList().search(a).getInfo();
+		Appointment appointment = doctortList.search(new Doctor(a.getDoctor())).getInfo().getAppointmentList().search(a).getInfo();
 		appointment.setStatus(AppointmentStatus.AVAILABLE);
 		appointment.setPatient(null);
 	}
@@ -71,7 +74,7 @@ public class EPSManager {
 	 * @throws Exception
 	 */
 	public synchronized void bookAppointment(Patient patient, Appointment appointment) throws Exception {
-		Appointment a = doctortList.search(appointment.getDoctor()).getInfo().getAppointmentList()
+		Appointment a = doctortList.search(new Doctor(appointment.getDoctor())).getInfo().getAppointmentList()
 				.search(new Appointment(appointment.getDate())).getInfo();
 		a.setPatient(patient);
 		a.setStatus(AppointmentStatus.NOT_AVAILABLE);
@@ -184,7 +187,7 @@ public class EPSManager {
 	 * @throws Exception
 	 */
 	public void attendAppointment(Appointment a) throws Exception {
-		doctortList.search(a.getDoctor()).getInfo().getAppointmentList().search(a).getInfo()
+		doctortList.search(new Doctor(a.getDoctor())).getInfo().getAppointmentList().search(a).getInfo()
 				.setStatus(AppointmentStatus.ATTENDED);
 	}
 

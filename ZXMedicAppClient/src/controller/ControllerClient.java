@@ -58,7 +58,7 @@ public class ControllerClient implements ActionListener {
 			loginDoctor();
 			break;
 		case ADD_APPOINTMENT:
-			//addAppointment();
+			// addAppointment();
 			break;
 		case DELETE_APPOINTMENT:
 			deleteAppointment();
@@ -76,13 +76,13 @@ public class ControllerClient implements ActionListener {
 			showAppointmentDoctor();
 			break;
 		case SHOW_APPOINTMENT_PATIENT_STATUS:
-			//			showAppointmentPatientSatus();
+			// showAppointmentPatientSatus();
 			break;
 		case SHOW_APPOINTMENT_DOCTOR_STATUS:
-			//showAppointmentDoctorStatus();// esto creo se puede quitar 
+			// showAppointmentDoctorStatus();// esto creo se puede quitar
 			break;
 		case SHOW_APPOINTMENT:
-			//			showAppointment();
+			// showAppointment();
 			break;
 		case ATTEND_APPOINTMENT:
 			attendAppointment();
@@ -115,12 +115,7 @@ public class ControllerClient implements ActionListener {
 			this.bookAppointment2 = new DialogBookAppointment2(this, showAppointment(bookAppointment.getSpeciality()));
 			break;
 		case OK_CREATE_APPOINT:
-			this.dialogCreateAppointment.setVisible(false);
-			addAppointment(dialogCreateAppointment.getDate());
-			ArrayList<Appointment> appointments = client.showAppointmentDoctorStatus(AppointmentStatus.NOT_AVAILABLE);
-			System.err.println(appointments.size());
-			
-			this.frameDoctor = new FrameDoctor(this, (Doctor) client.getClient(), appointments);
+			addAppointment();
 			break;
 		case CANCEL_BOOK_APPOINTMENT:
 			this.bookAppointment.setVisible(false);
@@ -138,7 +133,7 @@ public class ControllerClient implements ActionListener {
 			this.dialogLogin.setVisible(false);
 			this.mainFrame.setVisible(true);
 			break;
-		case CANCEL_DOCTOR: 
+		case CANCEL_DOCTOR:
 			this.frameDoctor.setVisible(false);
 			this.mainFrame.setVisible(true);
 			break;
@@ -146,7 +141,7 @@ public class ControllerClient implements ActionListener {
 			this.framePatient.setVisible(false);
 			this.mainFrame.setVisible(true);
 			break;
-		case CREATE_APPOINT: 
+		case CREATE_APPOINT:
 			this.frameDoctor.setVisible(false);
 			this.dialogCreateAppointment = new DialogCreateAppointment(this);
 			break;
@@ -161,7 +156,9 @@ public class ControllerClient implements ActionListener {
 		this.dialogLogin.setVisible(false);
 		client.loginDoctor(idDoctor, passwordDoctor);
 		// usar ese doctor a discrecion
-		ArrayList<Appointment> appointments = client.showAppointmentDoctorStatus(AppointmentStatus.NOT_AVAILABLE);
+		ArrayList<Appointment> appointments = new ArrayList<>(); 
+		appointments.addAll(client.showAppointmentDoctorStatus(AppointmentStatus.AVAILABLE));
+		appointments.addAll(client.showAppointmentDoctorStatus(AppointmentStatus.NOT_AVAILABLE));
 		this.frameDoctor = new FrameDoctor(this, (Doctor) client.getClient(), appointments);
 	}
 
@@ -172,7 +169,7 @@ public class ControllerClient implements ActionListener {
 		client.loginPatient(idPatient, passwordPatient);
 		ArrayList<Appointment> appointments = client.showAppointmentPatientSatus(AppointmentStatus.NOT_AVAILABLE);
 		// usar ese paciente a discrecion
-		this.framePatient = new FramePatient(this, (Patient)client.getClient(), appointments);
+		this.framePatient = new FramePatient(this, (Patient) client.getClient(), appointments);
 	}
 
 	private void registerDoctor() {
@@ -205,7 +202,7 @@ public class ControllerClient implements ActionListener {
 		// Se seleccion de la vista desde la perspectiva del doctor la appointment que
 		// quiere atender
 		Appointment a = new Appointment(new Date());
-		a.setDoctor(new Doctor("1", "Pepito", "310", "correo", MedicalSpeciality.CARDIOLOGIST, "123"));
+		a.setDoctor("1");
 		// se reemplaza la seleccion de la appointment de arriba por la obtencion desde
 		// la vista
 		client.attendAppointment(a);
@@ -213,19 +210,8 @@ public class ControllerClient implements ActionListener {
 
 	private ArrayList<Appointment> showAppointment(MedicalSpeciality speciality) {
 		return client.showAppointment(speciality);
-		//se tiene que mostrar el array que dio el metodo anterior en la vista
+		// se tiene que mostrar el array que dio el metodo anterior en la vista
 
-	}
-
-	private ArrayList<Appointment> showAppointmentDoctorStatus(AppointmentStatus status ) {
-		//		AppointmentStatus status = AppointmentStatus.NOT_AVAILABLE;//se debe traer de la vista 
-		ArrayList<Appointment> appoints = client.showAppointmentDoctorStatus(status);
-		return appoints;
-		// se tiene que mostrar el array que dio el metodo en la vista
-	}
-
-	private ArrayList<Appointment> showAppointmentPatientSatus(AppointmentStatus appointmentStatus) {
-		return client.showAppointmentPatientSatus(appointmentStatus);
 	}
 
 	private void showAppointmentDoctor() {
@@ -241,10 +227,11 @@ public class ControllerClient implements ActionListener {
 	}
 
 	private void bookAppointment() {
-		
+
 		bookAppointment2.setVisible(false);
 		mainFrame.setVisible(true);
-		//Se seleccion de la vista desde la perspectiva del usuario  la appointment que quiere cancelar
+		// Se seleccion de la vista desde la perspectiva del usuario la appointment que
+		// quiere cancelar
 		Appointment a = bookAppointment2.getAppointment();
 		client.bookAppointment(a);
 	}
@@ -253,7 +240,7 @@ public class ControllerClient implements ActionListener {
 		// Se seleccion de la vista desde la perspectiva del usuario la appointment que
 		// quiere cancelar
 		Appointment a = new Appointment(new Date());
-		a.setDoctor(new Doctor("1", "Cesar", "310", "correo", MedicalSpeciality.CARDIOLOGIST, "123"));
+		a.setDoctor("1");
 		// se reemplaza la seleccion de la appointment de arriba por la obtencion desde
 		// la vista
 		client.cancelAppointment(a);
@@ -264,11 +251,14 @@ public class ControllerClient implements ActionListener {
 		client.deleteAppointment(d);
 	}
 
-	private void addAppointment(Date date) {
-		Date d = new Date();// aca se cambia esto por el selector de fecha de la vista
-		client.addAppointment(d);
-		// se debe actualizar la vista para que se actualice la lista de citas (desde la
-		// perspectiva del doctor)
+	private void addAppointment() {
+		this.dialogCreateAppointment.setVisible(false);
+		
+		client.addAppointment(dialogCreateAppointment.getDate());
+		ArrayList<Appointment> appointments = new ArrayList<>();
+		appointments.addAll(client.showAppointmentDoctorStatus(AppointmentStatus.NOT_AVAILABLE));
+		appointments.addAll(client.showAppointmentDoctorStatus(AppointmentStatus.AVAILABLE));
+		this.frameDoctor = new FrameDoctor(this, (Doctor) client.getClient(), appointments);
 	}
 
 	private void closeConection() {
