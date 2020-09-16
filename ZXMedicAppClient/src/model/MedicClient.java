@@ -127,5 +127,49 @@ public class MedicClient {
 			e.printStackTrace();
 		}
 	}
+	
+	public void attendAppointment() {
+		// TODO Auto-generated method stub
 
+	}
+
+	public void showAppointment() {
+		// TODO Auto-generated method stub
+
+	}
+
+	public void showAppointmentDoctorStatus() {
+		// TODO Auto-generated method stub
+
+	}
+
+	public void showAppointmentPatientSatus() {
+		// TODO Auto-generated method stub
+
+	}
+
+	public void showAppointmentDoctor() {
+		// TODO Auto-generated method stub
+
+	}
+
+	public void showAppointmentPatient() {
+		// TODO Auto-generated method stub
+
+	}
+
+	public void bookAppointment() {
+		// TODO Auto-generated method stub
+
+	}
+
+	public void cancelAppointment() {
+		// TODO Auto-generated method stub
+
+	}
+
+	public void deleteAppointment() {
+		// TODO Auto-generated method stub
+
+	}
 }
