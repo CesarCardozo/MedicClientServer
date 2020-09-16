@@ -1,7 +1,10 @@
 package controller;
 
+import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.net.Socket;
 
@@ -37,6 +40,7 @@ public class MedicConection extends Thread {
 	public void run() {
 		try {
 			this.out.writeUTF("Cliente aceptado" + this.toString());
+			sendDataInit();
 			while (activeConection) {
 				System.out.println("esperando mensaje");
 				String mensajeCliente = this.in.readUTF();
@@ -97,6 +101,24 @@ public class MedicConection extends Thread {
 		default:
 			break;
 		}
+	}
+	
+	public void sendDataInit() throws IOException {
+		File archive = new File ("src/persistence/Patients.json");
+		FileReader fr;
+		fr = new FileReader (archive);
+		BufferedReader br = new BufferedReader(fr);
+		String jsonInputPatient = br.readLine();
+		System.out.println("la linea de entrada en server Person" + jsonInputPatient);
+		this.out.writeUTF(jsonInputPatient);
+		
+		File archive2 = new File ("src/persistence/Doctors.json");
+		FileReader fr2 = new FileReader (archive2);
+		BufferedReader br2 = new BufferedReader(fr2);
+		String jsonInputDoctor = br2.readLine();
+		System.out.println("la linea de entrada en server Med " + jsonInputDoctor);
+		this.out.writeUTF(jsonInputDoctor);
+		
 	}
 
 	private void registerPatient() {

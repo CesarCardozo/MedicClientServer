@@ -35,6 +35,14 @@ public class MedicClient {
 		input = new DataInputStream(socketCliente.getInputStream());// incializar lo que llega del servidor
 		String saludoInicial = input.readUTF();
 		System.out.println(saludoInicial);
+		//lectura de pacientes
+		input = new DataInputStream(socketCliente.getInputStream());
+		String Patient = input.readUTF();
+		System.out.println(Patient);
+		//lectura de doctores
+		input = new DataInputStream(socketCliente.getInputStream());
+		String doctor = input.readUTF();
+		System.out.println(doctor);
 	}
 
 	public void registerPatient(Patient p) {
@@ -157,17 +165,17 @@ public class MedicClient {
 
 	}
 
-	public ArrayList<Appointment> showAppointmentDoctorStatus(AppointmentStatus status) {
+	public ArrayList<Appointment> showAppointmentDoctorStatus(Doctor doctor, AppointmentStatus status) {
 		String arrayAppointment = "";
 		try {
 			output.writeUTF(Actions.SHOW_APPOINTMENT_DOCTOR_STATUS.name());
 			String response = input.readUTF();
 			if (response.equals(Actions.OK.name())) {
-				output.writeUTF(JSonUtil.toJson((Doctor)this.client));
+//				output.writeUTF(JSonUtil.toJson((Doctor)this.client));
+				output.writeUTF(JSonUtil.toJson(doctor));
 				output.writeUTF(status.name());
 				arrayAppointment = input.readUTF();
 			}
-
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

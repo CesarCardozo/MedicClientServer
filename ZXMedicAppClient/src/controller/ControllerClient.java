@@ -3,6 +3,7 @@ package controller;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 
 import model.MedicClient;
@@ -11,6 +12,9 @@ import model.entity.AppointmentStatus;
 import model.entity.Doctor;
 import model.entity.MedicalSpeciality;
 import model.entity.Patient;
+import view.DialogBookAppointment;
+import view.DialogBookAppointment2;
+import view.DialogCreateAppointment;
 import view.DialogLogin;
 import view.DialogSignUpDoc;
 import view.DialogSignUpPatient;
@@ -26,11 +30,14 @@ public class ControllerClient implements ActionListener {
 	private DialogLogin dialogLoginPatient;
 	private DialogSignUpDoc dialogSignUpDoc;
 	private DialogSignUpPatient dialogSignUpPatient;
+	private DialogCreateAppointment dialogCreateAppointment;
+	private DialogBookAppointment bookAppointment;
+	private DialogBookAppointment2 bookAppointment2;
 	private MedicClient client;
 
 	public ControllerClient() throws IOException {
 		this.mainFrame = new MainFrame(this);
-		//		this.client = new MedicClient();
+				this.client = new MedicClient();
 	}
 
 	@SuppressWarnings("unused")
@@ -71,7 +78,7 @@ public class ControllerClient implements ActionListener {
 			showAppointmentPatientSatus();
 			break;
 		case SHOW_APPOINTMENT_DOCTOR_STATUS:
-			showAppointmentDoctorStatus();
+//			showAppointmentDoctorStatus();// esto creo se puede quitar 
 			break;
 		case SHOW_APPOINTMENT:
 			showAppointment();
@@ -83,17 +90,31 @@ public class ControllerClient implements ActionListener {
 			closeConection();
 			break;
 		case BTN_LOGIN_PATIENT:
+			this.mainFrame.setVisible(false);
 			this.dialogLoginPatient = new DialogLogin(this, Actions.LOGIN_PATIENT);
 			break;
 		case BTN_LOGIN_DOCTOR:
+			this.mainFrame.setVisible(false);
 			this.dialogLoginPatient = new DialogLogin(this, Actions.LOGIN_DOCTOR);
 			break;
 		case  BTN_SIGNUP_PATIENT:
+			this.mainFrame.setVisible(false);
 			dialogSignUpPatient = new DialogSignUpPatient(this);
 			break;
 		case BTN_SIGNUP_DOCTOR:
+			this.mainFrame.setVisible(false);
 			this.dialogSignUpDoc = new DialogSignUpDoc(this);
 			break;
+		case PATIENT_BOOK_APPOINT:
+			this.framePatient.setVisible(false);
+			this.bookAppointment = new DialogBookAppointment(this);
+			break;
+		case OK_CREATE_APPOINT:
+			this.bookAppointment .setVisible(false);
+			MedicalSpeciality speciality = bookAppointment.getSpeciality();
+//			this.bookAppointment2 = new DialogBookAppointment2(this, listAppointment);//poner todas las listas dispobles por especialidad
+			Appointment selectAppointment = this.bookAppointment2.getAppointment();
+
 		default:
 			break;
 		}
@@ -106,6 +127,7 @@ public class ControllerClient implements ActionListener {
 		Doctor doctor = client.loginDoctor(idDoctor, passwordDoctor);
 		// usar ese doctor a discrecion
 		this.frameDoctor = new FrameDoctor(this, doctor);//hace falta pasarle la lista de citas 
+		this.frameDoctor.fillTable(showAppointmentDoctorStatus(doctor, AppointmentStatus.NOT_AVAILABLE));
 	}
 
 	private void loginPatient() {
@@ -128,13 +150,15 @@ public class ControllerClient implements ActionListener {
 		Patient p = new Patient(this.dialogSignUpPatient.getId(), this.dialogSignUpPatient.getName(), this.dialogSignUpPatient.getPhone(), 
 				this.dialogSignUpPatient.getPhone(), this.dialogSignUpPatient.getPassword() );
 		client.registerPatient(p);
+		this.dialogSignUpPatient.setVisible(false);
+		this.mainFrame.setVisible(true);
 		//mandar este nuevo paciente a la percistencia para que pueda entrar 
 	}
 
 	private void attendAppointment() {
 		//Se seleccion de la vista desde la perspectiva del doctor la appointment que quiere atender
 		Appointment a = new Appointment(new Date());
-		a.setDoctor(new Doctor("1", "Cesar", "310", "correo", MedicalSpeciality.CARDIOLOGIST, "123"));
+		a.setDoctor(new Doctor("1", "Pepito", "310", "correo", MedicalSpeciality.CARDIOLOGIST, "123"));
 		//se reemplaza la seleccion de la appointment de arriba por la obtencion desde la vista
 		client.attendAppointment(a);
 	}
@@ -146,9 +170,10 @@ public class ControllerClient implements ActionListener {
 
 	}
 
-	private void showAppointmentDoctorStatus() {
-		AppointmentStatus status = AppointmentStatus.NOT_AVAILABLE;//se debe traer de la vista 
-		client.showAppointmentDoctorStatus(status);
+	private ArrayList<Appointment> showAppointmentDoctorStatus(Doctor doctor, AppointmentStatus status ) {
+//		AppointmentStatus status = AppointmentStatus.NOT_AVAILABLE;//se debe traer de la vista 
+		ArrayList<Appointment> appoints = client.showAppointmentDoctorStatus(doctor, status);
+		return appoints;
 		//se tiene que mostrar el array que dio el metodo en la vista
 	}
 
@@ -198,6 +223,10 @@ public class ControllerClient implements ActionListener {
 	private void closeConection() {
 		this.mainFrame.setVisible(false);
 		client.closeConection();
-		// se debe cerrar la vista
+		// se cierra la vista
+		System.out.println("Exit...");
+		this.mainFrame.setVisible(false);
+		this.mainFrame.setDefaultCloseOperation(0);
+		System.exit(0);
 	}
 }

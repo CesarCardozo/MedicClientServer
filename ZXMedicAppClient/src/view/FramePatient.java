@@ -12,6 +12,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import controller.Actions;
 import controller.ControllerClient;
 import model.entity.Appointment;
 import model.entity.Patient;
@@ -49,7 +50,7 @@ public class FramePatient extends JFrame{
 		
 		this.btnAddAppo = new JButton(new ImageIcon(new ImageIcon(getClass().getResource("/img/cita.png")).getImage().getScaledInstance(100, 100, 100)));
 		this.btnAddAppo.addActionListener(controller);
-//		this.btnAddAppo.setActionCommand(Actions.PATIENT.toString());
+		this.btnAddAppo.setActionCommand(Actions.PATIENT_BOOK_APPOINT.toString());
 		this.btnAddAppo.setBorder(null);
 		this.btnAddAppo.setBackground(Color.DARK_GRAY);
 		this.btnAddAppo.setFocusable(false);
@@ -107,6 +108,6 @@ public class FramePatient extends JFrame{
 	}
 
 	public static void main(String[] args) {
-		new FramePatient(null, null);
+		new FramePatient(null, new Patient("1", "stuar", "333", "jj@k", "123"));
 	}
 }
