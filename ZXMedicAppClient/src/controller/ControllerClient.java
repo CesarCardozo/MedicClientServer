@@ -46,9 +46,9 @@ public class ControllerClient implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		switch (Actions.valueOf(e.getActionCommand())) {
 		case REGISTER_PATIENT:
-			registerPatient();// falta exception
+			registerPatient();
 			break;
-		case REGISTER_DOCTOR:// falta exception
+		case REGISTER_DOCTOR:
 			registerDoctor();
 			break;
 		case LOGIN_PATIENT:// falta exception
@@ -119,7 +119,7 @@ public class ControllerClient implements ActionListener {
 			addAppointment(dialogCreateAppointment.getDate());
 			ArrayList<Appointment> appointments = client.showAppointmentDoctorStatus(AppointmentStatus.NOT_AVAILABLE);
 			System.err.println(appointments.size());
-			
+
 			this.frameDoctor = new FrameDoctor(this, (Doctor) client.getClient(), appointments);
 			break;
 		case CANCEL_BOOK_APPOINTMENT:
@@ -168,11 +168,15 @@ public class ControllerClient implements ActionListener {
 	private void loginPatient() {
 		String idPatient = this.dialogLogin.getId();
 		String passwordPatient = this.dialogLogin.getPassword();
-		this.dialogLogin.setVisible(false);
-		client.loginPatient(idPatient, passwordPatient);
-		ArrayList<Appointment> appointments = client.showAppointmentPatientSatus(AppointmentStatus.NOT_AVAILABLE);
-		// usar ese paciente a discrecion
-		this.framePatient = new FramePatient(this, (Patient)client.getClient(), appointments);
+		try {
+			client.loginPatient(idPatient, passwordPatient);
+			ArrayList<Appointment> appointments = client.showAppointmentPatientSatus(AppointmentStatus.NOT_AVAILABLE);
+			// usar ese paciente a discrecion
+			this.framePatient = new FramePatient(this, (Patient)client.getClient(), appointments);
+			this.dialogLogin.setVisible(false);
+		} catch (Exception e) {
+			ViewUtils.showError(this.dialogLogin, e.getMessage());
+		}
 	}
 
 	private void registerDoctor() {
@@ -241,7 +245,7 @@ public class ControllerClient implements ActionListener {
 	}
 
 	private void bookAppointment() {
-		
+
 		bookAppointment2.setVisible(false);
 		mainFrame.setVisible(true);
 		//Se seleccion de la vista desde la perspectiva del usuario  la appointment que quiere cancelar
