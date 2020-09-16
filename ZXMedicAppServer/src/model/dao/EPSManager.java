@@ -196,8 +196,8 @@ public class EPSManager {
 	 * @param history
 	 * @throws Exception
 	 */
-	public void createPatient(String id, String name, String phone, String email, String history) throws Exception {
-		Patient p = new Patient(id, name, phone, email, history);
+	public void createPatient(String id, String name, String phone, String email, String history, String password) throws Exception {
+		Patient p = new Patient(id, name, phone, email, password, history);
 		this.addPattient(p);
 	}
 

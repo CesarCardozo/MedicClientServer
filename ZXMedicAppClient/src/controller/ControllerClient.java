@@ -124,26 +124,29 @@ public class ControllerClient implements ActionListener {
 		String idDoctor = this.dialogLoginPatient.getId(); 
 		String passwordDoctor = this.dialogLoginPatient.getPassword(); 
 		this.dialogLoginPatient.setVisible(false);
-		Doctor doctor = client.loginDoctor(idDoctor, passwordDoctor);
+		client.loginDoctor(idDoctor, passwordDoctor);
 		// usar ese doctor a discrecion
-		this.frameDoctor = new FrameDoctor(this, doctor);//hace falta pasarle la lista de citas 
-		this.frameDoctor.fillTable(showAppointmentDoctorStatus(doctor, AppointmentStatus.NOT_AVAILABLE));
+		ArrayList<Appointment> appointments = client.showAppointmentDoctorStatus(AppointmentStatus.NOT_AVAILABLE);
+		this.frameDoctor = new FrameDoctor(this, (Doctor)client.getClient(), appointments);
 	}
 
 	private void loginPatient() {
 		String idPatient = this.dialogLoginPatient.getId(); 
 		String passwordPatient = this.dialogLoginPatient.getPassword();
 		this.dialogLoginPatient.setVisible(false);
-		Patient patient = client.loginPatient(idPatient, passwordPatient);
+		client.loginPatient(idPatient, passwordPatient);
+		ArrayList<Appointment> appointments = client.showAppointmentPatientSatus(AppointmentStatus.NOT_AVAILABLE);
 		// usar ese paciente a discrecion
-		this.framePatient = new FramePatient(this, patient);//hace falta pasarle la lista de citas 
+		this.framePatient = new FramePatient(this, (Patient)client.getClient(), appointments);
+		
 	}
 
 	private void registerDoctor() {
 		Doctor d = new Doctor(this.dialogSignUpDoc.getId(), this.dialogSignUpDoc.getName(), this.dialogSignUpDoc.getPhone(), 
 				this.dialogSignUpDoc.getPhone(), this.dialogSignUpDoc.getSpeciality(), this.dialogSignUpDoc.getPassword());
 		client.registerDoctor(d);
-		//mandar este nuevo doctor a la percistencia para que pueda entrar 
+		this.dialogSignUpDoc.setVisible(false);
+		this.mainFrame.setVisible(true); 
 	}
 
 	private void registerPatient() {
@@ -152,7 +155,6 @@ public class ControllerClient implements ActionListener {
 		client.registerPatient(p);
 		this.dialogSignUpPatient.setVisible(false);
 		this.mainFrame.setVisible(true);
-		//mandar este nuevo paciente a la percistencia para que pueda entrar 
 	}
 
 	private void attendAppointment() {
@@ -170,9 +172,9 @@ public class ControllerClient implements ActionListener {
 
 	}
 
-	private ArrayList<Appointment> showAppointmentDoctorStatus(Doctor doctor, AppointmentStatus status ) {
+	private ArrayList<Appointment> showAppointmentDoctorStatus(AppointmentStatus status ) {
 //		AppointmentStatus status = AppointmentStatus.NOT_AVAILABLE;//se debe traer de la vista 
-		ArrayList<Appointment> appoints = client.showAppointmentDoctorStatus(doctor, status);
+		ArrayList<Appointment> appoints = client.showAppointmentDoctorStatus(status);
 		return appoints;
 		//se tiene que mostrar el array que dio el metodo en la vista
 	}

@@ -3,6 +3,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.util.ArrayList;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -12,7 +13,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-import controller.Actions;
 import controller.ControllerClient;
 import model.entity.Appointment;
 import model.entity.Doctor;
@@ -29,9 +29,12 @@ public class FrameDoctor extends JFrame{
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public FrameDoctor(ControllerClient controller,  Doctor doctor) {
+	public FrameDoctor(ControllerClient controller,  Doctor doctor, ArrayList<Appointment> appointments) {
 		this.setVisible(true);
 		init(controller, doctor);
+		if (appointments!=null && !appointments.isEmpty()) {
+			fillTable(appointments);	
+		}
 	}
 
 	private void init(ControllerClient controller, Doctor doctor) {
@@ -105,8 +108,8 @@ public class FrameDoctor extends JFrame{
 	public void clearTable() {
 		modelTAppoint.setRowCount(0);
 	}
-
-	public static void main(String[] args) {
-		new FrameDoctor(null, null);
-	}
+//
+//	public static void main(String[] args) {
+//		new FrameDoctor(null, null);
+//	}
 }

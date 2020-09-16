@@ -22,6 +22,54 @@ public class MedicServer extends Thread {
 		this.manager = new EPSManager();
 		System.out.println("EsperandoConexiones");
 	}
+	
+	public ServerSocket getServerSocket() {
+		return serverSocket;
+	}
+
+
+
+	public void setServerSocket(ServerSocket serverSocket) {
+		this.serverSocket = serverSocket;
+	}
+
+
+
+	public Socket getSocket() {
+		return socket;
+	}
+
+
+
+	public void setSocket(Socket socket) {
+		this.socket = socket;
+	}
+
+
+
+	public ArrayList<MedicConection> getConections() {
+		return conections;
+	}
+
+
+
+	public void setConections(ArrayList<MedicConection> conections) {
+		this.conections = conections;
+	}
+
+
+
+	public EPSManager getManager() {
+		return manager;
+	}
+
+
+
+	public void setManager(EPSManager manager) {
+		this.manager = manager;
+	}
+
+
 
 	@Override
 	public void run() {

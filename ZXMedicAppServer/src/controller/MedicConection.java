@@ -40,7 +40,6 @@ public class MedicConection extends Thread {
 	public void run() {
 		try {
 			this.out.writeUTF("Cliente aceptado" + this.toString());
-			sendDataInit();
 			while (activeConection) {
 				System.out.println("esperando mensaje");
 				String mensajeCliente = this.in.readUTF();
@@ -103,24 +102,6 @@ public class MedicConection extends Thread {
 		}
 	}
 	
-	public void sendDataInit() throws IOException {
-		File archive = new File ("src/persistence/Patients.json");
-		FileReader fr;
-		fr = new FileReader (archive);
-		BufferedReader br = new BufferedReader(fr);
-		String jsonInputPatient = br.readLine();
-		System.out.println("la linea de entrada en server Person" + jsonInputPatient);
-		this.out.writeUTF(jsonInputPatient);
-		
-		File archive2 = new File ("src/persistence/Doctors.json");
-		FileReader fr2 = new FileReader (archive2);
-		BufferedReader br2 = new BufferedReader(fr2);
-		String jsonInputDoctor = br2.readLine();
-		System.out.println("la linea de entrada en server Med " + jsonInputDoctor);
-		this.out.writeUTF(jsonInputDoctor);
-		
-	}
-
 	private void registerPatient() {
 		try {
 			this.out.writeUTF(MessageActions.OK.name());
@@ -218,9 +199,7 @@ public class MedicConection extends Thread {
 			this.out.writeUTF(MessageActions.OK.name());
 			String patient = in.readUTF();
 			String statusAppoint = in.readUTF();
-			out.writeUTF(JSonUtil.toJson(manager.showAppointementPatient((JSonUtil.toDoctor(patient).getId()),  AppointmentStatus.valueOf(statusAppoint)))); 
-		} catch (IOException e) {
-			e.printStackTrace();
+			out.writeUTF(JSonUtil.toJson(manager.showAppointementPatient((JSonUtil.toPatient(patient).getId()),  AppointmentStatus.valueOf(statusAppoint)))); 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

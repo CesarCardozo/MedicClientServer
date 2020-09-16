@@ -25,7 +25,6 @@ public class MedicClient {
 	private DataInputStream input;
 	// Datos del cliente que puede ser paciente o doctor
 	private Person client;
-	private Boolean isPatient;
 
 	public MedicClient() throws IOException {
 		System.out.println("Cliente lanzado");
@@ -35,14 +34,6 @@ public class MedicClient {
 		input = new DataInputStream(socketCliente.getInputStream());// incializar lo que llega del servidor
 		String saludoInicial = input.readUTF();
 		System.out.println(saludoInicial);
-		//lectura de pacientes
-		input = new DataInputStream(socketCliente.getInputStream());
-		String Patient = input.readUTF();
-		System.out.println(Patient);
-		//lectura de doctores
-		input = new DataInputStream(socketCliente.getInputStream());
-		String doctor = input.readUTF();
-		System.out.println(doctor);
 	}
 
 	public void registerPatient(Patient p) {
@@ -71,7 +62,7 @@ public class MedicClient {
 		}
 	}
 
-	public Patient loginPatient(String id, String password) {
+	public void loginPatient(String id, String password) {
 		try {
 			output.writeUTF(Actions.LOGIN_PATIENT.name());
 			String response = input.readUTF();
@@ -82,18 +73,14 @@ public class MedicClient {
 					output.writeUTF(password);
 					response = input.readUTF();
 					client = JSonUtil.toPatient(response);
-					isPatient = true;
-					return (Patient) client;
 				}
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return null;
 	}
 
-	public Doctor loginDoctor(String id, String password) {
+	public void loginDoctor(String id, String password) {
 		try {
 			output.writeUTF(Actions.LOGIN_DOCTOR.name());
 			String response = input.readUTF();
@@ -104,15 +91,11 @@ public class MedicClient {
 					output.writeUTF(password);
 					response = input.readUTF();
 					client = JSonUtil.toDoctor(response);
-					isPatient = false;
-					return (Doctor) client;
 				}
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return null;
 	}
 
 	public void addAppointment(Date d) {
@@ -150,53 +133,48 @@ public class MedicClient {
 	}
 
 	public ArrayList<Appointment> showAppointment(MedicalSpeciality speciality) {
-		String arrayAppointment = "";
 		try {
 			output.writeUTF(Actions.SHOW_APPOINTMENT.name());
 			String response = input.readUTF();
 			if (response.equals(Actions.OK.name())) {
 				output.writeUTF(speciality.name());
-				arrayAppointment = input.readUTF();
+				return JSonUtil.toArrayAppoints(input.readUTF());
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return JSonUtil.toArrayAppoints(arrayAppointment);
+		return null;
 
 	}
 
-	public ArrayList<Appointment> showAppointmentDoctorStatus(Doctor doctor, AppointmentStatus status) {
-		String arrayAppointment = "";
+	public ArrayList<Appointment> showAppointmentDoctorStatus(AppointmentStatus status) {
 		try {
 			output.writeUTF(Actions.SHOW_APPOINTMENT_DOCTOR_STATUS.name());
 			String response = input.readUTF();
 			if (response.equals(Actions.OK.name())) {
-//				output.writeUTF(JSonUtil.toJson((Doctor)this.client));
-				output.writeUTF(JSonUtil.toJson(doctor));
+				output.writeUTF(JSonUtil.toJson((Doctor)this.client));
 				output.writeUTF(status.name());
-				arrayAppointment = input.readUTF();
+				return JSonUtil.toArrayAppoints(input.readUTF());
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return JSonUtil.toArrayAppoints(arrayAppointment);
+		return null;
 	}
 
 	public ArrayList<Appointment> showAppointmentPatientSatus(AppointmentStatus status) {
-		String arrayAppointment = "";
 		try {
 			output.writeUTF(Actions.SHOW_APPOINTMENT_PATIENT_STATUS.name());
 			String response = input.readUTF();
 			if (response.equals(Actions.OK.name())) {
 				output.writeUTF(JSonUtil.toJson((Patient)this.client));
 				output.writeUTF(status.name());
-				arrayAppointment = input.readUTF();
+				return JSonUtil.toArrayAppoints(input.readUTF());
 			}
-
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return JSonUtil.toArrayAppoints(arrayAppointment);
+		return null; 
 	}
 
 	public ArrayList<Appointment> showAppointmentDoctor() {
@@ -263,5 +241,15 @@ public class MedicClient {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	
+	public Person getClient() {
+		return client;
+	}
+	
+
+	public void setClient(Person client) {
+		this.client = client;
 	}
 }

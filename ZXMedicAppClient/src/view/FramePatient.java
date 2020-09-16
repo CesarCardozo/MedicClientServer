@@ -1,8 +1,10 @@
 package view;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.util.ArrayList;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -17,7 +19,7 @@ import controller.ControllerClient;
 import model.entity.Appointment;
 import model.entity.Patient;
 
-public class FramePatient extends JFrame{
+public class FramePatient extends JFrame {
 
 	private JPanel pn1, pn2, pn3;
 	private JButton btnAddAppo, btnDlete;
@@ -29,9 +31,12 @@ public class FramePatient extends JFrame{
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public FramePatient(ControllerClient controller, Patient patient) {
+	public FramePatient(ControllerClient controller, Patient patient, ArrayList<Appointment> appointments) {
 		this.setVisible(true);
 		init(controller, patient);
+		if (appointments!=null && !appointments.isEmpty()) {
+			fillTable(appointments);	
+		}
 	}
 
 	private void init(ControllerClient controller, Patient patient) {
@@ -47,14 +52,16 @@ public class FramePatient extends JFrame{
 
 	private void addPnl(ControllerClient controller, Patient patient) {
 		this.pn1 = new JPanel();
-		
-		this.btnAddAppo = new JButton(new ImageIcon(new ImageIcon(getClass().getResource("/img/cita.png")).getImage().getScaledInstance(100, 100, 100)));
+
+		this.btnAddAppo = new JButton(new ImageIcon(
+				new ImageIcon(getClass().getResource("/img/cita.png")).getImage().getScaledInstance(100, 100, 100)));
 		this.btnAddAppo.addActionListener(controller);
 		this.btnAddAppo.setActionCommand(Actions.PATIENT_BOOK_APPOINT.toString());
 		this.btnAddAppo.setBorder(null);
 		this.btnAddAppo.setBackground(Color.DARK_GRAY);
 		this.btnAddAppo.setFocusable(false);
-		this.btnDlete = new JButton(new ImageIcon(new ImageIcon(getClass().getResource("/img/basura.png")).getImage().getScaledInstance(100, 100, 100)));
+		this.btnDlete = new JButton(new ImageIcon(
+				new ImageIcon(getClass().getResource("/img/basura.png")).getImage().getScaledInstance(100, 100, 100)));
 		this.btnDlete.addActionListener(controller);
 //		this.btnDlete.setActionCommand(Actions.PATIENT.toString());
 		this.btnDlete.setBorder(null);
@@ -68,7 +75,8 @@ public class FramePatient extends JFrame{
 
 		createTablePerson();
 
-		this.btnExit = new JButton(new ImageIcon(new ImageIcon(getClass().getResource("/img/exit.png")).getImage().getScaledInstance(100, 100, 100)));
+		this.btnExit = new JButton(new ImageIcon(
+				new ImageIcon(getClass().getResource("/img/exit.png")).getImage().getScaledInstance(100, 100, 100)));
 		this.btnExit.addActionListener(controller);
 //		this.btnExit.setActionCommand(Actions.EXIT_PATIENT.toString());
 		this.btnExit.setBorder(null);
@@ -83,7 +91,7 @@ public class FramePatient extends JFrame{
 
 	private void createTablePerson() {
 		modelTAppoint = new DefaultTableModel();
-		modelTAppoint.setColumnIdentifiers(new String[] {"Date", "Status", "Doctor"});
+		modelTAppoint.setColumnIdentifiers(new String[] { "Date", "Status", "Doctor" });
 		tableAppoitn = new JTable(modelTAppoint);
 		tableAppoitn.setBackground(Color.gray);
 
@@ -99,7 +107,8 @@ public class FramePatient extends JFrame{
 	public void fillTable(ArrayList<Appointment> appointmentList) {
 		this.clearTable();
 		for (int i = 0; i < appointmentList.size(); i++) {
-			modelTAppoint.addRow(new Object[] {appointmentList.get(i).getDate(), appointmentList.get(i).getStatus(), appointmentList.get(i).getDoctor()});
+			modelTAppoint.addRow(new Object[] { appointmentList.get(i).getDate(), appointmentList.get(i).getStatus(),
+					appointmentList.get(i).getDoctor() });
 		}
 	}
 
@@ -107,7 +116,7 @@ public class FramePatient extends JFrame{
 		modelTAppoint.setRowCount(0);
 	}
 
-	public static void main(String[] args) {
-		new FramePatient(null, new Patient("1", "stuar", "333", "jj@k", "123"));
-	}
+//	public static void main(String[] args) {
+//		new FramePatient(null, new Patient("1", "stuar", "333", "jj@k", "123"));
+//	}
 }
