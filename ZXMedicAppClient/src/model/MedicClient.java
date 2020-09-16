@@ -9,6 +9,7 @@ import java.util.Date;
 
 import controller.Actions;
 import model.entity.Appointment;
+import model.entity.AppointmentStatus;
 import model.entity.Doctor;
 import model.entity.MedicalSpeciality;
 import model.entity.Patient;
@@ -134,21 +135,34 @@ public class MedicClient {
 	}
 
 	public ArrayList<Appointment> showAppointment(MedicalSpeciality speciality) {
+		String arrayAppointment = "";
 		try {
 			output.writeUTF(Actions.SHOW_APPOINTMENT.name());
 			String response = input.readUTF();
 			if (response.equals(Actions.OK.name())) {
-				output.writeUTF(speciality.name());
-				JSonUtil.toArrayAppoints(input.readUTF());
+			output.writeUTF(speciality.name());
+			 arrayAppointment = input.readUTF();
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return null;
+		return JSonUtil.toArrayAppoints(arrayAppointment);
+
 	}
 
-	public void showAppointmentDoctorStatus() {
-		// TODO Auto-generated method stub
+	public void showAppointmentDoctorStatus(AppointmentStatus status) {
+		try {
+			output.writeUTF(Actions.SHOW_APPOINTMENT_DOCTOR_STATUS.name());
+			String response = input.readUTF();
+			if (response.equals(Actions.OK.name())) {
+				output.writeUTF(JSonUtil.toJson((Doctor)this.client));
+				output.writeUTF(status.name());
+			}
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 
@@ -173,7 +187,7 @@ public class MedicClient {
 			String response = input.readUTF();
 			if (response.equals(Actions.OK.name())) {
 				output.writeUTF(JSonUtil.toJson(a));
-				output.writeUTF(JSonUtil.toJson((Patient) this.client));
+				output.writeUTF(JSonUtil.toJson((Patient)this.client));
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

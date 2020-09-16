@@ -6,6 +6,7 @@ import java.util.Date;
 
 import model.MedicClient;
 import model.entity.Appointment;
+import model.entity.AppointmentStatus;
 import model.entity.Doctor;
 import model.entity.MedicalSpeciality;
 import model.entity.Patient;
@@ -93,8 +94,8 @@ public class ControllerClient implements ActionListener {
 
 	private void registerDoctor() {
 		Doctor d = new Doctor("1", "Cesar", "310", "correo", MedicalSpeciality.CARDIOLOGIST, "123");// reemplazar
-																									// esto con la
-																									// vista
+		// esto con la
+		// vista
 		client.registerDoctor(d);
 	}
 
@@ -116,8 +117,8 @@ public class ControllerClient implements ActionListener {
 	}
 
 	private void showAppointmentDoctorStatus() {
-		// TODO Auto-generated method stub
-
+		AppointmentStatus status = AppointmentStatus.NOT_AVAILABLE;//se debe traer de la vista 
+		client.showAppointmentDoctorStatus(status);
 	}
 
 	private void showAppointmentPatientSatus() {

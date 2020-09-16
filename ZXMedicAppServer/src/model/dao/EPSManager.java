@@ -128,7 +128,7 @@ public class EPSManager {
 	 * @return
 	 * @throws Exception
 	 */
-	private TreeAvl<Appointment> showAppointementDoctor(String idDoctor) throws Exception {
+	public TreeAvl<Appointment> showAppointementDoctor(String idDoctor) throws Exception {
 		Doctor doctor = this.doctortList.search(new Doctor(idDoctor)).getInfo();
 		return doctor.getAppointmentList();
 	}

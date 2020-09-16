@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.net.Socket;
 
 import model.dao.EPSManager;
+import model.entity.AppointmentStatus;
 import model.entity.Doctor;
 import model.entity.MedicalSpeciality;
 import model.entity.Patient;
@@ -173,7 +174,18 @@ public class MedicConection extends Thread {
 	}
 
 	private void showAppointmentDoctorStatus() {
-		// TODO Auto-generated method stub
+		try {
+			this.out.writeUTF(MessageActions.OK.name());
+			String doctor = in.readUTF();
+			String statusAppoint = in.readUTF();
+			manager.showAppointementDoctor(JSonUtil.toDoctor(doctor).getId(), AppointmentStatus.valueOf(statusAppoint)); 
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 
