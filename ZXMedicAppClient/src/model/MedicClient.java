@@ -108,7 +108,7 @@ public class MedicClient {
 			output.writeUTF(Actions.ADD_APPOINTMENT.name());
 			String response = input.readUTF();
 			if (response.equals(Actions.OK.name())) {
-				output.writeUTF(JSonUtil.toJson((Person)this.client));
+				output.writeUTF(JSonUtil.toJson((Doctor)this.client));
 				output.writeUTF(JSonUtil.toJson(d));
 			}
 		} catch (IOException e) {
@@ -120,7 +120,6 @@ public class MedicClient {
 	public void closeConectrion() {
 		try {
 			output.writeUTF(Actions.EXIT.name());
-			String response = input.readUTF();
 			// se debe cerrar la vista
 
 		} catch (IOException e) {
@@ -168,8 +167,17 @@ public class MedicClient {
 
 	}
 
-	public void deleteAppointment() {
-		// TODO Auto-generated method stub
-
+	public void deleteAppointment(Date d) {
+		try {
+			output.writeUTF(Actions.DELETE_APPOINTMENT.name());
+			String response = input.readUTF();
+			if (response.equals(Actions.OK.name())) {
+				output.writeUTF(JSonUtil.toJson((Doctor)this.client));
+				output.writeUTF(JSonUtil.toJson(d));
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

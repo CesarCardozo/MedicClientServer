@@ -143,8 +143,8 @@ public class ControllerClient implements ActionListener {
 	}
 
 	private void deleteAppointment() {
-		// TODO Auto-generated method stub
-
+		Date d = new Date();//aca se cambia esto por el selector de fecha de la vista
+		client.deleteAppointment(d);
 	}
 
 	private void addAppointment() {
@@ -155,5 +155,6 @@ public class ControllerClient implements ActionListener {
 
 	private void closeConection() {
 		client.closeConectrion();
+		// se debe cerrar la vista
 	}
 }

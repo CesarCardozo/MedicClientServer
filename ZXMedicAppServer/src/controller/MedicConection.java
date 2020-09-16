@@ -197,8 +197,15 @@ public class MedicConection extends Thread {
 	}
 
 	private void deleteAppointment() {
-		// TODO Auto-generated method stub
-		
+		try {
+			this.out.writeUTF(MessageActions.OK.name());
+			String doctorJson = in.readUTF();
+			String dateJson = in.readUTF();
+			manager.deleteAppointment(JSonUtil.toDoctor(doctorJson), JSonUtil.toDate(dateJson));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 	}
 
 	private void addAppointment() {
