@@ -55,11 +55,10 @@ public class EPSManager {
 	 * @param doctor
 	 * @throws Exception
 	 */
-	public void cancelAppointment(Doctor doctor, Date date) throws Exception {
-		Appointment a = doctor.getAppointmentList().search(new Appointment(date)).getInfo();
-		a.setStatus(AppointmentStatus.AVAILABLE);
-		a.setPatient(null);
-
+	public void cancelAppointment(Appointment a) throws Exception {
+		Appointment appointment = doctortList.search(a.getDoctor()).getInfo().getAppointmentList().search(a).getInfo();
+		appointment.setStatus(AppointmentStatus.AVAILABLE);
+		appointment.setPatient(null);
 	}
 
 	/**
@@ -71,7 +70,7 @@ public class EPSManager {
 	 * @throws Exception
 	 */
 	public synchronized void bookAppointment(Patient patient, Appointment appointment) throws Exception {
-		Appointment a = appointment.getDoctor().getAppointmentList().search(new Appointment(appointment.getDate()))
+		Appointment a = doctortList.search(appointment.getDoctor()).getInfo().getAppointmentList().search(new Appointment(appointment.getDate()))
 				.getInfo();
 		a.setPatient(patient);
 		a.setStatus(AppointmentStatus.NOT_AVAILABLE);
@@ -200,7 +199,7 @@ public class EPSManager {
 		Patient p = new Patient(id, name, phone, email, history);
 		this.addPattient(p);
 	}
-	
+
 	public void createPatient(String patientJson) throws Exception {
 		this.addPattient(JSonUtil.toPatient(patientJson));
 	}
@@ -225,12 +224,12 @@ public class EPSManager {
 	 * @param speciality
 	 * @throws Exception
 	 */
-	public void createDoctor(String id, String name, String phone, String email, MedicalSpeciality speciality, String password)
-			throws Exception {
+	public void createDoctor(String id, String name, String phone, String email, MedicalSpeciality speciality,
+			String password) throws Exception {
 		Doctor d = new Doctor(id, name, phone, email, speciality, password);
 		this.addDoctor(d);
 	}
-	
+
 	public void createDoctor(String doctorJson) throws Exception {
 		this.addDoctor(JSonUtil.toDoctor(doctorJson));
 	}
@@ -335,16 +334,15 @@ public class EPSManager {
 		if (p.getPassword().equals(password)) {
 			return p;
 		}
-		return null;	//TODO	
+		return null; // TODO
 	}
-	
+
 	public Doctor getDoctorByCredentials(String id, String password) throws Exception {
 		Doctor d = this.doctortList.search(new Doctor(id)).getInfo();
 		if (d.getPassword().equals(password)) {
 			return d;
 		}
-		return null;	//TODO	
+		return null; // TODO
 	}
-	
-	
+
 }

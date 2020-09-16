@@ -158,42 +158,47 @@ public class MedicConection extends Thread {
 
 	private void attendAppointment() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	private void showAppointment() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	private void showAppointmentDoctorStatus() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	private void showAppointmentPatientSatus() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	private void showAppointmentDoctor() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	private void showAppointmentPatient() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	private void bookAppointment() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	private void cancelAppointment() {
-		// TODO Auto-generated method stub
-		
+		try {
+			this.out.writeUTF(MessageActions.OK.name());
+			String appointmentJson = in.readUTF();
+			manager.cancelAppointment(JSonUtil.toAppointment(appointmentJson));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	private void deleteAppointment() {
@@ -205,7 +210,6 @@ public class MedicConection extends Thread {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	private void addAppointment() {
@@ -218,8 +222,7 @@ public class MedicConection extends Thread {
 			e.printStackTrace();
 		}
 	}
-	
-	
+
 	/**
 	 * @return the socket
 	 */

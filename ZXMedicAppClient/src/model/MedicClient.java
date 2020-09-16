@@ -7,6 +7,7 @@ import java.net.Socket;
 import java.util.Date;
 
 import controller.Actions;
+import model.entity.Appointment;
 import model.entity.Doctor;
 import model.entity.Patient;
 import model.entity.Person;
@@ -108,14 +109,14 @@ public class MedicClient {
 			output.writeUTF(Actions.ADD_APPOINTMENT.name());
 			String response = input.readUTF();
 			if (response.equals(Actions.OK.name())) {
-				output.writeUTF(JSonUtil.toJson((Doctor)this.client));
+				output.writeUTF(JSonUtil.toJson((Doctor) this.client));
 				output.writeUTF(JSonUtil.toJson(d));
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}	
+	}
 
 	public void closeConection() {
 		try {
@@ -124,7 +125,7 @@ public class MedicClient {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void attendAppointment() {
 		// TODO Auto-generated method stub
 
@@ -160,9 +161,17 @@ public class MedicClient {
 
 	}
 
-	public void cancelAppointment() {
-		// TODO Auto-generated method stub
-
+	public void cancelAppointment(Appointment a) {
+		try {
+			output.writeUTF(Actions.CANCEL_APPOINTMENT.name());
+			String response = input.readUTF();
+			if (response.equals(Actions.OK.name())) {
+				output.writeUTF(JSonUtil.toJson(a));
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public void deleteAppointment(Date d) {
@@ -170,7 +179,7 @@ public class MedicClient {
 			output.writeUTF(Actions.DELETE_APPOINTMENT.name());
 			String response = input.readUTF();
 			if (response.equals(Actions.OK.name())) {
-				output.writeUTF(JSonUtil.toJson((Doctor)this.client));
+				output.writeUTF(JSonUtil.toJson((Doctor) this.client));
 				output.writeUTF(JSonUtil.toJson(d));
 			}
 		} catch (IOException e) {
