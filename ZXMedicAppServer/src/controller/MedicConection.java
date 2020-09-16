@@ -53,7 +53,6 @@ public class MedicConection extends Thread {
 			break;
 		case REGISTER_DOCTOR:
 			registerDoctor();
-
 			break;
 		case LOGIN_PATIENT:
 			loginPatient();
@@ -203,8 +202,14 @@ public class MedicConection extends Thread {
 	}
 
 	private void addAppointment() {
-		// TODO Auto-generated method stub
-		
+		try {
+			this.out.writeUTF(MessageActions.OK.name());
+			String doctorJson = in.readUTF();
+			String dateJson = in.readUTF();
+			manager.createAppointment(JSonUtil.toDoctor(doctorJson), JSonUtil.toDate(dateJson));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	/**

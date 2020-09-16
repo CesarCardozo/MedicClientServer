@@ -4,6 +4,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.Date;
 
 import controller.Actions;
 import model.entity.Doctor;
@@ -100,6 +101,20 @@ public class MedicClient {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	public void addAppointment(Date d) {
+		try {
+			output.writeUTF(Actions.ADD_APPOINTMENT.name());
+			String response = input.readUTF();
+			if (response.equals(Actions.OK.name())) {
+				output.writeUTF(JSonUtil.toJson((Person)this.client));
+				output.writeUTF(JSonUtil.toJson(d));
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}		
 	}
 
 	

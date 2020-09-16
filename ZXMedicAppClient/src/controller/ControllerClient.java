@@ -2,6 +2,7 @@ package controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Date;
 
 import model.MedicClient;
 import model.entity.Doctor;
@@ -147,8 +148,9 @@ public class ControllerClient implements ActionListener {
 	}
 
 	private void addAppointment() {
-		// TODO Auto-generated method stub
-
+		Date d = new Date();//aca se cambia esto por el selector de fecha de la vista
+		client.addAppointment(d);
+		//se debe actualizar la vista para que se actualice la lista de citas (desde la perspectiva del doctor)
 	}
 
 	private void closeConection() {
