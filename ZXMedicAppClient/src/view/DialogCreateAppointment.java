@@ -27,6 +27,7 @@ public class DialogCreateAppointment extends JDialog{
 	private JSpinner sppinerH;
 	private JSpinner sppinerM;
 	private JPanel pn1, pn2, pn3;
+	private JButton btnCancel;
 
 
 	public DialogCreateAppointment(ControllerClient controller) {
@@ -75,7 +76,7 @@ public class DialogCreateAppointment extends JDialog{
 		this.add(pn2);
 
 		this.pn3 = new JPanel();
-		this.btnOk = new JButton(new ImageIcon(new ImageIcon(getClass().getResource("/img/exit.png")).getImage().getScaledInstance(100, 100, 100)));
+		this.btnOk = new JButton(new ImageIcon(new ImageIcon(getClass().getResource("/img/ok.png")).getImage().getScaledInstance(100, 100, 100)));
 		this.btnOk.addActionListener(controller);
 		this.btnOk.setActionCommand(Actions.OK_CREATE_APPOINT.toString());
 		this.btnOk.setBorder(null);
@@ -83,6 +84,14 @@ public class DialogCreateAppointment extends JDialog{
 		this.btnOk.setBounds(10, 110, 100, 100);
 		this.btnOk.setFocusable(false);
 		this.pn3.add(btnOk);
+		
+		this.btnCancel = new JButton(new ImageIcon(new ImageIcon(getClass().getResource("/img/cancel.png")).getImage().getScaledInstance(100, 100, 100)));
+		this.btnCancel.setBorder(null);
+		this.btnCancel.setBackground(Color.DARK_GRAY);
+		this.btnCancel.setFocusable(false);
+		this.btnCancel.addActionListener(controller);
+		this.btnCancel.setActionCommand(Actions.CANCEL_CREATE_APPOINTMENT2.toString());
+		this.pn3.add(btnCancel);
 		this.add(pn3);
 	}
 

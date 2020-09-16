@@ -37,7 +37,7 @@ public class ControllerClient implements ActionListener {
 
 	public ControllerClient() throws IOException {
 		this.mainFrame = new MainFrame(this);
-				this.client = new MedicClient();
+		this.client = new MedicClient();
 	}
 
 	@SuppressWarnings("unused")
@@ -75,13 +75,13 @@ public class ControllerClient implements ActionListener {
 			showAppointmentDoctor();
 			break;
 		case SHOW_APPOINTMENT_PATIENT_STATUS:
-			showAppointmentPatientSatus();
+			//			showAppointmentPatientSatus();
 			break;
 		case SHOW_APPOINTMENT_DOCTOR_STATUS:
-//			showAppointmentDoctorStatus();// esto creo se puede quitar 
+			//showAppointmentDoctorStatus();// esto creo se puede quitar 
 			break;
 		case SHOW_APPOINTMENT:
-			showAppointment();
+			//			showAppointment();
 			break;
 		case ATTEND_APPOINTMENT:
 			attendAppointment();
@@ -109,12 +109,27 @@ public class ControllerClient implements ActionListener {
 			this.framePatient.setVisible(false);
 			this.bookAppointment = new DialogBookAppointment(this);
 			break;
+		case OK_BOOK_APPOINTMENT:
+			this.bookAppointment.setVisible(false);
+			this.bookAppointment2 = new DialogBookAppointment2(this, showAppointment(bookAppointment.getSpeciality()));
+			break;
 		case OK_CREATE_APPOINT:
 			this.bookAppointment .setVisible(false);
 			MedicalSpeciality speciality = bookAppointment.getSpeciality();
-//			this.bookAppointment2 = new DialogBookAppointment2(this, listAppointment);//poner todas las listas dispobles por especialidad
 			Appointment selectAppointment = this.bookAppointment2.getAppointment();
-
+			break;
+		case CANCEL_BOOK_APPOINTMENT:
+			this.bookAppointment.setVisible(false);
+			this.mainFrame.setVisible(true);
+			break;
+		case CANCEL_BOOK_APPOINTMENT2:
+			this.bookAppointment2.setVisible(false);
+			this.mainFrame.setVisible(true);
+			break;
+		case CANCEL_CREATE_APPOINTMENT2:
+			this.dialogCreateAppointment.setVisible(false);
+			this.mainFrame.setVisible(true);
+			break;
 		default:
 			break;
 		}
@@ -138,7 +153,7 @@ public class ControllerClient implements ActionListener {
 		ArrayList<Appointment> appointments = client.showAppointmentPatientSatus(AppointmentStatus.NOT_AVAILABLE);
 		// usar ese paciente a discrecion
 		this.framePatient = new FramePatient(this, (Patient)client.getClient(), appointments);
-		
+
 	}
 
 	private void registerDoctor() {
@@ -165,24 +180,21 @@ public class ControllerClient implements ActionListener {
 		client.attendAppointment(a);
 	}
 
-	private void showAppointment() {
-		MedicalSpeciality speciality= MedicalSpeciality.CARDIOLOGIST;//Se debe establecer la especialidad medica desde la vista
-		client.showAppointment(speciality);
+	private ArrayList<Appointment> showAppointment(MedicalSpeciality speciality) {
+		return client.showAppointment(speciality);
 		//se tiene que mostrar el array que dio el metodo anterior en la vista
 
 	}
 
 	private ArrayList<Appointment> showAppointmentDoctorStatus(AppointmentStatus status ) {
-//		AppointmentStatus status = AppointmentStatus.NOT_AVAILABLE;//se debe traer de la vista 
+		//		AppointmentStatus status = AppointmentStatus.NOT_AVAILABLE;//se debe traer de la vista 
 		ArrayList<Appointment> appoints = client.showAppointmentDoctorStatus(status);
 		return appoints;
 		//se tiene que mostrar el array que dio el metodo en la vista
 	}
 
-	private void showAppointmentPatientSatus() {
-		AppointmentStatus status = AppointmentStatus.AVAILABLE;//se debe traer de la vista 
-		client.showAppointmentPatientSatus(status);
-		//se tiene que mostrar el array que dio el metodo en la vista
+	private ArrayList<Appointment> showAppointmentPatientSatus(AppointmentStatus appointmentStatus) {
+		return client.showAppointmentPatientSatus(appointmentStatus);
 	}
 
 	private void showAppointmentDoctor() {
@@ -196,10 +208,10 @@ public class ControllerClient implements ActionListener {
 	}
 
 	private void bookAppointment() {
+		bookAppointment2.setVisible(false);
+		mainFrame.setVisible(true);
 		//Se seleccion de la vista desde la perspectiva del usuario  la appointment que quiere cancelar
-		Appointment a = new Appointment(new Date());
-		a.setDoctor(new Doctor("1", "Cesar", "310", "correo", MedicalSpeciality.CARDIOLOGIST, "123"));
-		//se reemplaza la seleccion de la appointment de arriba por la obtencion desde la vista
+		Appointment a = bookAppointment2.getAppointment();
 		client.bookAppointment(a);
 	}
 
