@@ -154,7 +154,7 @@ public class ControllerClient implements ActionListener {
 	}
 
 	private void closeConection() {
-		client.closeConectrion();
+		client.closeConection();
 		// se debe cerrar la vista
 	}
 }

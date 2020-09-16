@@ -117,11 +117,9 @@ public class MedicClient {
 		}
 	}	
 
-	public void closeConectrion() {
+	public void closeConection() {
 		try {
 			output.writeUTF(Actions.EXIT.name());
-			// se debe cerrar la vista
-
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
