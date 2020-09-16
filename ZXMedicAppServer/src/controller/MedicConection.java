@@ -212,6 +212,7 @@ public class MedicConection extends Thread {
 		}
 	}
 	
+	
 	/**
 	 * @return the socket
 	 */

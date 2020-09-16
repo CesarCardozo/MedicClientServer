@@ -15,11 +15,11 @@ import model.util.JSonUtil;
 
 public class MedicClient {
 
-	//datos concernientes a la comunicacion por sockets
+	// datos concernientes a la comunicacion por sockets
 	private Socket socketCliente;
 	private DataOutputStream output;
 	private DataInputStream input;
-	//Datos del cliente que puede ser paciente o doctor
+	// Datos del cliente que puede ser paciente o doctor
 	private Person client;
 	private Boolean isPatient;
 
@@ -114,10 +114,18 @@ public class MedicClient {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}		
+		}
+	}	
+
+	public void closeConectrion() {
+		try {
+			output.writeUTF(Actions.EXIT.name());
+			String response = input.readUTF();
+			// se debe cerrar la vista
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
-	
-	
-	
 }

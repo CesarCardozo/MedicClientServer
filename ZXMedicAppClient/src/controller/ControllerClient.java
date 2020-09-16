@@ -154,6 +154,6 @@ public class ControllerClient implements ActionListener {
 	}
 
 	private void closeConection() {
-
+		client.closeConectrion();
 	}
 }
