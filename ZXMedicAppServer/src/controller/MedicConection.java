@@ -159,8 +159,13 @@ public class MedicConection extends Thread {
 	}
 
 	private void attendAppointment() {
-		// TODO Auto-generated method stub
-
+		try {
+			this.out.writeUTF(MessageActions.OK.name());
+			String appointmentJson = in.readUTF();
+			manager.attendAppointment(JSonUtil.toAppointment(appointmentJson));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	private void showAppointment() {
@@ -195,13 +200,23 @@ public class MedicConection extends Thread {
 	}
 
 	private void showAppointmentDoctor() {
-		// TODO Auto-generated method stub
-
+		try {
+			this.out.writeUTF(MessageActions.OK.name());
+			String doctorJson = in.readUTF();
+			out.writeUTF(JSonUtil.toJson(manager.showAppointementDoctor(JSonUtil.toDoctor(doctorJson).getId())));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	private void showAppointmentPatient() {
-		// TODO Auto-generated method stub
-
+		try {
+			this.out.writeUTF(MessageActions.OK.name());
+			String patientJson = in.readUTF();
+			out.writeUTF(JSonUtil.toJson(manager.showAppointementDoctor(JSonUtil.toPatient(patientJson).getId())));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	private void bookAppointment() {
