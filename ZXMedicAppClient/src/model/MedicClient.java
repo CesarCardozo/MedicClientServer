@@ -134,17 +134,18 @@ public class MedicClient {
 	}
 
 	public ArrayList<Appointment> showAppointment(MedicalSpeciality speciality) {
+		String arrayAppointment = "";
 		try {
 			output.writeUTF(Actions.SHOW_APPOINTMENT.name());
 			String response = input.readUTF();
 			if (response.equals(Actions.OK.name())) {
 			output.writeUTF(""+speciality);
-			String arrayAppointment = input.readUTF();
-			return JSonUtil.
+			 arrayAppointment = input.readUTF();
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		return JSonUtil.toArrayAppoints(arrayAppointment);
 
 	}
 
