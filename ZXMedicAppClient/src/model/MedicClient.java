@@ -102,6 +102,18 @@ public class MedicClient {
 		return null;
 	}
 
+	public void closeConectrion() {
+		try {
+			output.writeUTF(Actions.EXIT.name());
+			String response = input.readUTF();
+			//se debe cerrar la vista
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+	}
+
 	
 	
 	
