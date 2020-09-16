@@ -135,8 +135,11 @@ public class ControllerClient implements ActionListener {
 	}
 
 	private void bookAppointment() {
-		// TODO Auto-generated method stub
-
+		//Se seleccion de la vista desde la perspectiva del usuario  la appointment que quiere cancelar
+		Appointment a = new Appointment(new Date());
+		a.setDoctor(new Doctor("1", "Cesar", "310", "correo", MedicalSpeciality.CARDIOLOGIST, "123"));
+		//se reemplaza la seleccion de la appointment de arriba por la obtencion desde la vista
+		client.bookAppointment(a);
 	}
 
 	private void cancelAppointment() {

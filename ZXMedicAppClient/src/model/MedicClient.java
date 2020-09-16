@@ -168,9 +168,18 @@ public class MedicClient {
 
 	}
 
-	public void bookAppointment() {
-		// TODO Auto-generated method stub
-
+	public void bookAppointment(Appointment a) {
+		try {
+			output.writeUTF(Actions.BOOK_APPOINTMENT.name());
+			String response = input.readUTF();
+			if (response.equals(Actions.OK.name())) {
+				output.writeUTF(JSonUtil.toJson(a));
+				output.writeUTF(JSonUtil.toJson((Patient)this.client));
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public void cancelAppointment(Appointment a) {
