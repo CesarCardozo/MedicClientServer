@@ -58,7 +58,7 @@ public class ControllerClient implements ActionListener {
 			loginDoctor();
 			break;
 		case ADD_APPOINTMENT:
-			addAppointment();
+			//addAppointment();
 			break;
 		case DELETE_APPOINTMENT:
 			deleteAppointment();
@@ -115,9 +115,12 @@ public class ControllerClient implements ActionListener {
 			this.bookAppointment2 = new DialogBookAppointment2(this, showAppointment(bookAppointment.getSpeciality()));
 			break;
 		case OK_CREATE_APPOINT:
-			this.bookAppointment.setVisible(false);
-			MedicalSpeciality speciality = bookAppointment.getSpeciality();
-			Appointment selectAppointment = this.bookAppointment2.getAppointment();
+			this.dialogCreateAppointment.setVisible(false);
+			addAppointment(dialogCreateAppointment.getDate());
+			ArrayList<Appointment> appointments = client.showAppointmentDoctorStatus(AppointmentStatus.NOT_AVAILABLE);
+			System.err.println(appointments.size());
+			
+			this.frameDoctor = new FrameDoctor(this, (Doctor) client.getClient(), appointments);
 			break;
 		case CANCEL_BOOK_APPOINTMENT:
 			this.bookAppointment.setVisible(false);
@@ -127,13 +130,25 @@ public class ControllerClient implements ActionListener {
 			this.bookAppointment2.setVisible(false);
 			this.mainFrame.setVisible(true);
 			break;
-		case CANCEL_CREATE_APPOINTMENT2:
+		case CANCEL_CREATE_APPOINTMENT:
 			this.dialogCreateAppointment.setVisible(false);
-			this.mainFrame.setVisible(true);
+			this.frameDoctor.setVisible(true);
 			break;
 		case CANCEL_LOGIN:
 			this.dialogLogin.setVisible(false);
 			this.mainFrame.setVisible(true);
+			break;
+		case CANCEL_DOCTOR: 
+			this.frameDoctor.setVisible(false);
+			this.mainFrame.setVisible(true);
+			break;
+		case CANCEL_PATIENT:
+			this.framePatient.setVisible(false);
+			this.mainFrame.setVisible(true);
+			break;
+		case CREATE_APPOINT: 
+			this.frameDoctor.setVisible(false);
+			this.dialogCreateAppointment = new DialogCreateAppointment(this);
 			break;
 		default:
 			break;
@@ -226,6 +241,7 @@ public class ControllerClient implements ActionListener {
 	}
 
 	private void bookAppointment() {
+		
 		bookAppointment2.setVisible(false);
 		mainFrame.setVisible(true);
 		//Se seleccion de la vista desde la perspectiva del usuario  la appointment que quiere cancelar
@@ -248,7 +264,7 @@ public class ControllerClient implements ActionListener {
 		client.deleteAppointment(d);
 	}
 
-	private void addAppointment() {
+	private void addAppointment(Date date) {
 		Date d = new Date();// aca se cambia esto por el selector de fecha de la vista
 		client.addAppointment(d);
 		// se debe actualizar la vista para que se actualice la lista de citas (desde la

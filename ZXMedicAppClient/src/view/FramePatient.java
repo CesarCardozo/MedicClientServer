@@ -69,16 +69,16 @@ public class FramePatient extends JFrame {
 		this.btnDlete.setFocusable(false);
 		pn1.add(btnAddAppo);
 		pn1.add(btnDlete);
-		this.pn1.add(new JLabel(patient.getName()));
+//		this.pn1.add(new JLabel(patient.getName()));
 		pn1.setBackground(Color.DARK_GRAY);
 		this.add(pn1);
 
 		createTablePerson();
 
 		this.btnExit = new JButton(new ImageIcon(
-				new ImageIcon(getClass().getResource("/img/exit.png")).getImage().getScaledInstance(100, 100, 100)));
+				new ImageIcon(getClass().getResource("/img/cancel.png")).getImage().getScaledInstance(100, 100, 100)));
 		this.btnExit.addActionListener(controller);
-//		this.btnExit.setActionCommand(Actions.EXIT_PATIENT.toString());
+		this.btnExit.setActionCommand(Actions.CANCEL_PATIENT.toString());
 		this.btnExit.setBorder(null);
 		this.btnExit.setBackground(Color.DARK_GRAY);
 		this.btnExit.setBounds(10, 110, 100, 100);
@@ -116,7 +116,7 @@ public class FramePatient extends JFrame {
 		modelTAppoint.setRowCount(0);
 	}
 
-//	public static void main(String[] args) {
-//		new FramePatient(null, new Patient("1", "stuar", "333", "jj@k", "123"));
-//	}
+	public static void main(String[] args) {
+		new FramePatient(null, new Patient("1", "stuar", "333", "jj@k", "123"), null);
+	}
 }

@@ -102,6 +102,7 @@ public class MedicClient {
 		try {
 			output.writeUTF(Actions.ADD_APPOINTMENT.name());
 			String response = input.readUTF();
+			System.out.println(response);
 			if (response.equals(Actions.OK.name())) {
 				output.writeUTF(JSonUtil.toJson((Doctor) this.client));
 				output.writeUTF(JSonUtil.toJson(d));

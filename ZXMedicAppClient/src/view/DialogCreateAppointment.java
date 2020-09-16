@@ -90,7 +90,7 @@ public class DialogCreateAppointment extends JDialog{
 		this.btnCancel.setBackground(Color.DARK_GRAY);
 		this.btnCancel.setFocusable(false);
 		this.btnCancel.addActionListener(controller);
-		this.btnCancel.setActionCommand(Actions.CANCEL_CREATE_APPOINTMENT2.toString());
+		this.btnCancel.setActionCommand(Actions.CANCEL_CREATE_APPOINTMENT.toString());
 		this.pn3.add(btnCancel);
 		this.add(pn3);
 	}

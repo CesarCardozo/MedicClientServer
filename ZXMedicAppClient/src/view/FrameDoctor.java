@@ -13,6 +13,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import controller.Actions;
 import controller.ControllerClient;
 import model.entity.Appointment;
 import model.entity.Doctor;
@@ -52,7 +53,7 @@ public class FrameDoctor extends JFrame{
 		this.pn1 = new JPanel();
 		this.btnAddAppo = new JButton(new ImageIcon(new ImageIcon(getClass().getResource("/img/calendario.png")).getImage().getScaledInstance(100, 100, 100)));
 		this.btnAddAppo.addActionListener(controller);
-//		this.btnAddAppo.setActionCommand(Actions.PATIENT.toString());
+		this.btnAddAppo.setActionCommand(Actions.CREATE_APPOINT.toString());
 		this.btnAddAppo.setBorder(null);
 		this.btnAddAppo.setBackground(Color.DARK_GRAY);
 		this.btnAddAppo.setFocusable(false);
@@ -70,9 +71,9 @@ public class FrameDoctor extends JFrame{
 
 		createTablePerson();
 
-		this.btnExit = new JButton(new ImageIcon(new ImageIcon(getClass().getResource("/img/exit.png")).getImage().getScaledInstance(100, 100, 100)));
+		this.btnExit = new JButton(new ImageIcon(new ImageIcon(getClass().getResource("/img/cancel.png")).getImage().getScaledInstance(100, 100, 100)));
 		this.btnExit.addActionListener(controller);
-//		this.btnExit.setActionCommand(Actions.EXIT_DOCTOR.toString());
+		this.btnExit.setActionCommand(Actions.CANCEL_DOCTOR.toString());
 		this.btnExit.setBorder(null);
 		this.btnExit.setBackground(Color.DARK_GRAY);
 		this.btnExit.setBounds(10, 110, 100, 100);
