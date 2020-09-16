@@ -128,9 +128,16 @@ public class MedicClient {
 		}
 	}
 
-	public void attendAppointment() {
-		// TODO Auto-generated method stub
-
+	public void attendAppointment(Appointment a) {
+		try {
+			output.writeUTF(Actions.ATTEND_APPOINTMENT.name());
+			String response = input.readUTF();
+			if (response.equals(Actions.OK.name())) {
+				output.writeUTF(JSonUtil.toJson(a));
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public ArrayList<Appointment> showAppointment(MedicalSpeciality speciality) {
@@ -157,14 +164,32 @@ public class MedicClient {
 
 	}
 
-	public void showAppointmentDoctor() {
-		// TODO Auto-generated method stub
-
+	public ArrayList<Appointment> showAppointmentDoctor() {
+		try {
+			output.writeUTF(Actions.SHOW_APPOINTMENT_DOCTOR.name());
+			String response = input.readUTF();
+			if (response.equals(Actions.OK.name())) {
+				output.writeUTF(JSonUtil.toJson((Doctor)this.client));
+				JSonUtil.toArrayAppoints(input.readUTF());
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
-	public void showAppointmentPatient() {
-		// TODO Auto-generated method stub
-
+	public ArrayList<Appointment> showAppointmentPatient() {
+		try {
+			output.writeUTF(Actions.SHOW_APPOINTMENT_PATIENT.name());
+			String response = input.readUTF();
+			if (response.equals(Actions.OK.name())) {
+				output.writeUTF(JSonUtil.toJson((Patient)this.client));
+				JSonUtil.toArrayAppoints(input.readUTF());
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	public void bookAppointment(Appointment a) {
@@ -189,7 +214,6 @@ public class MedicClient {
 				output.writeUTF(JSonUtil.toJson(a));
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

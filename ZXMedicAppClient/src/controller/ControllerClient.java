@@ -104,8 +104,11 @@ public class ControllerClient implements ActionListener {
 	}
 
 	private void attendAppointment() {
-		// TODO Auto-generated method stub
-
+		//Se seleccion de la vista desde la perspectiva del doctor la appointment que quiere atender
+		Appointment a = new Appointment(new Date());
+		a.setDoctor(new Doctor("1", "Cesar", "310", "correo", MedicalSpeciality.CARDIOLOGIST, "123"));
+		//se reemplaza la seleccion de la appointment de arriba por la obtencion desde la vista
+		client.attendAppointment(a);
 	}
 
 	private void showAppointment() {
@@ -126,13 +129,13 @@ public class ControllerClient implements ActionListener {
 	}
 
 	private void showAppointmentDoctor() {
-		// TODO Auto-generated method stub
-
+		client.showAppointmentDoctor();
+		//eso de arriba devuelve una lista de citas del doctor hay que usarla en la vista
 	}
 
 	private void showAppointmentPatient() {
-		// TODO Auto-generated method stub
-
+		client.showAppointmentPatient();
+		//eso de arriba devuelve una lista de citas del paciente hay que usarla en la vista
 	}
 
 	private void bookAppointment() {

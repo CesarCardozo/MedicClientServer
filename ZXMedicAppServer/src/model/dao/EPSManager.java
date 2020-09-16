@@ -128,7 +128,7 @@ public class EPSManager {
 	 * @return
 	 * @throws Exception
 	 */
-	private TreeAvl<Appointment> showAppointementDoctor(String idDoctor) throws Exception {
+	public TreeAvl<Appointment> showAppointementDoctor(String idDoctor) throws Exception {
 		Doctor doctor = this.doctortList.search(new Doctor(idDoctor)).getInfo();
 		return doctor.getAppointmentList();
 	}
@@ -180,9 +180,10 @@ public class EPSManager {
 	 * perspectiva de un doctor)
 	 * 
 	 * @param a
+	 * @throws Exception 
 	 */
-	public void attendAppointment(Appointment a) {
-		a.setStatus(AppointmentStatus.ATTENDED);
+	public void attendAppointment(Appointment a) throws Exception {
+		doctortList.search(a.getDoctor()).getInfo().getAppointmentList().search(a).getInfo().setStatus(AppointmentStatus.ATTENDED);
 	}
 
 	/**
