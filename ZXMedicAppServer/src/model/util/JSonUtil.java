@@ -4,6 +4,7 @@ import java.util.Date;
 
 import com.google.gson.Gson;
 
+import model.entity.Appointment;
 import model.entity.Doctor;
 import model.entity.Patient;
 
@@ -23,6 +24,11 @@ public class JSonUtil {
 
 	public static Date toDate(String dateJson) {
 		return new Gson().fromJson(dateJson, Date.class);
+	}
+
+	public static Appointment toAppointment(String appointmentJson) {
+		return new Gson().fromJson(appointmentJson, Appointment.class);
+
 	}
 
 }

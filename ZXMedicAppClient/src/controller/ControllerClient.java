@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.util.Date;
 
 import model.MedicClient;
+import model.entity.Appointment;
 import model.entity.Doctor;
 import model.entity.MedicalSpeciality;
 import model.entity.Patient;
@@ -139,8 +140,11 @@ public class ControllerClient implements ActionListener {
 	}
 
 	private void cancelAppointment() {
-		// TODO Auto-generated method stub
-
+		//Se seleccion de la vista desde la perspectiva del usuario  la appointment que quiere cancelar
+		Appointment a = new Appointment(new Date());
+		a.setDoctor(new Doctor("1", "Cesar", "310", "correo", MedicalSpeciality.CARDIOLOGIST, "123"));
+		//se reemplaza la seleccion de la appointment de arriba por la obtencion desde la vista
+		client.cancelAppointment(a);
 	}
 
 	private void deleteAppointment() {
