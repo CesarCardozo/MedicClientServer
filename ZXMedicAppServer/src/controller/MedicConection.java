@@ -152,7 +152,6 @@ public class MedicConection extends Thread {
 			this.out.close();
 			this.activeConection = false;
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -183,20 +182,26 @@ public class MedicConection extends Thread {
 			this.out.writeUTF(MessageActions.OK.name());
 			String doctor = in.readUTF();
 			String statusAppoint = in.readUTF();
-			manager.showAppointementDoctor(JSonUtil.toDoctor(doctor).getId(), AppointmentStatus.valueOf(statusAppoint)); 
+			out.writeUTF(JSonUtil.toJson(manager.showAppointementDoctor(JSonUtil.toDoctor(doctor).getId(), AppointmentStatus.valueOf(statusAppoint)))); 
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
 	}
 
 	private void showAppointmentPatientSatus() {
-		// TODO Auto-generated method stub
-
+		try {
+			this.out.writeUTF(MessageActions.OK.name());
+			String patient = in.readUTF();
+			String statusAppoint = in.readUTF();
+			out.writeUTF(JSonUtil.toJson(manager.showAppointementPatient((JSonUtil.toDoctor(patient).getId()),  AppointmentStatus.valueOf(statusAppoint)))); 
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	private void showAppointmentDoctor() {
@@ -322,5 +327,4 @@ public class MedicConection extends Thread {
 	public void setClientIp(String clientIp) {
 		this.clientIp = clientIp;
 	}
-
 }

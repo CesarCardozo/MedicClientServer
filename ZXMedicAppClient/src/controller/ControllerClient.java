@@ -2,6 +2,7 @@ package controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.Date;
 
 import model.MedicClient;
@@ -10,6 +11,9 @@ import model.entity.AppointmentStatus;
 import model.entity.Doctor;
 import model.entity.MedicalSpeciality;
 import model.entity.Patient;
+import view.DialogLogin;
+import view.DialogSignUpDoc;
+import view.DialogSignUpPatient;
 import view.FrameDoctor;
 import view.FramePatient;
 import view.MainFrame;
@@ -19,10 +23,14 @@ public class ControllerClient implements ActionListener {
 	private MainFrame mainFrame;
 	private FrameDoctor frameDoctor;
 	private FramePatient framePatient;
+	private DialogLogin dialogLoginPatient;
+	private DialogSignUpDoc dialogSignUpDoc;
+	private DialogSignUpPatient dialogSignUpPatient;
 	private MedicClient client;
 
-	public ControllerClient() {
+	public ControllerClient() throws IOException {
 		this.mainFrame = new MainFrame(this);
+		//		this.client = new MedicClient();
 	}
 
 	@SuppressWarnings("unused")
@@ -73,35 +81,54 @@ public class ControllerClient implements ActionListener {
 			break;
 		case EXIT:
 			closeConection();
+			break;
+		case BTN_LOGIN_PATIENT:
+			this.dialogLoginPatient = new DialogLogin(this, Actions.LOGIN_PATIENT);
+			break;
+		case BTN_LOGIN_DOCTOR:
+			this.dialogLoginPatient = new DialogLogin(this, Actions.LOGIN_DOCTOR);
+			break;
+		case  BTN_SIGNUP_PATIENT:
+			dialogSignUpPatient = new DialogSignUpPatient(this);
+			break;
+		case BTN_SIGNUP_DOCTOR:
+			this.dialogSignUpDoc = new DialogSignUpDoc(this);
+			break;
 		default:
 			break;
 		}
 	}
 
 	private void loginDoctor() {
-		String idDoctor = "1"; // reemplazar por la vista
-		String passwordDoctor = "123"; // reemplazar por la vista
-		client.loginDoctor(idDoctor, passwordDoctor);
+		String idDoctor = this.dialogLoginPatient.getId(); 
+		String passwordDoctor = this.dialogLoginPatient.getPassword(); 
+		this.dialogLoginPatient.setVisible(false);
+		Doctor doctor = client.loginDoctor(idDoctor, passwordDoctor);
 		// usar ese doctor a discrecion
+		this.frameDoctor = new FrameDoctor(this, doctor);//hace falta pasarle la lista de citas 
 	}
 
 	private void loginPatient() {
-		String idPatient = "1"; // reemplazar por la vista
-		String passwordPatient = "123"; // reemplazar por la vista
-		client.loginPatient(idPatient, passwordPatient);
+		String idPatient = this.dialogLoginPatient.getId(); 
+		String passwordPatient = this.dialogLoginPatient.getPassword();
+		this.dialogLoginPatient.setVisible(false);
+		Patient patient = client.loginPatient(idPatient, passwordPatient);
 		// usar ese paciente a discrecion
+		this.framePatient = new FramePatient(this, patient);//hace falta pasarle la lista de citas 
 	}
 
 	private void registerDoctor() {
-		Doctor d = new Doctor("1", "Cesar", "310", "correo", MedicalSpeciality.CARDIOLOGIST, "123");// reemplazar
-		// esto con la
-		// vista
+		Doctor d = new Doctor(this.dialogSignUpDoc.getId(), this.dialogSignUpDoc.getName(), this.dialogSignUpDoc.getPhone(), 
+				this.dialogSignUpDoc.getPhone(), this.dialogSignUpDoc.getSpeciality(), this.dialogSignUpDoc.getPassword());
 		client.registerDoctor(d);
+		//mandar este nuevo doctor a la percistencia para que pueda entrar 
 	}
 
 	private void registerPatient() {
-		Patient p = new Patient("1", "Cesar", "310", "correo", "123");
+		Patient p = new Patient(this.dialogSignUpPatient.getId(), this.dialogSignUpPatient.getName(), this.dialogSignUpPatient.getPhone(), 
+				this.dialogSignUpPatient.getPhone(), this.dialogSignUpPatient.getPassword() );
 		client.registerPatient(p);
+		//mandar este nuevo paciente a la percistencia para que pueda entrar 
 	}
 
 	private void attendAppointment() {
@@ -122,11 +149,13 @@ public class ControllerClient implements ActionListener {
 	private void showAppointmentDoctorStatus() {
 		AppointmentStatus status = AppointmentStatus.NOT_AVAILABLE;//se debe traer de la vista 
 		client.showAppointmentDoctorStatus(status);
+		//se tiene que mostrar el array que dio el metodo en la vista
 	}
 
 	private void showAppointmentPatientSatus() {
-		// TODO Auto-generated method stub
-
+		AppointmentStatus status = AppointmentStatus.AVAILABLE;//se debe traer de la vista 
+		client.showAppointmentPatientSatus(status);
+		//se tiene que mostrar el array que dio el metodo en la vista
 	}
 
 	private void showAppointmentDoctor() {
@@ -167,6 +196,7 @@ public class ControllerClient implements ActionListener {
 	}
 
 	private void closeConection() {
+		this.mainFrame.setVisible(false);
 		client.closeConection();
 		// se debe cerrar la vista
 	}

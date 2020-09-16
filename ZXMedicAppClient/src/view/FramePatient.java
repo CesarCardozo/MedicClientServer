@@ -6,14 +6,15 @@ import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-import controller.Actions;
 import controller.ControllerClient;
 import model.entity.Appointment;
+import model.entity.Patient;
 
 public class FramePatient extends JFrame{
 
@@ -27,24 +28,25 @@ public class FramePatient extends JFrame{
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public FramePatient(ControllerClient controller) {
+	public FramePatient(ControllerClient controller, Patient patient) {
 		this.setVisible(true);
-		init(controller);
+		init(controller, patient);
 	}
 
-	private void init(ControllerClient controller) {
+	private void init(ControllerClient controller, Patient patient) {
 		this.setLayout(new GridLayout(3, 1));
-		addPnl(controller);
+		addPnl(controller, patient);
 		getContentPane().setBackground(Color.DARK_GRAY);
 		setIconImage(new ImageIcon(getClass().getResource(ConstansUI.PATH_IMAGE_PERFIL)).getImage());
 		setTitle("UPTC-EPS PATIENT MANAGER");
-		setSize(490, 450);
+		setSize(490, 600);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
 
-	private void addPnl(ControllerClient controller) {
+	private void addPnl(ControllerClient controller, Patient patient) {
 		this.pn1 = new JPanel();
+		
 		this.btnAddAppo = new JButton(new ImageIcon(new ImageIcon(getClass().getResource("/img/cita.png")).getImage().getScaledInstance(100, 100, 100)));
 		this.btnAddAppo.addActionListener(controller);
 //		this.btnAddAppo.setActionCommand(Actions.PATIENT.toString());
@@ -59,6 +61,7 @@ public class FramePatient extends JFrame{
 		this.btnDlete.setFocusable(false);
 		pn1.add(btnAddAppo);
 		pn1.add(btnDlete);
+		this.pn1.add(new JLabel(patient.getName()));
 		pn1.setBackground(Color.DARK_GRAY);
 		this.add(pn1);
 
@@ -104,6 +107,6 @@ public class FramePatient extends JFrame{
 	}
 
 	public static void main(String[] args) {
-		new FrameDoctor(null);
+		new FramePatient(null, null);
 	}
 }

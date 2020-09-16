@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -14,6 +15,7 @@ import javax.swing.table.DefaultTableModel;
 import controller.Actions;
 import controller.ControllerClient;
 import model.entity.Appointment;
+import model.entity.Doctor;
 
 public class FrameDoctor extends JFrame{
 
@@ -27,14 +29,14 @@ public class FrameDoctor extends JFrame{
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public FrameDoctor(ControllerClient controller) {
+	public FrameDoctor(ControllerClient controller,  Doctor doctor) {
 		this.setVisible(true);
-		init(controller);
+		init(controller, doctor);
 	}
 
-	private void init(ControllerClient controller) {
+	private void init(ControllerClient controller, Doctor doctor) {
 		this.setLayout(new GridLayout(3, 1));
-		addPnl(controller);
+		addPnl(controller, doctor);
 		getContentPane().setBackground(Color.DARK_GRAY);
 		setIconImage(new ImageIcon(getClass().getResource(ConstansUI.PATH_IMAGE_PERFIL)).getImage());
 		setTitle("UPTC-EPS DOCTOR MANAGER");
@@ -43,7 +45,7 @@ public class FrameDoctor extends JFrame{
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
 
-	private void addPnl(ControllerClient controller) {
+	private void addPnl(ControllerClient controller, Doctor doctor) {
 		this.pn1 = new JPanel();
 		this.btnAddAppo = new JButton(new ImageIcon(new ImageIcon(getClass().getResource("/img/calendario.png")).getImage().getScaledInstance(100, 100, 100)));
 		this.btnAddAppo.addActionListener(controller);
@@ -59,6 +61,7 @@ public class FrameDoctor extends JFrame{
 		this.btnDlete.setFocusable(false);
 		pn1.add(btnAddAppo);
 		pn1.add(btnDlete);
+		this.pn1.add(new JLabel(doctor.getName()));
 		pn1.setBackground(Color.DARK_GRAY);
 		this.add(pn1);
 
@@ -104,6 +107,6 @@ public class FrameDoctor extends JFrame{
 	}
 
 	public static void main(String[] args) {
-		new FrameDoctor(null);
+		new FrameDoctor(null, null);
 	}
 }

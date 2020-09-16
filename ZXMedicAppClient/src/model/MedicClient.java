@@ -31,7 +31,7 @@ public class MedicClient {
 		System.out.println("Cliente lanzado");
 		socketCliente = new Socket(GlobalConstants.HOST, GlobalConstants.PORT);
 		output = new DataOutputStream(socketCliente.getOutputStream());// incializar el que va a enviar mensajes al //
-																		// servidor
+		// servidor
 		input = new DataInputStream(socketCliente.getInputStream());// incializar lo que llega del servidor
 		String saludoInicial = input.readUTF();
 		System.out.println(saludoInicial);
@@ -147,8 +147,8 @@ public class MedicClient {
 			output.writeUTF(Actions.SHOW_APPOINTMENT.name());
 			String response = input.readUTF();
 			if (response.equals(Actions.OK.name())) {
-			output.writeUTF(speciality.name());
-			 arrayAppointment = input.readUTF();
+				output.writeUTF(speciality.name());
+				arrayAppointment = input.readUTF();
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -157,25 +157,38 @@ public class MedicClient {
 
 	}
 
-	public void showAppointmentDoctorStatus(AppointmentStatus status) {
+	public ArrayList<Appointment> showAppointmentDoctorStatus(AppointmentStatus status) {
+		String arrayAppointment = "";
 		try {
 			output.writeUTF(Actions.SHOW_APPOINTMENT_DOCTOR_STATUS.name());
 			String response = input.readUTF();
 			if (response.equals(Actions.OK.name())) {
 				output.writeUTF(JSonUtil.toJson((Doctor)this.client));
 				output.writeUTF(status.name());
+				arrayAppointment = input.readUTF();
 			}
-			
+
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
+		return JSonUtil.toArrayAppoints(arrayAppointment);
 	}
 
-	public void showAppointmentPatientSatus() {
-		// TODO Auto-generated method stub
+	public ArrayList<Appointment> showAppointmentPatientSatus(AppointmentStatus status) {
+		String arrayAppointment = "";
+		try {
+			output.writeUTF(Actions.SHOW_APPOINTMENT_PATIENT_STATUS.name());
+			String response = input.readUTF();
+			if (response.equals(Actions.OK.name())) {
+				output.writeUTF(JSonUtil.toJson((Patient)this.client));
+				output.writeUTF(status.name());
+				arrayAppointment = input.readUTF();
+			}
 
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return JSonUtil.toArrayAppoints(arrayAppointment);
 	}
 
 	public ArrayList<Appointment> showAppointmentDoctor() {
@@ -215,7 +228,6 @@ public class MedicClient {
 				output.writeUTF(JSonUtil.toJson((Patient)this.client));
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -241,7 +253,6 @@ public class MedicClient {
 				output.writeUTF(JSonUtil.toJson(d));
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
