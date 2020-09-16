@@ -46,9 +46,9 @@ public class ControllerClient implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		switch (Actions.valueOf(e.getActionCommand())) {
 		case REGISTER_PATIENT:
-			registerPatient();// falta exception
+			registerPatient();
 			break;
-		case REGISTER_DOCTOR:// falta exception
+		case REGISTER_DOCTOR:
 			registerDoctor();
 			break;
 		case LOGIN_PATIENT:// falta exception
@@ -156,7 +156,7 @@ public class ControllerClient implements ActionListener {
 		this.dialogLogin.setVisible(false);
 		client.loginDoctor(idDoctor, passwordDoctor);
 		// usar ese doctor a discrecion
-		ArrayList<Appointment> appointments = new ArrayList<>(); 
+		ArrayList<Appointment> appointments = new ArrayList<>();
 		appointments.addAll(client.showAppointmentDoctorStatus(AppointmentStatus.AVAILABLE));
 		appointments.addAll(client.showAppointmentDoctorStatus(AppointmentStatus.NOT_AVAILABLE));
 		this.frameDoctor = new FrameDoctor(this, (Doctor) client.getClient(), appointments);
@@ -165,11 +165,15 @@ public class ControllerClient implements ActionListener {
 	private void loginPatient() {
 		String idPatient = this.dialogLogin.getId();
 		String passwordPatient = this.dialogLogin.getPassword();
-		this.dialogLogin.setVisible(false);
-		client.loginPatient(idPatient, passwordPatient);
-		ArrayList<Appointment> appointments = client.showAppointmentPatientSatus(AppointmentStatus.NOT_AVAILABLE);
-		// usar ese paciente a discrecion
-		this.framePatient = new FramePatient(this, (Patient) client.getClient(), appointments);
+		try {
+			client.loginPatient(idPatient, passwordPatient);
+			ArrayList<Appointment> appointments = client.showAppointmentPatientSatus(AppointmentStatus.NOT_AVAILABLE);
+			// usar ese paciente a discrecion
+			this.framePatient = new FramePatient(this, (Patient) client.getClient(), appointments);
+			this.dialogLogin.setVisible(false);
+		} catch (Exception e) {
+			ViewUtils.showError(this.dialogLogin, e.getMessage());
+		}
 	}
 
 	private void registerDoctor() {
@@ -253,7 +257,7 @@ public class ControllerClient implements ActionListener {
 
 	private void addAppointment() {
 		this.dialogCreateAppointment.setVisible(false);
-		
+
 		client.addAppointment(dialogCreateAppointment.getDate());
 		ArrayList<Appointment> appointments = new ArrayList<>();
 		appointments.addAll(client.showAppointmentDoctorStatus(AppointmentStatus.NOT_AVAILABLE));

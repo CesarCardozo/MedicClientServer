@@ -62,7 +62,7 @@ public class MedicClient {
 		}
 	}
 
-	public void loginPatient(String id, String password) {
+	public void loginPatient(String id, String password)  throws Exception{
 		try {
 			output.writeUTF(Actions.LOGIN_PATIENT.name());
 			String response = input.readUTF();
@@ -72,11 +72,17 @@ public class MedicClient {
 				if (response.equals(Actions.OK.name())) {
 					output.writeUTF(password);
 					response = input.readUTF();
-					client = JSonUtil.toPatient(response);
+					if (response.equals(Actions.OK.name())) {
+						response = input.readUTF(); 
+						client = JSonUtil.toPatient(response);
+					}else {
+						response = input.readUTF(); 
+						throw new Exception(response);
+					}
 				}
 			}
 		} catch (IOException e) {
-			e.printStackTrace();
+			throw new Exception("Internal error");
 		}
 	}
 

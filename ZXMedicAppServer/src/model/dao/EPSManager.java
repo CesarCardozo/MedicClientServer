@@ -11,6 +11,7 @@ import model.entity.Doctor;
 import model.entity.MedicalSpeciality;
 import model.entity.Patient;
 import model.exception.AlreadyExists;
+import model.exception.IncorrectData;
 import model.util.JSonUtil;
 import structure.TreeAvl;
 
@@ -221,7 +222,7 @@ public class EPSManager {
 		try {
 			this.patientList.insert(patient);
 		} catch (Exception e) {
-			throw new AlreadyExists("El paciente ya existe en el sistema");
+			throw new AlreadyExists("The patient already exists in the system");
 		}
 	}
 
@@ -245,7 +246,7 @@ public class EPSManager {
 		try {
 			this.addDoctor(JSonUtil.toDoctor(doctorJson));
 		} catch (Exception e) {
-			throw new AlreadyExists("El doctor ya existe en el sistema");
+			throw new AlreadyExists("The doctor already exists in the system");
 		}
 	}
 
@@ -266,9 +267,13 @@ public class EPSManager {
 	 * @return
 	 * @throws Exception
 	 */
-	public Patient searchPatient(String id) throws Exception {
+	public Patient searchPatient(String id) throws IncorrectData {
 		Patient patient = new Patient(id);
-		return this.patientList.search(patient).getInfo();
+		try {
+			return this.patientList.search(patient).getInfo();
+		} catch (Exception e) {
+			throw new IncorrectData("Your credentials, username or password are incorrect");
+		}
 	}
 
 	/**
@@ -278,9 +283,13 @@ public class EPSManager {
 	 * @return
 	 * @throws Exception
 	 */
-	public Doctor searchDoctor(String id) throws Exception {
+	public Doctor searchDoctor(String id) throws IncorrectData {
 		Doctor doctor = new Doctor(id);
-		return this.doctortList.search(doctor).getInfo();
+		try {
+			return this.doctortList.search(doctor).getInfo();
+		} catch (Exception e) {
+			throw new IncorrectData("Your credentials, username or password are incorrect");
+		}
 	}
 
 	public TreeAvl<Patient> getPatientList() {
@@ -344,12 +353,19 @@ public class EPSManager {
 		return listAppointmentString;
 	}
 
-	public Patient getPatientByCredentials(String id, String password) throws Exception {
-		Patient p = this.patientList.search(new Patient(id)).getInfo();
-		if (p.getPassword().equals(password)) {
-			return p;
+	public Patient getPatientByCredentials(String id, String password) throws IncorrectData {
+		try {
+			Patient p = this.patientList.search(new Patient(id)).getInfo();
+			if (p.getPassword().equals(password)) {
+				return p;
+			}else {
+				throw new IncorrectData("The password is'nt correct");
+			}
+		}catch (IncorrectData ie) {
+			throw ie;
+		}catch (Exception e) {
+			throw new IncorrectData("The patient doesnt exist in the system");
 		}
-		return null; // TODO
 	}
 
 	public Doctor getDoctorByCredentials(String id, String password) throws Exception {

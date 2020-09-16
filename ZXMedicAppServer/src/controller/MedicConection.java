@@ -11,6 +11,7 @@ import model.entity.Doctor;
 import model.entity.MedicalSpeciality;
 import model.entity.Patient;
 import model.exception.AlreadyExists;
+import model.exception.IncorrectData;
 import model.util.JSonUtil;
 
 public class MedicConection extends Thread {
@@ -138,10 +139,16 @@ public class MedicConection extends Thread {
 			String id = in.readUTF();
 			this.out.writeUTF(MessageActions.OK.name());
 			String password = in.readUTF();
-			Patient p = manager.getPatientByCredentials(id, password);
-			this.out.writeUTF(JSonUtil.toJson(p));
+			try {
+				Patient p = manager.getPatientByCredentials(id, password);
+				this.out.writeUTF(MessageActions.OK.name());
+				this.out.writeUTF(JSonUtil.toJson(p));
+			} catch( IncorrectData e) {
+				this.out.writeUTF(MessageActions.ERROR.name());
+				this.out.writeUTF(e.getMessage());
+			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.out.println("Se perdio conexion con el cliente");
 		}
 	}
 
