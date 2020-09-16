@@ -36,29 +36,29 @@ public class MedicClient {
 		System.out.println(saludoInicial);
 	}
 
-	public void registerPatient(Patient p) {
-		try {
-			output.writeUTF(Actions.REGISTER_PATIENT.name());
-			String response = input.readUTF();
-			if (response.equals(Actions.OK.name())) {
-				output.writeUTF(JSonUtil.toJson(p));
+	public void registerPatient(Patient p) throws Exception {
+		output.writeUTF(Actions.REGISTER_PATIENT.name());
+		String response = input.readUTF();
+		if (response.equals(Actions.OK.name())) {
+			output.writeUTF(JSonUtil.toJson(p));
+			response = input.readUTF();
+			if (response.equals(Actions.ERROR.name())) {
+				response = input.readUTF();
+				throw new Exception(response);
 			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 	}
 
-	public void registerDoctor(Doctor d) {
-		try {
-			output.writeUTF(Actions.REGISTER_DOCTOR.name());
-			String response = input.readUTF();
-			if (response.equals(Actions.OK.name())) {
-				output.writeUTF(JSonUtil.toJson(d));
+	public void registerDoctor(Doctor d) throws Exception {
+		output.writeUTF(Actions.REGISTER_DOCTOR.name());
+		String response = input.readUTF();
+		if (response.equals(Actions.OK.name())) {
+			output.writeUTF(JSonUtil.toJson(d));
+			response = input.readUTF();
+			if (response.equals(Actions.ERROR.name())) {
+				response = input.readUTF();
+				throw new Exception(response);
 			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 	}
 
@@ -152,7 +152,7 @@ public class MedicClient {
 			output.writeUTF(Actions.SHOW_APPOINTMENT_DOCTOR_STATUS.name());
 			String response = input.readUTF();
 			if (response.equals(Actions.OK.name())) {
-				output.writeUTF(JSonUtil.toJson((Doctor)this.client));
+				output.writeUTF(JSonUtil.toJson((Doctor) this.client));
 				output.writeUTF(status.name());
 				return JSonUtil.toArrayAppoints(input.readUTF());
 			}
@@ -167,14 +167,14 @@ public class MedicClient {
 			output.writeUTF(Actions.SHOW_APPOINTMENT_PATIENT_STATUS.name());
 			String response = input.readUTF();
 			if (response.equals(Actions.OK.name())) {
-				output.writeUTF(JSonUtil.toJson((Patient)this.client));
+				output.writeUTF(JSonUtil.toJson((Patient) this.client));
 				output.writeUTF(status.name());
 				return JSonUtil.toArrayAppoints(input.readUTF());
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return null; 
+		return null;
 	}
 
 	public ArrayList<Appointment> showAppointmentDoctor() {
@@ -182,7 +182,7 @@ public class MedicClient {
 			output.writeUTF(Actions.SHOW_APPOINTMENT_DOCTOR.name());
 			String response = input.readUTF();
 			if (response.equals(Actions.OK.name())) {
-				output.writeUTF(JSonUtil.toJson((Doctor)this.client));
+				output.writeUTF(JSonUtil.toJson((Doctor) this.client));
 				JSonUtil.toArrayAppoints(input.readUTF());
 			}
 		} catch (IOException e) {
@@ -196,7 +196,7 @@ public class MedicClient {
 			output.writeUTF(Actions.SHOW_APPOINTMENT_PATIENT.name());
 			String response = input.readUTF();
 			if (response.equals(Actions.OK.name())) {
-				output.writeUTF(JSonUtil.toJson((Patient)this.client));
+				output.writeUTF(JSonUtil.toJson((Patient) this.client));
 				JSonUtil.toArrayAppoints(input.readUTF());
 			}
 		} catch (IOException e) {
@@ -211,7 +211,7 @@ public class MedicClient {
 			String response = input.readUTF();
 			if (response.equals(Actions.OK.name())) {
 				output.writeUTF(JSonUtil.toJson(a));
-				output.writeUTF(JSonUtil.toJson((Patient)this.client));
+				output.writeUTF(JSonUtil.toJson((Patient) this.client));
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -243,11 +243,9 @@ public class MedicClient {
 		}
 	}
 
-	
 	public Person getClient() {
 		return client;
 	}
-	
 
 	public void setClient(Person client) {
 		this.client = client;
