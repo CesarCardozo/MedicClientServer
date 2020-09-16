@@ -4,10 +4,13 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.Date;
 
 import controller.Actions;
+import model.entity.Appointment;
 import model.entity.Doctor;
+import model.entity.MedicalSpeciality;
 import model.entity.Patient;
 import model.entity.Person;
 import model.util.GlobalConstants;
@@ -130,8 +133,18 @@ public class MedicClient {
 
 	}
 
-	public void showAppointment() {
-		// TODO Auto-generated method stub
+	public ArrayList<Appointment> showAppointment(MedicalSpeciality speciality) {
+		try {
+			output.writeUTF(Actions.SHOW_APPOINTMENT.name());
+			String response = input.readUTF();
+			if (response.equals(Actions.OK.name())) {
+			output.writeUTF(""+speciality);
+			String arrayAppointment = input.readUTF();
+			return JSonUtil.
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
 	}
 

@@ -98,7 +98,7 @@ public class ControllerClient implements ActionListener {
 	}
 
 	private void registerPatient() {
-		Patient p = new Patient("1", "Cesar", "310", "correo", "123");// reemplazar esto con la vista
+		Patient p = new Patient("1", "Cesar", "310", "correo", "123");x
 		client.registerPatient(p);
 	}
 
@@ -108,7 +108,8 @@ public class ControllerClient implements ActionListener {
 	}
 
 	private void showAppointment() {
-		// TODO Auto-generated method stub
+		MedicalSpeciality speciality= MedicalSpeciality.CARDIOLOGIST;// se debe cerrar la vista
+		client.showAppointment(speciality);
 
 	}
 

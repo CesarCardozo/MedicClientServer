@@ -7,6 +7,7 @@ import java.net.Socket;
 
 import model.dao.EPSManager;
 import model.entity.Doctor;
+import model.entity.MedicalSpeciality;
 import model.entity.Patient;
 import model.util.JSonUtil;
 
@@ -162,8 +163,13 @@ public class MedicConection extends Thread {
 	}
 
 	private void showAppointment() {
-		// TODO Auto-generated method stub
-		
+		try {
+			this.out.writeUTF(MessageActions.OK.name());
+			String specialityString = in.readUTF();
+			out.writeUTF(JSonUtil.toJson(manager.showAppointment(MedicalSpeciality.valueOf(specialityString))));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	private void showAppointmentDoctorStatus() {
