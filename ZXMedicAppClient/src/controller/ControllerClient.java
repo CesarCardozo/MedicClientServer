@@ -28,7 +28,7 @@ public class ControllerClient implements ActionListener {
 	private MainFrame mainFrame;
 	private FrameDoctor frameDoctor;
 	private FramePatient framePatient;
-	private DialogLogin dialogLoginPatient;
+	private DialogLogin dialogLogin;
 	private DialogSignUpDoc dialogSignUpDoc;
 	private DialogSignUpPatient dialogSignUpPatient;
 	private DialogCreateAppointment dialogCreateAppointment;
@@ -92,11 +92,11 @@ public class ControllerClient implements ActionListener {
 			break;
 		case BTN_LOGIN_PATIENT:
 			this.mainFrame.setVisible(false);
-			this.dialogLoginPatient = new DialogLogin(this, Actions.LOGIN_PATIENT);
+			this.dialogLogin = new DialogLogin(this, Actions.LOGIN_PATIENT);
 			break;
 		case BTN_LOGIN_DOCTOR:
 			this.mainFrame.setVisible(false);
-			this.dialogLoginPatient = new DialogLogin(this, Actions.LOGIN_DOCTOR);
+			this.dialogLogin = new DialogLogin(this, Actions.LOGIN_DOCTOR);
 			break;
 		case BTN_SIGNUP_PATIENT:
 			this.mainFrame.setVisible(false);
@@ -131,15 +131,19 @@ public class ControllerClient implements ActionListener {
 			this.dialogCreateAppointment.setVisible(false);
 			this.mainFrame.setVisible(true);
 			break;
+		case CANCEL_LOGIN:
+			this.dialogLogin.setVisible(false);
+			this.mainFrame.setVisible(true);
+			break;
 		default:
 			break;
 		}
 	}
 
 	private void loginDoctor() {
-		String idDoctor = this.dialogLoginPatient.getId();
-		String passwordDoctor = this.dialogLoginPatient.getPassword();
-		this.dialogLoginPatient.setVisible(false);
+		String idDoctor = this.dialogLogin.getId();
+		String passwordDoctor = this.dialogLogin.getPassword();
+		this.dialogLogin.setVisible(false);
 		client.loginDoctor(idDoctor, passwordDoctor);
 		// usar ese doctor a discrecion
 		ArrayList<Appointment> appointments = client.showAppointmentDoctorStatus(AppointmentStatus.NOT_AVAILABLE);
@@ -147,9 +151,9 @@ public class ControllerClient implements ActionListener {
 	}
 
 	private void loginPatient() {
-		String idPatient = this.dialogLoginPatient.getId();
-		String passwordPatient = this.dialogLoginPatient.getPassword();
-		this.dialogLoginPatient.setVisible(false);
+		String idPatient = this.dialogLogin.getId();
+		String passwordPatient = this.dialogLogin.getPassword();
+		this.dialogLogin.setVisible(false);
 		client.loginPatient(idPatient, passwordPatient);
 		ArrayList<Appointment> appointments = client.showAppointmentPatientSatus(AppointmentStatus.NOT_AVAILABLE);
 		// usar ese paciente a discrecion

@@ -26,6 +26,8 @@ public class DialogLogin extends JDialog{
 	private JLabel jlId, ljPassw;
 	private JTextArea txAId;
 	private JPasswordField txAPassw;
+
+	private JButton btnCancel;
 	
 	public DialogLogin(ControllerClient controller,  Actions action) {
 		init(controller, action);
@@ -87,6 +89,14 @@ public class DialogLogin extends JDialog{
 		this.btnOk.setFocusable(false);
 		this.btnOk.addActionListener(controller);
 		this.btnOk.setActionCommand(action.toString());
+		
+		this.btnCancel = new JButton(new ImageIcon(new ImageIcon(getClass().getResource("/img/cancel.png")).getImage().getScaledInstance(100, 100, 100)));
+		this.btnCancel.setBorder(null);
+		this.btnCancel.setBackground(Color.DARK_GRAY);
+		this.btnCancel.setFocusable(false);
+		this.btnCancel.addActionListener(controller);
+		this.btnCancel.setActionCommand(Actions.CANCEL_LOGIN.toString());
+		this.pn4.add(btnCancel);
 		this.pn4.add(btnOk);
 		this.add(pn4);
 	}
