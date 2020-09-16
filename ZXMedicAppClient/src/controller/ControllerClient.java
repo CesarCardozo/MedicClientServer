@@ -99,7 +99,7 @@ public class ControllerClient implements ActionListener {
 	}
 
 	private void registerPatient() {
-		Patient p = new Patient("1", "Cesar", "310", "correo", "123");x
+		Patient p = new Patient("1", "Cesar", "310", "correo", "123");
 		client.registerPatient(p);
 	}
 
