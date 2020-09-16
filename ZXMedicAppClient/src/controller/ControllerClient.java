@@ -37,7 +37,7 @@ public class ControllerClient implements ActionListener {
 
 	public ControllerClient() throws IOException {
 		this.mainFrame = new MainFrame(this);
-				this.client = new MedicClient();
+				//this.client = new MedicClient();
 	}
 
 	@SuppressWarnings("unused")

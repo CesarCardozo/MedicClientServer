@@ -1,6 +1,7 @@
 /controller/
+/img/
 /lib/
 /model/
-/persistence/
 /run/
 /structure/
+/view/
