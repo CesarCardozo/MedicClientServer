@@ -62,34 +62,34 @@ public class MedicConection extends Thread {
 			loginDoctor();
 			break;
 		case ADD_APPOINTMENT:
-
+			addAppointment();
 			break;
 		case DELETE_APPOINTMENT:
-
+			deleteAppointment();
 			break;
 		case CANCEL_APPOINTMENT:
-
+			cancelAppointment();
 			break;
 		case BOOK_APPOINTMENT:
-
+			bookAppointment();
 			break;
 		case SHOW_APPOINTMENT_PATIENT:
-
+			showAppointmentPatient();
 			break;
 		case SHOW_APPOINTMENT_DOCTOR:
-
+			showAppointmentDoctor();
 			break;
 		case SHOW_APPOINTMENT_PATIENT_STATUS:
-
+			showAppointmentPatientSatus();
 			break;
 		case SHOW_APPOINTMENT_DOCTOR_STATUS:
-
+			showAppointmentDoctorStatus();
 			break;
 		case SHOW_APPOINTMENT:
-
+			showAppointment();
 			break;
 		case ATTEND_APPOINTMENT:
-
+			attendAppointment();
 			break;
 		case EXIT:
 			closeConection();
@@ -130,7 +130,6 @@ public class MedicConection extends Thread {
 			e.printStackTrace();
 		}
 	}
-	
 
 	private void loginDoctor() {
 		try {
@@ -158,8 +157,56 @@ public class MedicConection extends Thread {
 
 	}
 
-//			this.out.writeUTF(model.util.GlobalConstants.URL_DAILY_ADVICE);
+	private void attendAppointment() {
+		// TODO Auto-generated method stub
+		
+	}
 
+	private void showAppointment() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void showAppointmentDoctorStatus() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void showAppointmentPatientSatus() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void showAppointmentDoctor() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void showAppointmentPatient() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void bookAppointment() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void cancelAppointment() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void deleteAppointment() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void addAppointment() {
+		// TODO Auto-generated method stub
+		
+	}
+	
 	/**
 	 * @return the socket
 	 */
