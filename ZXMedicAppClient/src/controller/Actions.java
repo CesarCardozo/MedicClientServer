@@ -3,6 +3,7 @@ package controller;
 public enum Actions {
 
 	OK,
+	ERROR,
 	EXIT,
 	REGISTER_PATIENT,
 	REGISTER_DOCTOR,

@@ -10,6 +10,7 @@ import model.entity.AppointmentStatus;
 import model.entity.Doctor;
 import model.entity.MedicalSpeciality;
 import model.entity.Patient;
+import model.exception.AlreadyExists;
 import model.util.JSonUtil;
 import structure.TreeAvl;
 
@@ -70,8 +71,8 @@ public class EPSManager {
 	 * @throws Exception
 	 */
 	public synchronized void bookAppointment(Patient patient, Appointment appointment) throws Exception {
-		Appointment a = doctortList.search(appointment.getDoctor()).getInfo().getAppointmentList().search(new Appointment(appointment.getDate()))
-				.getInfo();
+		Appointment a = doctortList.search(appointment.getDoctor()).getInfo().getAppointmentList()
+				.search(new Appointment(appointment.getDate())).getInfo();
 		a.setPatient(patient);
 		a.setStatus(AppointmentStatus.NOT_AVAILABLE);
 	}
@@ -180,10 +181,11 @@ public class EPSManager {
 	 * perspectiva de un doctor)
 	 * 
 	 * @param a
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	public void attendAppointment(Appointment a) throws Exception {
-		doctortList.search(a.getDoctor()).getInfo().getAppointmentList().search(a).getInfo().setStatus(AppointmentStatus.ATTENDED);
+		doctortList.search(a.getDoctor()).getInfo().getAppointmentList().search(a).getInfo()
+				.setStatus(AppointmentStatus.ATTENDED);
 	}
 
 	/**
@@ -196,12 +198,13 @@ public class EPSManager {
 	 * @param history
 	 * @throws Exception
 	 */
-	public void createPatient(String id, String name, String phone, String email, String history, String password) throws Exception {
+	public void createPatient(String id, String name, String phone, String email, String history, String password)
+			throws Exception {
 		Patient p = new Patient(id, name, phone, email, password, history);
 		this.addPattient(p);
 	}
 
-	public void createPatient(String patientJson) throws Exception {
+	public void createPatient(String patientJson) throws AlreadyExists {
 		this.addPattient(JSonUtil.toPatient(patientJson));
 	}
 
@@ -211,8 +214,12 @@ public class EPSManager {
 	 * @param patient
 	 * @throws Exception
 	 */
-	private void addPattient(Patient patient) throws Exception {
-		this.patientList.insert(patient);
+	private void addPattient(Patient patient) throws AlreadyExists {
+		try {
+			this.patientList.insert(patient);
+		} catch (Exception e) {
+			throw new AlreadyExists("El paciente ya existe en el sistema");
+		}
 	}
 
 	/**
@@ -231,8 +238,12 @@ public class EPSManager {
 		this.addDoctor(d);
 	}
 
-	public void createDoctor(String doctorJson) throws Exception {
-		this.addDoctor(JSonUtil.toDoctor(doctorJson));
+	public void createDoctor(String doctorJson) throws AlreadyExists {
+		try {
+			this.addDoctor(JSonUtil.toDoctor(doctorJson));
+		} catch (Exception e) {
+			throw new AlreadyExists("El doctor ya existe en el sistema");
+		}
 	}
 
 	/**
