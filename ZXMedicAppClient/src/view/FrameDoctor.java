@@ -82,7 +82,7 @@ public class FrameDoctor extends JFrame {
 		this.btnExit.addActionListener(controller);
 		this.btnExit.setActionCommand(Actions.CANCEL_DOCTOR.toString());
 		this.btnExit.setText(" Back  ");
-		this.btnExit.setBackground(Color.decode("#007cc0"));
+		this.btnExit.setBackground(ConstansUI.COLOR_BOTON_BACK);
 		this.btnExit.setBounds(20, 110, 100, 100);
 		this.btnExit.setFocusable(false);
 		add(btnExit, c);
@@ -120,7 +120,7 @@ public class FrameDoctor extends JFrame {
 		this.btnDlete.addActionListener(controller);
 		this.btnDlete.setActionCommand(Actions.TO_DELETE.toString());
 		this.btnDlete.setText("Delete  ");
-		this.btnDlete.setBackground(Color.decode("#caccd1"));
+		this.btnDlete.setBackground(ConstansUI.COLOR_BOTON_BLANCO);
 		this.btnDlete.setFocusable(false);
 		pn1.add(btnAddAppo);
 		pn1.add(btnDlete);
@@ -153,7 +153,7 @@ public class FrameDoctor extends JFrame {
 		this.btnAttend.addActionListener(controller);
 		this.btnAttend.setActionCommand(Actions.BTN_ATTEND_APPOINTMENT.toString());
 		this.btnAttend.setText("   Attend Appointment ");
-		this.btnAttend.setBackground(ConstansUI.COLOR_BOTON);
+		this.btnAttend.setBackground(ConstansUI.COLOR_BOTON_OK);
 		this.btnAttend.setFocusable(false);
 		add(btnAttend, c);
 	}
@@ -182,9 +182,7 @@ public class FrameDoctor extends JFrame {
 
 		JScrollPane jScrollPane = new JScrollPane(tableAppoitn);
 		jScrollPane.setBackground(Color.black);
-		
 		this.pn2.add(jScrollPane, BorderLayout.CENTER);
-
 		this.add(pn2, c);
 	}
 

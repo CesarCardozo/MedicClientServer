@@ -136,7 +136,7 @@ public class DialogCreateAppointment extends JDialog {
 		this.btnCancel = new JButton(new ImageIcon(
 				new ImageIcon(getClass().getResource("/img/cancel.png")).getImage().getScaledInstance(40, 40, 40)));
 		this.btnCancel.setText("Cancelar  ");
-		this.btnCancel.setBackground(ConstansUI.COLOR_BOTON);
+		this.btnCancel.setBackground(ConstansUI.COLOR_BOTON_OK);
 		this.btnCancel.setFocusable(false);
 		this.btnCancel.addActionListener(controller);
 		this.btnCancel.setActionCommand(Actions.CANCEL_CREATE_APPOINTMENT.toString());

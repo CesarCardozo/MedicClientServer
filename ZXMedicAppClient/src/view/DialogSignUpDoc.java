@@ -138,7 +138,7 @@ public class DialogSignUpDoc extends JDialog {
 		this.btnOk = new JButton(new ImageIcon(
 				new ImageIcon(getClass().getResource("/img/ok.png")).getImage().getScaledInstance(40, 40, 40)));
 		this.btnOk.setText("Register Doctor  ");
-		this.btnOk.setBackground(ConstansUI.COLOR_BOTON);
+		this.btnOk.setBackground(ConstansUI.COLOR_BOTON_OK);
 		this.btnOk.setFocusable(false);
 		this.btnOk.addActionListener(controller);
 		this.btnOk.setActionCommand(Actions.REGISTER_DOCTOR.toString());
