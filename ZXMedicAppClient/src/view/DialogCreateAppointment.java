@@ -40,7 +40,6 @@ public class DialogCreateAppointment extends JDialog {
 	}
 
 	private void init(ControllerClient controller) {
-		designWindow();
 		getContentPane().setBackground(Color.decode(ConstansUI.COLOR_BACKGROUND_APP));
 		setTitle("UPTC-EPS Create Appointment");
 		setSize(ConstansUI.SIZE_WINDOW_X + 55, ConstansUI.SIZE_WINDOW_Y + 45);
@@ -80,9 +79,7 @@ public class DialogCreateAppointment extends JDialog {
 		pn1.setBorder(BorderFactory.createTitledBorder("Calendar - date"));
 		pn1.setBackground(Color.decode("#f6f6f5"));
 		this.calendarG = new JCalendar();
-		this.calendarG.setBackground(Color.decode("#f6f6f5"));
 		this.calendarG.setDecorationBackgroundVisible(false);
-		this.calendarG.setDecorationBackgroundColor(Color.red);
 		this.pn1.add(calendarG);
 		this.add(pn1);
 		add(pn1, c);
@@ -152,29 +149,6 @@ public class DialogCreateAppointment extends JDialog {
 		return new Date(calendarG.getCalendar().getTime().getYear(), calendarG.getCalendar().getTime().getMonth(),
 				calendarG.getCalendar().getTime().getDate(), (Integer) sppinerH.getValue(),
 				(Integer) sppinerM.getValue());
-	}
-
-	public static void designWindow() {
-		try {
-			for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-				if ("Nimbus".equals(info.getName())) {
-					javax.swing.UIManager.setLookAndFeel(info.getClassName());
-					break;
-				}
-			}
-		} catch (ClassNotFoundException ex) {
-			java.util.logging.Logger.getLogger(DialogLogin.class.getName()).log(java.util.logging.Level.SEVERE, null,
-					ex);
-		} catch (InstantiationException ex) {
-			java.util.logging.Logger.getLogger(DialogLogin.class.getName()).log(java.util.logging.Level.SEVERE, null,
-					ex);
-		} catch (IllegalAccessException ex) {
-			java.util.logging.Logger.getLogger(DialogLogin.class.getName()).log(java.util.logging.Level.SEVERE, null,
-					ex);
-		} catch (javax.swing.UnsupportedLookAndFeelException ex) {
-			java.util.logging.Logger.getLogger(DialogLogin.class.getName()).log(java.util.logging.Level.SEVERE, null,
-					ex);
-		}
 	}
 
 	public static void main(String[] args) {

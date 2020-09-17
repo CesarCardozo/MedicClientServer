@@ -12,7 +12,7 @@ public class ConstansUI {
 	public static final int SIZE_WINDOW_LOGIN_Y = (300);
 	public static final String MESSAGE_TITTLE_FRAME = "Appointments Grandparents";
 	public static final String MESSAGE_STATUS_BAR = "Estado: ";
-	public static final Color COLOR_FRAME = Color.decode("#FFD6D6");
+	public static final Color COLOR_FRAME = Color.decode("#ffc20e");
 	public static final Color COLOR_BOTON = Color.decode("#ffc20e");
 	public static final String PATH_IMAGE_PERFIL = "/img/icon.jpg";
 	public static final String COLOR_BACKGROUND_APP = "#004d73";

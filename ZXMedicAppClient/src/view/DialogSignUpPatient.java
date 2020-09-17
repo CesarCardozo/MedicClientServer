@@ -1,7 +1,10 @@
 package view;
 
 import java.awt.Color;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.Insets;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -21,7 +24,7 @@ public class DialogSignUpPatient extends JDialog {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private JPanel pn1, pn2, pn3, pn4;
+	private JPanel pn1, pn2, pn4;
 	private JButton btnOk, btnImg;
 	private JLabel jlId, ljPassw, jlName, jlPhone, jlEmail, jlHistory;
 	private JTextArea txAId, txAName, txAPhone, txAEmail, txAHistory;
@@ -34,84 +37,105 @@ public class DialogSignUpPatient extends JDialog {
 
 	private void init(ControllerClient controller) {
 		this.setLayout(new GridLayout(4, 1));
-		getContentPane().setBackground(Color.GRAY);
-		setTitle("UPTC-EPS REGISTER DOCTOR");
-		setSize(ConstansUI.SIZE_WINDOW_X, ConstansUI.SIZE_WINDOW_Y + 80);
+		getContentPane().setBackground(Color.decode(ConstansUI.COLOR_BACKGROUND_APP));
+		setTitle("UPTC-EPS REGISTER PATIENT");
+		setSize(ConstansUI.SIZE_WINDOW_X, ConstansUI.SIZE_WINDOW_Y + 150);
 		setLocationRelativeTo(null);
 		putElements(controller);
 	}
 
 	private void putElements(ControllerClient controller) {
+		this.setLayout(new GridBagLayout());
+		GridBagConstraints c = new GridBagConstraints();
+
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
+		c.gridwidth = 3;
+		c.gridy = 0;
+
 		this.pn1 = new JPanel();
 		pn1.setBackground(Color.GRAY);
 		this.pn1.setLayout(new GridLayout(1, 1));
 		this.btnImg = new JButton(new ImageIcon(
-				new ImageIcon(getClass().getResource("/img/signup.png")).getImage().getScaledInstance(500, 250, 250)));
+				new ImageIcon(getClass().getResource("/img/registrarPa.jpg")).getImage().getScaledInstance(500, 150, 150)));
 		this.btnImg.setBorder(null);
-		this.btnImg.setBackground(Color.DARK_GRAY);
+		this.btnImg.setBackground(Color.decode(ConstansUI.COLOR_BACKGROUND_APP));
 		this.btnImg.setFocusable(false);
 		this.pn1.add(btnImg);
-		this.add(pn1);
+		this.add(pn1, c);
 
+		// ---- formulario de registro
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.anchor = GridBagConstraints.CENTER;
+		c.insets = new Insets(0, 30, 0, 30);
+		c.weighty = 2.0; // request any extra vertical space
+		c.weightx = 3.0;
+		c.gridwidth = 3;
+		c.gridx = 0;
+		c.gridy = 1;
 		this.pn2 = new JPanel();
-		pn2.setBackground(Color.GRAY);
-		this.pn2.setLayout(new GridLayout(6, 1));
+		pn2.setBackground(Color.decode(ConstansUI.COLOR_BACKGROUND_APP));
+		this.pn2.setLayout(new GridLayout(12, 1));
 
 		jlId = new JLabel("Id");
+		jlId.setForeground(Color.WHITE);
 		txAId = new JTextArea();
 
 		this.pn2.add(jlId);
 		this.pn2.add(txAId);
 
 		jlName = new JLabel("Name");
+		jlName.setForeground(Color.WHITE);
 		txAName = new JTextArea();
 
 		this.pn2.add(jlName);
 		this.pn2.add(txAName);
 
 		jlPhone = new JLabel("Phone");
+		jlPhone.setForeground(Color.WHITE);
 		txAPhone = new JTextArea();
 
 		this.pn2.add(jlPhone);
 		this.pn2.add(txAPhone);
 
-		this.add(this.pn2);
-
-		this.pn3 = new JPanel();
-		pn3.setBackground(Color.GRAY);
-		this.pn3.setLayout(new GridLayout(6, 1));
-
 		jlEmail = new JLabel("Email");
+		jlEmail.setForeground(Color.WHITE);
 		txAEmail = new JTextArea();
 
-		this.pn3.add(jlEmail);
-		this.pn3.add(txAEmail);
+		this.pn2.add(jlEmail);
+		this.pn2.add(txAEmail);
 
 		jlHistory = new JLabel("History");
+		jlHistory.setForeground(Color.WHITE);
 		txAHistory = new JTextArea();
 
-		this.pn3.add(jlHistory);
-		this.pn3.add(txAHistory);
+		this.pn2.add(jlHistory);
+		this.pn2.add(txAHistory);
 
 		ljPassw = new JLabel("Password");
+		ljPassw.setForeground(Color.WHITE);
 		txAPassw = new JPasswordField();
-		this.pn3.add(ljPassw);
-		this.pn3.add(txAPassw);
+		this.pn2.add(ljPassw);
+		this.pn2.add(txAPassw);
 
-		this.add(this.pn3);
+		this.add(this.pn2, c);
 
-		this.pn4 = new JPanel();
-		pn4.setBackground(Color.GRAY);
-		this.pn4.setLayout(new GridLayout(1, 1));
-		this.btnOk = new JButton(new ImageIcon(new ImageIcon(getClass().getResource("/img/btnsignup.png")).getImage()
-				.getScaledInstance(200, 100, 100)));
-		this.btnOk.setBorder(null);
-		this.btnOk.setBackground(Color.DARK_GRAY);
+		// ----- Boton registro -----
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.ipady = 0; // reset to default
+		c.weighty = 1.0; // request any extra vertical space
+		c.anchor = GridBagConstraints.CENTER; // bottom of space
+		c.insets = new Insets(23, 50, 23, 50); // top padding
+		c.gridx = 1; // aligned with button 2
+		c.gridwidth = 2; // 2 columns wide
+		c.gridy = 2; // third row
+		this.btnOk = new JButton(new ImageIcon(new ImageIcon(getClass().getResource("/img/ok.png")).getImage().getScaledInstance(40, 40, 40)));
+		this.btnOk.setText("Register Patient ");
+		this.btnOk.setBackground(ConstansUI.COLOR_BOTON);
 		this.btnOk.setFocusable(false);
 		this.btnOk.addActionListener(controller);
 		this.btnOk.setActionCommand(Actions.REGISTER_PATIENT.toString());
-		this.pn4.add(btnOk);
-		this.add(pn4);
+		this.add(btnOk, c);
 	}
 
 	public String getId() {
