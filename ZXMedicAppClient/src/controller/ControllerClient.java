@@ -6,8 +6,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 
-import javax.swing.JDialog;
-
 import model.MedicClient;
 import model.entity.Appointment;
 import model.entity.AppointmentStatus;
@@ -86,11 +84,11 @@ public class ControllerClient implements ActionListener {
 		case EXIT:
 			closeConection();
 			break;
-		case LOGIN_PATIENT: 
-			this.loginPatient();//Falta exception
+		case LOGIN_PATIENT:
+			this.loginPatient();// Falta exception
 			break;
 		case LOGIN_DOCTOR:
-			loginDoctor();//Falta exception
+			loginDoctor();// Falta exception
 			break;
 		case BTN_SIGNUP_PATIENT:
 			this.mainFrame.setVisible(false);
@@ -106,7 +104,8 @@ public class ControllerClient implements ActionListener {
 			break;
 		case OK_BOOK_APPOINTMENT:
 			this.bookAppointment.setVisible(false);
-			this.bookAppointment2 = new DialogBookAppointment2(this, showAppointment(bookAppointment.getSpeciality()), Actions.BOOK_APPOINTMENT);
+			this.bookAppointment2 = new DialogBookAppointment2(this, showAppointment(bookAppointment.getSpeciality()),
+					Actions.BOOK_APPOINTMENT);
 			break;
 		case OK_CREATE_APPOINT:
 			addAppointment();
@@ -140,7 +139,8 @@ public class ControllerClient implements ActionListener {
 			this.dialogCreateAppointment = new DialogCreateAppointment(this);
 			break;
 		case TO_DELETE:
-			this.bookAppointment2 = new DialogBookAppointment2(this, showAppointmentDoctor(), Actions.DELETE_APPOINTMENT);
+			this.bookAppointment2 = new DialogBookAppointment2(this, showAppointmentDoctor(),
+					Actions.DELETE_APPOINTMENT);
 			break;
 		default:
 			break;
@@ -157,7 +157,7 @@ public class ControllerClient implements ActionListener {
 			appointments.addAll(client.showAppointmentDoctorStatus(AppointmentStatus.NOT_AVAILABLE));
 			this.frameDoctor = new FrameDoctor(this, (Doctor) client.getClient(), appointments);
 			this.mainFrame.setVisible(false);
-		}catch (Exception e) {
+		} catch (Exception e) {
 			ViewUtils.showError(this.mainFrame, e.getMessage());
 		}
 	}
@@ -263,12 +263,16 @@ public class ControllerClient implements ActionListener {
 
 	private void addAppointment() {
 		this.dialogCreateAppointment.setVisible(false);
-
-		client.addAppointment(dialogCreateAppointment.getDate());
+		try {
+			client.addAppointment(dialogCreateAppointment.getDate());
+		} catch (Exception e) {
+			ViewUtils.showError(frameDoctor, e.getMessage());
+		}
 		ArrayList<Appointment> appointments = new ArrayList<>();
 		appointments.addAll(client.showAppointmentDoctorStatus(AppointmentStatus.NOT_AVAILABLE));
 		appointments.addAll(client.showAppointmentDoctorStatus(AppointmentStatus.AVAILABLE));
 		this.frameDoctor = new FrameDoctor(this, (Doctor) client.getClient(), appointments);
+
 	}
 
 	public void closeConection() {

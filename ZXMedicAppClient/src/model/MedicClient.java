@@ -110,7 +110,7 @@ public class MedicClient {
 		}
 	}
 
-	public void addAppointment(Date d) {
+	public void addAppointment(Date d) throws Exception {
 		try {
 			output.writeUTF(Actions.ADD_APPOINTMENT.name());
 			String response = input.readUTF();
@@ -118,10 +118,14 @@ public class MedicClient {
 			if (response.equals(Actions.OK.name())) {
 				output.writeUTF(JSonUtil.toJson((Doctor) this.client));
 				output.writeUTF(JSonUtil.toJson(d));
+				response = input.readUTF();
+				if (response.equals(Actions.ERROR.name())) {
+					response = input.readUTF();
+					throw new Exception(response);
+				}
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new Exception(e.getMessage());
 		}
 	}
 

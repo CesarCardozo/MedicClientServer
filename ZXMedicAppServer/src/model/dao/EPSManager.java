@@ -31,15 +31,21 @@ public class EPSManager {
 	 * @param doctor    a quien se le asigna
 	 * @param date      unica fecha
 	 * @param hourunica hora
+	 * @throws AlreadyExists 
 	 * @throws Exception
 	 */
-	public void createAppointment(Doctor doctor, Date date) throws Exception {
+	public void createAppointment(Doctor doctor, Date date) throws AlreadyExists{
 		Appointment a = new Appointment(date);
-		Doctor d = doctortList.search(doctor).getInfo();
-		a.setDoctor(d.getId());
-		System.out.println(a.toString());
-
-		d.addAppointment(a);
+		Doctor d;
+		try {
+			d = doctortList.search(doctor).getInfo();
+			a.setDoctor(d.getId());
+			System.out.println(a.toString());
+			d.addAppointment(a);
+		} catch (Exception e) {
+			throw new AlreadyExists("There is already an appointment in the selected date");
+		}
+		
 	}
 
 	/**

@@ -291,7 +291,13 @@ public class MedicConection extends Thread {
 			this.out.writeUTF(MessageActions.OK.name());
 			String doctorJson = in.readUTF();
 			String dateJson = in.readUTF();
-			manager.createAppointment(JSonUtil.toDoctor(doctorJson), JSonUtil.toDate(dateJson));
+			try {
+				manager.createAppointment(JSonUtil.toDoctor(doctorJson), JSonUtil.toDate(dateJson));
+				this.out.writeUTF(MessageActions.OK.name());
+			} catch (Exception e) {
+				this.out.writeUTF(MessageActions.ERROR.name());
+				this.out.writeUTF(e.getMessage());
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
