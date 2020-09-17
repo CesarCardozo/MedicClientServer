@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 
+import javax.swing.JDialog;
+
 import model.MedicClient;
 import model.entity.Appointment;
 import model.entity.AppointmentStatus;
@@ -51,12 +53,6 @@ public class ControllerClient implements ActionListener {
 		case REGISTER_DOCTOR:
 			registerDoctor();
 			break;
-		case LOGIN_PATIENT:// falta exception
-			loginPatient();
-			break;
-		case LOGIN_DOCTOR:// falta exception
-			loginDoctor();
-			break;
 		case ADD_APPOINTMENT:
 			// addAppointment();
 			break;
@@ -90,13 +86,11 @@ public class ControllerClient implements ActionListener {
 		case EXIT:
 			closeConection();
 			break;
-		case BTN_LOGIN_PATIENT:
-			this.mainFrame.setVisible(false);
-			this.dialogLogin = new DialogLogin(this, Actions.LOGIN_PATIENT);
+		case LOGIN_PATIENT: 
+			this.loginPatient();//Falta exception
 			break;
-		case BTN_LOGIN_DOCTOR:
-			this.mainFrame.setVisible(false);
-			this.dialogLogin = new DialogLogin(this, Actions.LOGIN_DOCTOR);
+		case LOGIN_DOCTOR:
+			loginDoctor();//Falta exception
 			break;
 		case BTN_SIGNUP_PATIENT:
 			this.mainFrame.setVisible(false);
@@ -154,32 +148,32 @@ public class ControllerClient implements ActionListener {
 	}
 
 	private void loginDoctor() {
-		String idDoctor = this.dialogLogin.getId();
-		String passwordDoctor = this.dialogLogin.getPassword();
+		String idDoctor = this.mainFrame.getId();
+		String passwordDoctor = this.mainFrame.getPassword();
 		try {
 			client.loginDoctor(idDoctor, passwordDoctor);
 			ArrayList<Appointment> appointments = new ArrayList<>();
 			appointments.addAll(client.showAppointmentDoctorStatus(AppointmentStatus.AVAILABLE));
 			appointments.addAll(client.showAppointmentDoctorStatus(AppointmentStatus.NOT_AVAILABLE));
 			this.frameDoctor = new FrameDoctor(this, (Doctor) client.getClient(), appointments);
-			this.dialogLogin.setVisible(false);
+			this.mainFrame.setVisible(false);
 		}catch (Exception e) {
-			ViewUtils.showError(this.dialogLogin, e.getMessage());
+			ViewUtils.showError(this.mainFrame, e.getMessage());
 		}
 	}
 
 	private void loginPatient() {
-		String idPatient = this.dialogLogin.getId();
-		String passwordPatient = this.dialogLogin.getPassword();
+		String idPatient = this.mainFrame.getId();
+		String passwordPatient = this.mainFrame.getPassword();
 		try {
 			client.loginPatient(idPatient, passwordPatient);
 			ArrayList<Appointment> appointments = new ArrayList<>();
 			appointments.addAll(client.showAppointmentPatientSatus(AppointmentStatus.AVAILABLE));
 			appointments.addAll(client.showAppointmentPatientSatus(AppointmentStatus.NOT_AVAILABLE));
 			this.framePatient = new FramePatient(this, (Patient) client.getClient(), appointments);
-			this.dialogLogin.setVisible(false);
+			this.mainFrame.setVisible(false);
 		} catch (Exception e) {
-			ViewUtils.showError(this.dialogLogin, e.getMessage());
+			ViewUtils.showError(this.mainFrame, e.getMessage());
 		}
 	}
 
@@ -236,9 +230,13 @@ public class ControllerClient implements ActionListener {
 
 	private void bookAppointment() {
 		bookAppointment2.setVisible(false);
-		mainFrame.setVisible(true);
+//		mainFrame.setVisible(true);
 		Appointment a = bookAppointment2.getAppointment();
 		client.bookAppointment(a);
+		ArrayList<Appointment> appointments = new ArrayList<>();
+		appointments.addAll(client.showAppointmentPatientSatus(AppointmentStatus.AVAILABLE));
+		appointments.addAll(client.showAppointmentPatientSatus(AppointmentStatus.NOT_AVAILABLE));
+		this.framePatient = new FramePatient(this, (Patient) client.getClient(), appointments);
 	}
 
 	private void cancelAppointment() {
@@ -266,7 +264,7 @@ public class ControllerClient implements ActionListener {
 		this.frameDoctor = new FrameDoctor(this, (Doctor) client.getClient(), appointments);
 	}
 
-	private void closeConection() {
+	public void closeConection() {
 		this.mainFrame.setVisible(false);
 		client.closeConection();
 		// se cierra la vista

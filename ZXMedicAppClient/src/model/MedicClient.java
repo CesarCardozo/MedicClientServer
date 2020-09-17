@@ -182,12 +182,13 @@ public class MedicClient {
 			if (response.equals(Actions.OK.name())) {
 				output.writeUTF(JSonUtil.toJson((Patient) this.client));
 				output.writeUTF(status.name());
-				return JSonUtil.toArrayAppoints(input.readUTF());
+				response = input.readUTF();
+				return JSonUtil.toArrayAppoints(response);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return null;
+		return new ArrayList<Appointment>();
 	}
 
 	public ArrayList<Appointment> showAppointmentDoctor() {
@@ -201,7 +202,7 @@ public class MedicClient {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return null;
+		return new ArrayList<Appointment>();
 	}
 
 	public ArrayList<Appointment> showAppointmentPatient() {
