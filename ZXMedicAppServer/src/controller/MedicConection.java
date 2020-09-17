@@ -225,9 +225,10 @@ public class MedicConection extends Thread {
 			this.out.writeUTF(MessageActions.OK.name());
 			String patient = in.readUTF();
 			String statusAppoint = in.readUTF();
-			ArrayList<Appointment> appointments = new ArrayList<Appointment>();
-					appointments.addAll(manager.showAppointementPatient(JSonUtil.toPatient(patient).getId(),AppointmentStatus.valueOf(statusAppoint)));
-			out.writeUTF(JSonUtil.toJson(appointments));
+			out.writeUTF(JSonUtil.toJson(manager.showAppointementPatient(JSonUtil.toPatient(patient).getId(),
+					AppointmentStatus.valueOf(statusAppoint))));
+		} catch (IOException e) {
+			e.printStackTrace();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
