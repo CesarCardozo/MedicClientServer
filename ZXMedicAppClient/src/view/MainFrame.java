@@ -119,7 +119,7 @@ public class MainFrame extends JFrame {
 		this.btnAddPerson.addActionListener(controller);
 		this.btnAddPerson.setActionCommand(Actions.BTN_SIGNUP_PATIENT.toString());
 		this.btnAddPerson.setBorder(null);
-		this.btnAddPerson.setBackground(ConstansUI.COLOR_BOTON);
+		this.btnAddPerson.setBackground(ConstansUI.COLOR_BOTON_OK);
 		this.btnAddPerson.setFocusable(false);
 		pnbBtnRegister.add(this.btnAddPerson);
 
