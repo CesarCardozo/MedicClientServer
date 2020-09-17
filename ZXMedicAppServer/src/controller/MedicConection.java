@@ -4,10 +4,8 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
-import java.util.ArrayList;
 
 import model.dao.EPSManager;
-import model.entity.Appointment;
 import model.entity.AppointmentStatus;
 import model.entity.Doctor;
 import model.entity.MedicalSpeciality;
@@ -145,7 +143,7 @@ public class MedicConection extends Thread {
 				Patient p = manager.getPatientByCredentials(id, password);
 				this.out.writeUTF(MessageActions.OK.name());
 				this.out.writeUTF(JSonUtil.toJson(p));
-			} catch( IncorrectData e) {
+			} catch (IncorrectData e) {
 				this.out.writeUTF(MessageActions.ERROR.name());
 				this.out.writeUTF(e.getMessage());
 			}
@@ -164,7 +162,7 @@ public class MedicConection extends Thread {
 				Doctor d = manager.getDoctorByCredentials(id, password);
 				this.out.writeUTF(MessageActions.OK.name());
 				this.out.writeUTF(JSonUtil.toJson(d));
-			} catch( IncorrectData e) {
+			} catch (IncorrectData e) {
 				this.out.writeUTF(MessageActions.ERROR.name());
 				this.out.writeUTF(e.getMessage());
 			}
@@ -217,7 +215,6 @@ public class MedicConection extends Thread {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	private void showAppointmentPatientSatus() {
@@ -237,11 +234,14 @@ public class MedicConection extends Thread {
 	private void showAppointmentDoctor() {
 		try {
 			this.out.writeUTF(MessageActions.OK.name());
-			String doctorJson = in.readUTF();
-			out.writeUTF(JSonUtil.toJson(manager.showAppointementDoctor(JSonUtil.toDoctor(doctorJson).getId())));
+			String doctor = in.readUTF();
+			out.writeUTF(JSonUtil.toJson(manager.showAppointementDoctor(JSonUtil.toDoctor(doctor).getId())));
+		} catch (IOException e) {
+			e.printStackTrace();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+
 	}
 
 	private void showAppointmentPatient() {

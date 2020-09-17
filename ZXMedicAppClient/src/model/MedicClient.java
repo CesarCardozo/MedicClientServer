@@ -197,7 +197,8 @@ public class MedicClient {
 			String response = input.readUTF();
 			if (response.equals(Actions.OK.name())) {
 				output.writeUTF(JSonUtil.toJson((Doctor) this.client));
-				JSonUtil.toArrayAppoints(input.readUTF());
+				response = input.readUTF();
+				JSonUtil.toArrayAppoints(response);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();

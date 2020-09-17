@@ -219,7 +219,10 @@ public class ControllerClient implements ActionListener {
 	}
 
 	private ArrayList<Appointment> showAppointmentDoctor() {
-		return client.showAppointmentDoctor();
+		ArrayList<Appointment> appointments = new ArrayList<Appointment>();
+		appointments.addAll(client.showAppointmentDoctorStatus(AppointmentStatus.AVAILABLE));
+		appointments.addAll(client.showAppointmentDoctorStatus(AppointmentStatus.NOT_AVAILABLE));
+		return appointments;
 	}
 
 	private void showAppointmentPatient() {
@@ -230,7 +233,6 @@ public class ControllerClient implements ActionListener {
 
 	private void bookAppointment() {
 		bookAppointment2.setVisible(false);
-//		mainFrame.setVisible(true);
 		Appointment a = bookAppointment2.getAppointment();
 		client.bookAppointment(a);
 		ArrayList<Appointment> appointments = new ArrayList<>();
@@ -250,8 +252,13 @@ public class ControllerClient implements ActionListener {
 	}
 
 	private void deleteAppointment() {
-		Date d = new Date();// aca se cambia esto por el selector de fecha de la vista
-		client.deleteAppointment(d);
+		bookAppointment2.setVisible(false);
+		Appointment a = bookAppointment2.getAppointment();
+		client.deleteAppointment(a.getDate());
+		ArrayList<Appointment> appointments = new ArrayList<>();
+		appointments.addAll(client.showAppointmentDoctorStatus(AppointmentStatus.AVAILABLE));
+		appointments.addAll(client.showAppointmentDoctorStatus(AppointmentStatus.NOT_AVAILABLE));
+		this.frameDoctor = new FrameDoctor(this, (Doctor) client.getClient(), appointments);
 	}
 
 	private void addAppointment() {

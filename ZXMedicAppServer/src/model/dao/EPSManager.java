@@ -50,7 +50,9 @@ public class EPSManager {
 	 * @throws Exception
 	 */
 	public void deleteAppointment(Doctor doctor, Date date) throws Exception {
-		doctor.getAppointmentList().Delete(doctor.getAppointmentList().search(new Appointment(date)));
+		Doctor d = this.doctortList.search(doctor).getInfo();
+		Appointment a = new Appointment(date);
+		d.getAppointmentList().Delete(d.getAppointmentList().search(a).getInfo());
 	}
 
 	/**
