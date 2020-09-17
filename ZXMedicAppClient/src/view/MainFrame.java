@@ -119,7 +119,7 @@ public class MainFrame extends JFrame {
 		this.btnAddPerson.addActionListener(controller);
 		this.btnAddPerson.setActionCommand(Actions.BTN_SIGNUP_PATIENT.toString());
 		this.btnAddPerson.setBorder(null);
-		this.btnAddPerson.setBackground(Color.decode("#ffc20e"));
+		this.btnAddPerson.setBackground(ConstansUI.COLOR_BOTON);
 		this.btnAddPerson.setFocusable(false);
 		pnbBtnRegister.add(this.btnAddPerson);
 
@@ -168,11 +168,9 @@ public class MainFrame extends JFrame {
 	}
 	
 	public static void main(String[] args) {
-		designWindow();
+	//	designWindow();
 		MainFrame mf = new MainFrame(null);
-		while(true) {
-			System.out.println("ingreso---" +  mf.getDialogLogin().getId());
-		}
+		
 	}
 
 }
