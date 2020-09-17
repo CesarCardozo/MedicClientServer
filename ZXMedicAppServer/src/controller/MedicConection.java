@@ -1,10 +1,7 @@
 package controller;
 
-import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.net.Socket;
 
@@ -13,6 +10,8 @@ import model.entity.AppointmentStatus;
 import model.entity.Doctor;
 import model.entity.MedicalSpeciality;
 import model.entity.Patient;
+import model.exception.AlreadyExists;
+import model.exception.IncorrectData;
 import model.util.JSonUtil;
 
 public class MedicConection extends Thread {
@@ -101,14 +100,20 @@ public class MedicConection extends Thread {
 			break;
 		}
 	}
-	
+
 	private void registerPatient() {
 		try {
 			this.out.writeUTF(MessageActions.OK.name());
 			String personJson = in.readUTF();
-			manager.createPatient(personJson);
-		} catch (Exception e) {
-			e.printStackTrace();
+			try {
+				manager.createPatient(personJson);
+				this.out.writeUTF(MessageActions.OK.name());
+			} catch (AlreadyExists e) {
+				this.out.writeUTF(MessageActions.ERROR.name());
+				this.out.writeUTF(e.getMessage());
+			}
+		} catch (IOException e) {
+			System.out.println("Se perdio conexion con el cliente");
 		}
 	}
 
@@ -116,9 +121,15 @@ public class MedicConection extends Thread {
 		try {
 			this.out.writeUTF(MessageActions.OK.name());
 			String doctorJson = in.readUTF();
-			manager.createDoctor(doctorJson);
-		} catch (Exception e) {
-			e.printStackTrace();
+			try {
+				manager.createDoctor(doctorJson);
+				this.out.writeUTF(MessageActions.OK.name());
+			} catch (AlreadyExists e) {
+				this.out.writeUTF(MessageActions.ERROR.name());
+				this.out.writeUTF(e.getMessage());
+			}
+		} catch (IOException e) {
+			System.out.println("Se perdio conexion con el cliente");
 		}
 	}
 
@@ -128,10 +139,16 @@ public class MedicConection extends Thread {
 			String id = in.readUTF();
 			this.out.writeUTF(MessageActions.OK.name());
 			String password = in.readUTF();
-			Patient p = manager.getPatientByCredentials(id, password);
-			this.out.writeUTF(JSonUtil.toJson(p));
+			try {
+				Patient p = manager.getPatientByCredentials(id, password);
+				this.out.writeUTF(MessageActions.OK.name());
+				this.out.writeUTF(JSonUtil.toJson(p));
+			} catch( IncorrectData e) {
+				this.out.writeUTF(MessageActions.ERROR.name());
+				this.out.writeUTF(e.getMessage());
+			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.out.println("Se perdio conexion con el cliente");
 		}
 	}
 
@@ -185,7 +202,8 @@ public class MedicConection extends Thread {
 			this.out.writeUTF(MessageActions.OK.name());
 			String doctor = in.readUTF();
 			String statusAppoint = in.readUTF();
-			out.writeUTF(JSonUtil.toJson(manager.showAppointementDoctor(JSonUtil.toDoctor(doctor).getId(), AppointmentStatus.valueOf(statusAppoint)))); 
+			out.writeUTF(JSonUtil.toJson(manager.showAppointementDoctor(JSonUtil.toDoctor(doctor).getId(),
+					AppointmentStatus.valueOf(statusAppoint))));
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (Exception e) {
@@ -199,7 +217,8 @@ public class MedicConection extends Thread {
 			this.out.writeUTF(MessageActions.OK.name());
 			String patient = in.readUTF();
 			String statusAppoint = in.readUTF();
-			out.writeUTF(JSonUtil.toJson(manager.showAppointementPatient((JSonUtil.toPatient(patient).getId()),  AppointmentStatus.valueOf(statusAppoint)))); 
+			out.writeUTF(JSonUtil.toJson(manager.showAppointementPatient((JSonUtil.toPatient(patient).getId()),
+					AppointmentStatus.valueOf(statusAppoint))));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

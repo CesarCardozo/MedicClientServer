@@ -10,6 +10,8 @@ import model.entity.AppointmentStatus;
 import model.entity.Doctor;
 import model.entity.MedicalSpeciality;
 import model.entity.Patient;
+import model.exception.AlreadyExists;
+import model.exception.IncorrectData;
 import model.util.JSonUtil;
 import structure.TreeAvl;
 
@@ -33,8 +35,11 @@ public class EPSManager {
 	 */
 	public void createAppointment(Doctor doctor, Date date) throws Exception {
 		Appointment a = new Appointment(date);
-		a.setDoctor(doctor);
-		doctor.addAppointment(a);
+		Doctor d = doctortList.search(doctor).getInfo();
+		a.setDoctor(d.getId());
+		System.out.println(a.toString());
+
+		d.addAppointment(a);
 	}
 
 	/**
@@ -56,7 +61,7 @@ public class EPSManager {
 	 * @throws Exception
 	 */
 	public void cancelAppointment(Appointment a) throws Exception {
-		Appointment appointment = doctortList.search(a.getDoctor()).getInfo().getAppointmentList().search(a).getInfo();
+		Appointment appointment = doctortList.search(new Doctor(a.getDoctor())).getInfo().getAppointmentList().search(a).getInfo();
 		appointment.setStatus(AppointmentStatus.AVAILABLE);
 		appointment.setPatient(null);
 	}
@@ -70,8 +75,8 @@ public class EPSManager {
 	 * @throws Exception
 	 */
 	public synchronized void bookAppointment(Patient patient, Appointment appointment) throws Exception {
-		Appointment a = doctortList.search(appointment.getDoctor()).getInfo().getAppointmentList().search(new Appointment(appointment.getDate()))
-				.getInfo();
+		Appointment a = doctortList.search(new Doctor(appointment.getDoctor())).getInfo().getAppointmentList()
+				.search(new Appointment(appointment.getDate())).getInfo();
 		a.setPatient(patient);
 		a.setStatus(AppointmentStatus.NOT_AVAILABLE);
 	}
@@ -180,10 +185,11 @@ public class EPSManager {
 	 * perspectiva de un doctor)
 	 * 
 	 * @param a
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	public void attendAppointment(Appointment a) throws Exception {
-		doctortList.search(a.getDoctor()).getInfo().getAppointmentList().search(a).getInfo().setStatus(AppointmentStatus.ATTENDED);
+		doctortList.search(new Doctor(a.getDoctor())).getInfo().getAppointmentList().search(a).getInfo()
+				.setStatus(AppointmentStatus.ATTENDED);
 	}
 
 	/**
@@ -196,12 +202,13 @@ public class EPSManager {
 	 * @param history
 	 * @throws Exception
 	 */
-	public void createPatient(String id, String name, String phone, String email, String history, String password) throws Exception {
+	public void createPatient(String id, String name, String phone, String email, String history, String password)
+			throws Exception {
 		Patient p = new Patient(id, name, phone, email, password, history);
 		this.addPattient(p);
 	}
 
-	public void createPatient(String patientJson) throws Exception {
+	public void createPatient(String patientJson) throws AlreadyExists {
 		this.addPattient(JSonUtil.toPatient(patientJson));
 	}
 
@@ -211,8 +218,12 @@ public class EPSManager {
 	 * @param patient
 	 * @throws Exception
 	 */
-	private void addPattient(Patient patient) throws Exception {
-		this.patientList.insert(patient);
+	private void addPattient(Patient patient) throws AlreadyExists {
+		try {
+			this.patientList.insert(patient);
+		} catch (Exception e) {
+			throw new AlreadyExists("The patient already exists in the system");
+		}
 	}
 
 	/**
@@ -231,8 +242,12 @@ public class EPSManager {
 		this.addDoctor(d);
 	}
 
-	public void createDoctor(String doctorJson) throws Exception {
-		this.addDoctor(JSonUtil.toDoctor(doctorJson));
+	public void createDoctor(String doctorJson) throws AlreadyExists {
+		try {
+			this.addDoctor(JSonUtil.toDoctor(doctorJson));
+		} catch (Exception e) {
+			throw new AlreadyExists("The doctor already exists in the system");
+		}
 	}
 
 	/**
@@ -252,9 +267,13 @@ public class EPSManager {
 	 * @return
 	 * @throws Exception
 	 */
-	public Patient searchPatient(String id) throws Exception {
+	public Patient searchPatient(String id) throws IncorrectData {
 		Patient patient = new Patient(id);
-		return this.patientList.search(patient).getInfo();
+		try {
+			return this.patientList.search(patient).getInfo();
+		} catch (Exception e) {
+			throw new IncorrectData("Your credentials, username or password are incorrect");
+		}
 	}
 
 	/**
@@ -264,9 +283,13 @@ public class EPSManager {
 	 * @return
 	 * @throws Exception
 	 */
-	public Doctor searchDoctor(String id) throws Exception {
+	public Doctor searchDoctor(String id) throws IncorrectData {
 		Doctor doctor = new Doctor(id);
-		return this.doctortList.search(doctor).getInfo();
+		try {
+			return this.doctortList.search(doctor).getInfo();
+		} catch (Exception e) {
+			throw new IncorrectData("Your credentials, username or password are incorrect");
+		}
 	}
 
 	public TreeAvl<Patient> getPatientList() {
@@ -330,12 +353,19 @@ public class EPSManager {
 		return listAppointmentString;
 	}
 
-	public Patient getPatientByCredentials(String id, String password) throws Exception {
-		Patient p = this.patientList.search(new Patient(id)).getInfo();
-		if (p.getPassword().equals(password)) {
-			return p;
+	public Patient getPatientByCredentials(String id, String password) throws IncorrectData {
+		try {
+			Patient p = this.patientList.search(new Patient(id)).getInfo();
+			if (p.getPassword().equals(password)) {
+				return p;
+			}else {
+				throw new IncorrectData("The password is'nt correct");
+			}
+		}catch (IncorrectData ie) {
+			throw ie;
+		}catch (Exception e) {
+			throw new IncorrectData("The patient doesnt exist in the system");
 		}
-		return null; // TODO
 	}
 
 	public Doctor getDoctorByCredentials(String id, String password) throws Exception {

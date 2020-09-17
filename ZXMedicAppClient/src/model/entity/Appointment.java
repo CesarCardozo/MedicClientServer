@@ -9,19 +9,13 @@ public class Appointment implements Comparador{
 	private Date date;
 	private AppointmentStatus status;
 	private Patient patient;
-	private Doctor doctor;
+	private String doctor;
 
-	/**
-	 * @return the doctor
-	 */
-	public Doctor getDoctor() {
+	public String getDoctor() {
 		return doctor;
 	}
 
-	/**
-	 * @param doctor the doctor to set
-	 */
-	public void setDoctor(Doctor doctor) {
+	public void setDoctor(String doctor) {
 		this.doctor = doctor;
 	}
 

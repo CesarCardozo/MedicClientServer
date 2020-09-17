@@ -10,13 +10,15 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
+import javax.swing.JSpinner.DefaultEditor;
 import javax.swing.SpinnerNumberModel;
 
 import com.toedter.calendar.JCalendar;
 
 import controller.Actions;
 import controller.ControllerClient;
-public class DialogCreateAppointment extends JDialog{
+
+public class DialogCreateAppointment extends JDialog {
 
 	/**
 	 * 
@@ -27,19 +29,18 @@ public class DialogCreateAppointment extends JDialog{
 	private JSpinner sppinerH;
 	private JSpinner sppinerM;
 	private JPanel pn1, pn2, pn3;
-
+	private JButton btnCancel;
 
 	public DialogCreateAppointment(ControllerClient controller) {
 		init(controller);
 		setVisible(true);
 	}
 
-
 	private void init(ControllerClient controller) {
 		this.setLayout(new GridLayout(5, 1));
 		getContentPane().setBackground(Color.GRAY);
 		setTitle("UPTC-EPS Create Appointment");
-		setSize(ConstansUI.SIZE_WINDOW_X - 50, ConstansUI.SIZE_WINDOW_Y +120);
+		setSize(ConstansUI.SIZE_WINDOW_X - 50, ConstansUI.SIZE_WINDOW_Y + 120);
 		setLocationRelativeTo(null);
 		putElements(controller);
 	}
@@ -54,6 +55,7 @@ public class DialogCreateAppointment extends JDialog{
 		this.add(pn1);
 
 		this.sppinerH = new JSpinner();
+		sppinerH.setEditor(new JSpinner.DefaultEditor(sppinerH));
 		this.sppinerH.setSize(100, 50);
 		SpinnerNumberModel modeloSpinner = new SpinnerNumberModel();
 		modeloSpinner.setMaximum(23);
@@ -65,17 +67,19 @@ public class DialogCreateAppointment extends JDialog{
 		this.pn2.setLayout(new GridLayout(1, 2));
 		pn2.setBorder(BorderFactory.createTitledBorder("Hour"));
 		this.sppinerM = new JSpinner();
+		sppinerM.setEditor(new JSpinner.DefaultEditor(sppinerM));
 		SpinnerNumberModel modeloSpinnerM = new SpinnerNumberModel();
 		modeloSpinnerM.setMaximum(30);
 		modeloSpinnerM.setMinimum(0);
 		modeloSpinnerM.setStepSize(30);
-		sppinerH.setModel(modeloSpinnerM);
-		this.pn2.add(sppinerM);
+		sppinerM.setModel(modeloSpinnerM);
 		this.pn2.add(sppinerH);
+		this.pn2.add(sppinerM);
 		this.add(pn2);
 
 		this.pn3 = new JPanel();
-		this.btnOk = new JButton(new ImageIcon(new ImageIcon(getClass().getResource("/img/exit.png")).getImage().getScaledInstance(100, 100, 100)));
+		this.btnOk = new JButton(new ImageIcon(
+				new ImageIcon(getClass().getResource("/img/ok.png")).getImage().getScaledInstance(100, 100, 100)));
 		this.btnOk.addActionListener(controller);
 		this.btnOk.setActionCommand(Actions.OK_CREATE_APPOINT.toString());
 		this.btnOk.setBorder(null);
@@ -83,11 +87,22 @@ public class DialogCreateAppointment extends JDialog{
 		this.btnOk.setBounds(10, 110, 100, 100);
 		this.btnOk.setFocusable(false);
 		this.pn3.add(btnOk);
+
+		this.btnCancel = new JButton(new ImageIcon(
+				new ImageIcon(getClass().getResource("/img/cancel.png")).getImage().getScaledInstance(100, 100, 100)));
+		this.btnCancel.setBorder(null);
+		this.btnCancel.setBackground(Color.DARK_GRAY);
+		this.btnCancel.setFocusable(false);
+		this.btnCancel.addActionListener(controller);
+		this.btnCancel.setActionCommand(Actions.CANCEL_CREATE_APPOINTMENT.toString());
+		this.pn3.add(btnCancel);
 		this.add(pn3);
 	}
 
 	public Date getDate() {
-		return new Date(calendarG.getCalendar().getTime().getYear(), calendarG.getCalendar().getTime().getMonth() ,calendarG.getCalendar().getTime().getDate(), (Integer) sppinerH.getValue(), (Integer) sppinerM.getValue() );
+		return new Date(calendarG.getCalendar().getTime().getYear(), calendarG.getCalendar().getTime().getMonth(),
+				calendarG.getCalendar().getTime().getDate(), (Integer) sppinerH.getValue(),
+				(Integer) sppinerM.getValue());
 	}
 
 	public static void main(String[] args) {

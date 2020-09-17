@@ -1,10 +1,13 @@
 package model.entity;
 
+import com.google.gson.annotations.Expose;
+
 import structure.TreeAvl;
 
 public class Doctor extends Person{
 	
 	private MedicalSpeciality speciality;
+	@Expose (serialize = false, deserialize = false)
 	private TreeAvl<Appointment> appointmentList;
 
 	

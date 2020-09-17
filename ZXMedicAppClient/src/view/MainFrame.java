@@ -1,15 +1,13 @@
 package view;
 
 import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
-import java.util.ArrayList;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
-import javax.swing.BorderFactory;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -17,7 +15,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
-import controller.*;
+import controller.Actions;
+import controller.ControllerClient;
 
 public class MainFrame extends JFrame {
 
@@ -44,22 +43,16 @@ public class MainFrame extends JFrame {
 		setSize(ConstansUI.SIZE_WINDOW_X, ConstansUI.SIZE_WINDOW_Y + 80);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		this.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				controller.closeConection();
+			    System.exit(0);
+			}
+		});
 	}
 
 	private void addBtns(ControllerClient controller) {
-//		pn4 = new JPanel();
-//		pn4.setBackground(Color.GRAY);
-//		this.pn4.setLayout(new GridLayout(1, 1));
-//		this.btnUptc = new JButton(new ImageIcon(new ImageIcon(getClass().getResource("/img/uptc2.jpg")).getImage().getScaledInstance(400, 300, 300)));
-//		this.btnUptc.setBorder(null);
-//		this.btnUptc.setBackground(Color.DARK_GRAY);
-//		this.btnUptc.setFocusable(false);
-//		this.pn4.add(btnUptc);
-//		this.add(pn4);
-//		
-//		pn1 = new JPanel();
-
-		// getContentPane().setBackground(Color.decode("#fefefe"));
 		setExtendedState(MAXIMIZED_BOTH);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setLayout(new GridBagLayout());
@@ -90,12 +83,10 @@ public class MainFrame extends JFrame {
 		gbc.weightx = 0.5;
 		gbc.weighty = 0.3;
 		gbc.fill = GridBagConstraints.HORIZONTAL;
-		
-		DialogLogin dialogLogin = new DialogLogin(controller, null);
+		DialogLogin dialogLogin = new DialogLogin(controller);
 		add(dialogLogin, gbc);
-		
 		 
-		//Botones de registrar
+		//----Botones de registrar
 		gbc.gridx = 0;
 		gbc.gridy = 2;
 		gbc.gridwidth = 1;
@@ -200,7 +191,8 @@ public class MainFrame extends JFrame {
 //		
 //		this.add(pn3);
 	}
-
+	
+	
 	public static void designWindow() {
 		try {
 			for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {

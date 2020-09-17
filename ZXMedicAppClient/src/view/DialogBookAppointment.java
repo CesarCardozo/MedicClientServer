@@ -29,6 +29,8 @@ public class DialogBookAppointment extends JDialog{
 
 	private JButton btnOk;
 
+	private JButton btnCancel;
+
 	public DialogBookAppointment(ControllerClient controller) {
 		init(controller);
 		setVisible(true);
@@ -62,6 +64,14 @@ public class DialogBookAppointment extends JDialog{
 		this.btnOk.addActionListener(controller);
 		this.btnOk.setActionCommand(Actions.OK_BOOK_APPOINTMENT.toString());
 		this.pn2.add(btnOk);
+		
+		this.btnCancel = new JButton(new ImageIcon(new ImageIcon(getClass().getResource("/img/cancel.png")).getImage().getScaledInstance(100, 100, 100)));
+		this.btnCancel.setBorder(null);
+		this.btnCancel.setBackground(Color.DARK_GRAY);
+		this.btnCancel.setFocusable(false);
+		this.btnCancel.addActionListener(controller);
+		this.btnCancel.setActionCommand(Actions.CANCEL_BOOK_APPOINTMENT.toString());
+		this.pn2.add(btnCancel);
 		this.add(pn2);
 	}
 	public MedicalSpeciality getSpeciality () {

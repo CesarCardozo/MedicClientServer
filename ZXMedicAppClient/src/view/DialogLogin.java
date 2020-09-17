@@ -31,22 +31,20 @@ public class DialogLogin extends JPanel {
 	private JLabel jlId, ljPassw;
 	private JTextArea txAId;
 	private JPasswordField txAPassw;
-
-	public DialogLogin(ControllerClient controller, Actions action) {
-		init(controller, action);
+	private JButton btnCancel;
+	
+	public DialogLogin(ControllerClient controller) {
+		init(controller);
 		this.setVisible(true);
 	}
 
-	private void init(ControllerClient controller, Actions action) {
+	private void init(ControllerClient controller) {
 		this.setLayout(new BorderLayout());
 		setBackground(Color.decode(ConstansUI.COLOR_BACKGROUND_APP));
-//		setTitle("UPTC-EPS LOGIN");
-//		setSize(ConstansUI.SIZE_WINDOW_X, ConstansUI.SIZE_WINDOW_Y+80);
-//		setLocationRelativeTo(null);
-		putElements(controller, action);
+		putElements(controller);
 	}
 
-	private void putElements(ControllerClient controller, Actions action) {
+	private void putElements(ControllerClient controller) {
 //		this.pn2 = new JPanel();
 //		//pn2.setBackground(Color.GRAY);
 //		this.pn2.setLayout(new GridLayout(6, 1, 0, 0));
@@ -115,7 +113,6 @@ public class DialogLogin extends JPanel {
 		c.gridx = 0;
 		c.gridy = 0;
 		this.pn2 = new JPanel();
-		// pn2.setBackground(Color.GRAY);
 		this.pn2.setBackground(Color.decode(ConstansUI.COLOR_BACKGROUND_APP));
 		this.pn2.setLayout(new GridLayout(4, 1, 0, 0));
 		jlId = new JLabel("Id");
@@ -131,6 +128,8 @@ public class DialogLogin extends JPanel {
 		add(this.pn2, c);
 
 		JButton jButtonPacient = new JButton("Login Patient");
+		jButtonPacient.addActionListener(controller);
+		jButtonPacient.setActionCommand(Actions.BTN_LOGIN_PATIENT.toString());
 		jButtonPacient.setBackground(Color.GREEN);
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.ipady = 0; 
@@ -138,20 +137,22 @@ public class DialogLogin extends JPanel {
 		c.anchor = GridBagConstraints.CENTER; 
 		c.insets = new Insets(10, 40, 10, 10); 
 		c.gridx = 1; 
-		c.gridwidth = 1; // 2 columns wide
-		c.gridy = 2; // third row
+		c.gridwidth = 1; 
+		c.gridy = 2; 
 		add(jButtonPacient, c);
 		
 		JButton jButtonDoctor = new JButton("Login Doctor");
+		jButtonDoctor.addActionListener(controller);
+		jButtonDoctor.setActionCommand(Actions.BTN_LOGIN_DOCTOR.toString());
 		jButtonDoctor.setBackground(Color.GREEN);
 		c.fill = GridBagConstraints.HORIZONTAL;
-		c.ipady = 0; // reset to default
-		c.weighty = 0.5; // request any extra vertical space
-		c.anchor = GridBagConstraints.CENTER; // bottom of space
-		c.insets = new Insets(10, 0, 10, 40); // top padding
-		c.gridx = 2; // aligned with button 2
-		c.gridwidth = 1; // 2 columns wide
-		c.gridy = 2; // third row
+		c.ipady = 0; 
+		c.weighty = 0.5; 
+		c.anchor = GridBagConstraints.CENTER; 
+		c.insets = new Insets(10, 0, 10, 40); 
+		c.gridx = 2; 
+		c.gridwidth = 1; 
+		c.gridy = 2; 
 		add(jButtonDoctor, c);
 	}
 
@@ -165,7 +166,7 @@ public class DialogLogin extends JPanel {
 	}
 
 	public static void main(String[] args) {
-		DialogLogin dialogLoginPatient = new DialogLogin(null, null);
+		DialogLogin dialogLoginPatient = new DialogLogin(null);
 
 		System.out.println(dialogLoginPatient.getId());
 		System.out.println(dialogLoginPatient.getPassword());
