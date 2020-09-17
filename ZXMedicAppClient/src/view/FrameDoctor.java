@@ -59,7 +59,7 @@ public class FrameDoctor extends JFrame{
 		this.btnAddAppo.setFocusable(false);
 		this.btnDlete = new JButton(new ImageIcon(new ImageIcon(getClass().getResource("/img/basura.png")).getImage().getScaledInstance(100, 100, 100)));
 		this.btnDlete.addActionListener(controller);
-//		this.btnDlete.setActionCommand(Actions.PATIENT.toString());
+		this.btnDlete.setActionCommand(Actions.TO_DELETE.toString());
 		this.btnDlete.setBorder(null);
 		this.btnDlete.setBackground(Color.DARK_GRAY);
 		this.btnDlete.setFocusable(false);

@@ -112,7 +112,7 @@ public class ControllerClient implements ActionListener {
 			break;
 		case OK_BOOK_APPOINTMENT:
 			this.bookAppointment.setVisible(false);
-			this.bookAppointment2 = new DialogBookAppointment2(this, showAppointment(bookAppointment.getSpeciality()));
+			this.bookAppointment2 = new DialogBookAppointment2(this, showAppointment(bookAppointment.getSpeciality()), Actions.BOOK_APPOINTMENT);
 			break;
 		case OK_CREATE_APPOINT:
 			addAppointment();
@@ -144,6 +144,9 @@ public class ControllerClient implements ActionListener {
 		case CREATE_APPOINT:
 			this.frameDoctor.setVisible(false);
 			this.dialogCreateAppointment = new DialogCreateAppointment(this);
+			break;
+		case TO_DELETE:
+			this.bookAppointment2 = new DialogBookAppointment2(this, showAppointmentDoctor(), Actions.DELETE_APPOINTMENT);
 			break;
 		default:
 			break;
@@ -218,14 +221,11 @@ public class ControllerClient implements ActionListener {
 
 	private ArrayList<Appointment> showAppointment(MedicalSpeciality speciality) {
 		return client.showAppointment(speciality);
-		// se tiene que mostrar el array que dio el metodo anterior en la vista
 
 	}
 
-	private void showAppointmentDoctor() {
-		client.showAppointmentDoctor();
-		// eso de arriba devuelve una lista de citas del doctor hay que usarla en la
-		// vista
+	private ArrayList<Appointment> showAppointmentDoctor() {
+		return client.showAppointmentDoctor();
 	}
 
 	private void showAppointmentPatient() {

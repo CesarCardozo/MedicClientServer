@@ -32,23 +32,23 @@ public class DialogBookAppointment2 extends JDialog {
 
 	private JButton btnCancel;
 
-	public DialogBookAppointment2(ControllerClient controller, ArrayList<Appointment> listAppointment) {
-		init(controller, listAppointment);
+	public DialogBookAppointment2(ControllerClient controller, ArrayList<Appointment> listAppointment, Actions action) {
+		init(controller, listAppointment, action);
 		setVisible(true);
 	}
 
-	private void init(ControllerClient controller, ArrayList<Appointment> listAppointment) {
+	private void init(ControllerClient controller, ArrayList<Appointment> listAppointment , Actions action) {
 		this.setLayout(new GridLayout(2, 1));
 		getContentPane().setBackground(Color.GRAY);
 		setTitle("UPTC-EPS Create Appointment");
 		setSize(ConstansUI.SIZE_WINDOW_X - 50, ConstansUI.SIZE_WINDOW_Y - 140);
 		setLocationRelativeTo(null);
-		putElements(controller, listAppointment);
+		putElements(controller, listAppointment, action);
 	}
 
-	private void putElements(ControllerClient controller, ArrayList<Appointment> listAppointment) {
+	private void putElements(ControllerClient controller, ArrayList<Appointment> listAppointment,  Actions action) {
 		this.jp1 = new JPanel();
-		jp1.setBorder(BorderFactory.createTitledBorder("Book Apointmet"));
+		jp1.setBorder(BorderFactory.createTitledBorder("Select Apointmet"));
 		jComboBox = new JComboBox<>();
 		for (Appointment appointment : listAppointment) {
 			jComboBox.addItem(appointment);// mostrar un to sting special
@@ -65,7 +65,7 @@ public class DialogBookAppointment2 extends JDialog {
 		this.btnOk.setBackground(Color.DARK_GRAY);
 		this.btnOk.setFocusable(false);
 		this.btnOk.addActionListener(controller);
-		this.btnOk.setActionCommand(Actions.BOOK_APPOINTMENT.toString());
+		this.btnOk.setActionCommand(action.toString());
 		this.pn2.add(btnOk);
 
 		this.btnCancel = new JButton(new ImageIcon(
@@ -94,7 +94,7 @@ public class DialogBookAppointment2 extends JDialog {
 		list.add(appointment2);
 		list.add(appointment3);
 
-		new DialogBookAppointment2(null, list);
+		new DialogBookAppointment2(null, list, null);
 	}
 
 }
