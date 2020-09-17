@@ -1,3 +1,6 @@
 /controller/
+/lib/
 /model/
+/persistence/
 /run/
+/structure/
