@@ -364,16 +364,23 @@ public class EPSManager {
 		}catch (IncorrectData ie) {
 			throw ie;
 		}catch (Exception e) {
-			throw new IncorrectData("The patient doesnt exist in the system");
+			throw new IncorrectData("The doctor doesnt exist in the system");
 		}
 	}
 
-	public Doctor getDoctorByCredentials(String id, String password) throws Exception {
-		Doctor d = this.doctortList.search(new Doctor(id)).getInfo();
-		if (d.getPassword().equals(password)) {
-			return d;
+	public Doctor getDoctorByCredentials(String id, String password) throws IncorrectData {
+		try {
+			Doctor d = this.doctortList.search(new Doctor(id)).getInfo();
+			if (d.getPassword().equals(password)) {
+				return d;
+			}else {
+				throw new IncorrectData("The password is'nt correct");
+			}
+		}catch (IncorrectData ie) {
+			throw ie;
+		}catch (Exception e) {
+			throw new IncorrectData("The patient doesnt exist in the system");
 		}
-		return null; // TODO
 	}
 
 }

@@ -3,10 +3,8 @@ package view;
 import java.awt.Color;
 import java.awt.GridLayout;
 
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -15,9 +13,8 @@ import javax.swing.JTextArea;
 
 import controller.Actions;
 import controller.ControllerClient;
-import model.entity.MedicalSpeciality;
 
-public class DialogSignUpPatient extends JDialog{
+public class DialogSignUpPatient extends JDialog {
 
 	/**
 	 * 
@@ -39,17 +36,17 @@ public class DialogSignUpPatient extends JDialog{
 		this.setLayout(new GridLayout(4, 1));
 		getContentPane().setBackground(Color.GRAY);
 		setTitle("UPTC-EPS REGISTER DOCTOR");
-		setSize(ConstansUI.SIZE_WINDOW_X, ConstansUI.SIZE_WINDOW_Y+80);
+		setSize(ConstansUI.SIZE_WINDOW_X, ConstansUI.SIZE_WINDOW_Y + 80);
 		setLocationRelativeTo(null);
 		putElements(controller);
 	}
-
 
 	private void putElements(ControllerClient controller) {
 		this.pn1 = new JPanel();
 		pn1.setBackground(Color.GRAY);
 		this.pn1.setLayout(new GridLayout(1, 1));
-		this.btnImg = new JButton(new ImageIcon(new ImageIcon(getClass().getResource("/img/signup.png")).getImage().getScaledInstance(500, 250, 250)));
+		this.btnImg = new JButton(new ImageIcon(
+				new ImageIcon(getClass().getResource("/img/signup.png")).getImage().getScaledInstance(500, 250, 250)));
 		this.btnImg.setBorder(null);
 		this.btnImg.setBackground(Color.DARK_GRAY);
 		this.btnImg.setFocusable(false);
@@ -106,7 +103,8 @@ public class DialogSignUpPatient extends JDialog{
 		this.pn4 = new JPanel();
 		pn4.setBackground(Color.GRAY);
 		this.pn4.setLayout(new GridLayout(1, 1));
-		this.btnOk = new JButton(new ImageIcon(new ImageIcon(getClass().getResource("/img/btnsignup.png")).getImage().getScaledInstance(200, 100, 100)));
+		this.btnOk = new JButton(new ImageIcon(new ImageIcon(getClass().getResource("/img/btnsignup.png")).getImage()
+				.getScaledInstance(200, 100, 100)));
 		this.btnOk.setBorder(null);
 		this.btnOk.setBackground(Color.DARK_GRAY);
 		this.btnOk.setFocusable(false);
@@ -140,6 +138,7 @@ public class DialogSignUpPatient extends JDialog{
 	public String getHistory() {
 		return this.txAHistory.getText();
 	}
+
 	public static void main(String[] args) {
 		DialogSignUpPatient dialogLoginPatient = new DialogSignUpPatient(null);
 
