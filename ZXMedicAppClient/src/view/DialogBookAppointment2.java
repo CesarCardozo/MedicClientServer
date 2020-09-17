@@ -84,6 +84,7 @@ public class DialogBookAppointment2 extends JDialog {
 		return (Appointment) this.jComboBox.getSelectedItem();
 	}
 
+	@SuppressWarnings("deprecation")
 	public static void main(String[] args) {
 		ArrayList<Appointment> list = new ArrayList<Appointment>();
 		Appointment appointment = new Appointment(new Date(2020, 10, 1));

@@ -19,17 +19,17 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
-import javax.swing.border.Border;
 import javax.swing.table.DefaultTableModel;
 
 import controller.Actions;
 import controller.ControllerClient;
 import model.entity.Appointment;
+import model.entity.AppointmentStatus;
 import model.entity.Doctor;
 
 public class FrameDoctor extends JFrame {
 
-	private JPanel pn1, pn2, pn3;
+	private JPanel pn1, pn2;
 	private JButton btnAddAppo, btnDlete, btnAttend;
 	private DefaultTableModel modelTAppoint;
 	private JTable tableAppoitn;
@@ -71,12 +71,12 @@ public class FrameDoctor extends JFrame {
 		// ------ Boton salir ---------
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.ipady = 0;
-		c.weighty = 1.5; 
-		c.anchor = GridBagConstraints.LAST_LINE_END; 
-		c.insets = new Insets(20, 0, 0, 20); 
-		c.gridx = 2; 
-		c.gridwidth = 1; 
-		c.gridy = 0; 
+		c.weighty = 1.5;
+		c.anchor = GridBagConstraints.LAST_LINE_END;
+		c.insets = new Insets(20, 0, 0, 20);
+		c.gridx = 2;
+		c.gridwidth = 1;
+		c.gridy = 0;
 		this.btnExit = new JButton(new ImageIcon(
 				new ImageIcon(getClass().getResource("/img/cancel.png")).getImage().getScaledInstance(25, 25, 25)));
 		this.btnExit.addActionListener(controller);
@@ -87,7 +87,7 @@ public class FrameDoctor extends JFrame {
 		this.btnExit.setFocusable(false);
 		add(btnExit, c);
 
-		//---- Nombre doctor
+		// ---- Nombre doctor
 		JLabel lbNameUser = new JLabel("Dr. " + doctor.getName());
 		lbNameUser.setFont(new java.awt.Font("Tahoma", 1, 14));
 		lbNameUser.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -100,7 +100,7 @@ public class FrameDoctor extends JFrame {
 		c.gridx = 1;
 		c.gridy = 0;
 		add(lbNameUser, c);
-		
+
 		// ----- botones agregar y eliminar
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.anchor = GridBagConstraints.LINE_START;
@@ -138,16 +138,16 @@ public class FrameDoctor extends JFrame {
 		// --------- Tabla
 		createTablePerson(c);
 
-		//---------- Boton atender Cita
+		// ---------- Boton atender Cita
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.ipady = 0; // reset to default
 		c.weighty = 0.2;
 		c.anchor = GridBagConstraints.CENTER; // bottom of space
-		c.insets = new Insets(10, 50, 70, 90); 
+		c.insets = new Insets(10, 50, 70, 90);
 		c.weightx = 0.2;
-		c.gridx = 1; 
-		c.gridwidth = 1; 
-		c.gridy = 4; 
+		c.gridx = 1;
+		c.gridwidth = 1;
+		c.gridy = 4;
 		this.btnAttend = new JButton(new ImageIcon(
 				new ImageIcon(getClass().getResource("/img/ok.png")).getImage().getScaledInstance(40, 40, 40)));
 		this.btnAttend.addActionListener(controller);
@@ -189,7 +189,19 @@ public class FrameDoctor extends JFrame {
 	public void fillTable(ArrayList<Appointment> appointmentList) {
 		this.clearTable();
 		for (int i = 0; i < appointmentList.size(); i++) {
-			modelTAppoint.addRow(new Object[] { appointmentList.get(i).getDate(), appointmentList.get(i).getStatus(),
+			String appointmentStatus = "";
+			switch (AppointmentStatus.valueOf(appointmentList.get(i).getStatus().name())) {
+			case AVAILABLE:
+				appointmentStatus = "Availabe";
+				break;
+			case NOT_AVAILABLE:
+				appointmentStatus = "Booked";
+				break;
+			case ATTENDED:
+				appointmentStatus = "Attended";
+				break;
+			}
+			modelTAppoint.addRow(new Object[] { appointmentList.get(i).getDate(), appointmentStatus,
 					appointmentList.get(i).getPatient() });
 		}
 	}

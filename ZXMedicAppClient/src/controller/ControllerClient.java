@@ -143,10 +143,12 @@ public class ControllerClient implements ActionListener {
 					Actions.DELETE_APPOINTMENT);
 			break;
 		case BTN_CANCEL_APPOINTMENT:
-			this.bookAppointment2 = new DialogBookAppointment2(this, showAppointmentPatient(), Actions.CANCEL_APPOINTMENT);
+			this.bookAppointment2 = new DialogBookAppointment2(this, showAppointmentPatient(),
+					Actions.CANCEL_APPOINTMENT);
 			break;
 		case BTN_ATTEND_APPOINTMENT:
-			this.bookAppointment2 = new DialogBookAppointment2(this, showAppointmentDoctorNotAvailable(), Actions.ATTEND_APPOINTMENT);
+			this.bookAppointment2 = new DialogBookAppointment2(this, showAppointmentDoctorNotAvailable(),
+					Actions.ATTEND_APPOINTMENT);
 			break;
 		default:
 			break;
@@ -219,11 +221,18 @@ public class ControllerClient implements ActionListener {
 		appointments.addAll(client.showAppointmentDoctorStatus(AppointmentStatus.AVAILABLE));
 		appointments.addAll(client.showAppointmentDoctorStatus(AppointmentStatus.NOT_AVAILABLE));
 		this.frameDoctor = new FrameDoctor(this, (Doctor) client.getClient(), appointments);
-		
+
 	}
 
 	private ArrayList<Appointment> showAppointment(MedicalSpeciality speciality) {
-		return client.showAppointment(speciality);
+		ArrayList<Appointment> allAppointments = client.showAppointment(speciality);
+		ArrayList<Appointment> appointments = new ArrayList<>();
+		for (Appointment appointment : allAppointments) {
+			if (appointment.getDate().compareTo(new Date())>0) {
+				appointments.add(appointment);
+			}
+		}
+		return appointments;
 
 	}
 
@@ -233,7 +242,7 @@ public class ControllerClient implements ActionListener {
 		appointments.addAll(client.showAppointmentDoctorStatus(AppointmentStatus.NOT_AVAILABLE));
 		return appointments;
 	}
-	
+
 	private ArrayList<Appointment> showAppointmentDoctorNotAvailable() {
 		ArrayList<Appointment> appointments = new ArrayList<Appointment>();
 		appointments.addAll(client.showAppointmentDoctorStatus(AppointmentStatus.NOT_AVAILABLE));

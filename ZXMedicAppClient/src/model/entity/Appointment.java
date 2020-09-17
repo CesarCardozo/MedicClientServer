@@ -54,7 +54,7 @@ public class Appointment implements Comparador{
 
 	@Override
 	public String toString() {
-		return "Appointment [date=" + date + ", status=" + status + ", patient=" + patient + "]";
+		return "Date: " + date + (patient!=null?("| Patient: "+patient):"");
 	}
 
 	@Override

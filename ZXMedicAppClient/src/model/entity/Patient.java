@@ -27,7 +27,7 @@ public class Patient  extends Person{
 
 	@Override
 	public String toString() {
-		return "Patient [Id: " + getId() + " Name: " + getName() + " Phone: " + getPhone() +" Em@ail: "+ getEmail() +" Histoy: "+ getHistoy() + " ]";
+		return "Id: " + getId() + " Name: " + getName() + (getHistoy()!=null?" Histoy: "+getHistoy() :"");
 	}
 
 }

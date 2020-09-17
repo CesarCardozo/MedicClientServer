@@ -24,7 +24,7 @@ public class DialogSignUpPatient extends JDialog {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private JPanel pn1, pn2, pn4;
+	private JPanel pn1, pn2;
 	private JButton btnOk, btnImg;
 	private JLabel jlId, ljPassw, jlName, jlPhone, jlEmail, jlHistory;
 	private JTextArea txAId, txAName, txAPhone, txAEmail, txAHistory;
@@ -56,8 +56,8 @@ public class DialogSignUpPatient extends JDialog {
 		this.pn1 = new JPanel();
 		pn1.setBackground(Color.GRAY);
 		this.pn1.setLayout(new GridLayout(1, 1));
-		this.btnImg = new JButton(new ImageIcon(
-				new ImageIcon(getClass().getResource("/img/registrarPa.jpg")).getImage().getScaledInstance(500, 150, 150)));
+		this.btnImg = new JButton(new ImageIcon(new ImageIcon(getClass().getResource("/img/registrarPa.jpg")).getImage()
+				.getScaledInstance(500, 150, 150)));
 		this.btnImg.setBorder(null);
 		this.btnImg.setBackground(Color.decode(ConstansUI.COLOR_BACKGROUND_APP));
 		this.btnImg.setFocusable(false);
@@ -129,7 +129,8 @@ public class DialogSignUpPatient extends JDialog {
 		c.gridx = 1; // aligned with button 2
 		c.gridwidth = 2; // 2 columns wide
 		c.gridy = 2; // third row
-		this.btnOk = new JButton(new ImageIcon(new ImageIcon(getClass().getResource("/img/ok.png")).getImage().getScaledInstance(40, 40, 40)));
+		this.btnOk = new JButton(new ImageIcon(
+				new ImageIcon(getClass().getResource("/img/ok.png")).getImage().getScaledInstance(40, 40, 40)));
 		this.btnOk.setText("Register Patient ");
 		this.btnOk.setBackground(ConstansUI.COLOR_BOTON_OK);
 		this.btnOk.setFocusable(false);

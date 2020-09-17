@@ -3,8 +3,6 @@ package model.dao;
 import java.util.ArrayList;
 import java.util.Date;
 
-import com.google.gson.Gson;
-
 import model.entity.Appointment;
 import model.entity.AppointmentStatus;
 import model.entity.Doctor;
@@ -13,6 +11,7 @@ import model.entity.Patient;
 import model.exception.AlreadyExists;
 import model.exception.IncorrectData;
 import model.util.JSonUtil;
+import persistence.Persistence;
 import structure.TreeAvl;
 
 public class EPSManager {
@@ -31,10 +30,10 @@ public class EPSManager {
 	 * @param doctor    a quien se le asigna
 	 * @param date      unica fecha
 	 * @param hourunica hora
-	 * @throws AlreadyExists 
+	 * @throws AlreadyExists
 	 * @throws Exception
 	 */
-	public void createAppointment(Doctor doctor, Date date) throws AlreadyExists{
+	public void createAppointment(Doctor doctor, Date date) throws AlreadyExists {
 		Appointment a = new Appointment(date);
 		Doctor d;
 		try {
@@ -42,10 +41,11 @@ public class EPSManager {
 			a.setDoctor(d.getId());
 			System.out.println(a.toString());
 			d.addAppointment(a);
+			Persistence.WriteDoctors(JSonUtil.toJson(this.doctortList.inOrden()));
 		} catch (Exception e) {
 			throw new AlreadyExists("There is already an appointment in the selected date");
 		}
-		
+
 	}
 
 	/**
@@ -59,6 +59,7 @@ public class EPSManager {
 		Doctor d = this.doctortList.search(doctor).getInfo();
 		Appointment a = new Appointment(date);
 		d.getAppointmentList().Delete(d.getAppointmentList().search(a).getInfo());
+		Persistence.WriteDoctors(JSonUtil.toJson(this.doctortList.inOrden()));
 	}
 
 	/**
@@ -69,9 +70,11 @@ public class EPSManager {
 	 * @throws Exception
 	 */
 	public void cancelAppointment(Appointment a) throws Exception {
-		Appointment appointment = doctortList.search(new Doctor(a.getDoctor())).getInfo().getAppointmentList().search(a).getInfo();
+		Appointment appointment = doctortList.search(new Doctor(a.getDoctor())).getInfo().getAppointmentList().search(a)
+				.getInfo();
 		appointment.setStatus(AppointmentStatus.AVAILABLE);
 		appointment.setPatient(null);
+		Persistence.WriteDoctors(JSonUtil.toJson(this.doctortList.inOrden()));
 	}
 
 	/**
@@ -87,6 +90,7 @@ public class EPSManager {
 				.search(new Appointment(appointment.getDate())).getInfo();
 		a.setPatient(patient);
 		a.setStatus(AppointmentStatus.NOT_AVAILABLE);
+		Persistence.WriteDoctors(JSonUtil.toJson(this.doctortList.inOrden()));
 	}
 
 	/**
@@ -103,7 +107,7 @@ public class EPSManager {
 		for (Doctor doctor : doctors) {
 			ArrayList<Appointment> appointments = doctor.getAppointmentList().inOrden();
 			for (Appointment appointment : appointments) {
-				if (appointment.getDate()!=null&&appointment.getPatient().equals(patient)) {
+				if (appointment.getDate() != null && appointment.getPatient().equals(patient)) {
 					appointmentsPatient.insert(appointment);
 				}
 			}
@@ -126,7 +130,8 @@ public class EPSManager {
 		for (Doctor doctor : doctors) {
 			ArrayList<Appointment> appointments = doctor.getAppointmentList().inOrden();
 			for (Appointment appointment : appointments) {
-				if (appointment.getPatient()!=null && appointment.getPatient().getId().equals(patient.getId()) && appointment.getStatus().equals(appointmentStatus)) {
+				if (appointment.getPatient() != null && appointment.getPatient().getId().equals(patient.getId())
+						&& appointment.getStatus().equals(appointmentStatus)) {
 					appointmentsPatient.insert(appointment);
 				}
 			}
@@ -198,6 +203,7 @@ public class EPSManager {
 	public void attendAppointment(Appointment a) throws Exception {
 		doctortList.search(new Doctor(a.getDoctor())).getInfo().getAppointmentList().search(a).getInfo()
 				.setStatus(AppointmentStatus.ATTENDED);
+		Persistence.WriteDoctors(JSonUtil.toJson(this.doctortList.inOrden()));
 	}
 
 	/**
@@ -229,6 +235,7 @@ public class EPSManager {
 	private void addPattient(Patient patient) throws AlreadyExists {
 		try {
 			this.patientList.insert(patient);
+			Persistence.WritePatients(JSonUtil.toJson(this.patientList.inOrden()));
 		} catch (Exception e) {
 			throw new AlreadyExists("The patient already exists in the system");
 		}
@@ -266,6 +273,7 @@ public class EPSManager {
 	 */
 	private void addDoctor(Doctor doctor) throws Exception {
 		this.doctortList.insert(doctor);
+		Persistence.WriteDoctors(JSonUtil.toJson(this.doctortList.inOrden()));
 	}
 
 	/**
@@ -308,70 +316,17 @@ public class EPSManager {
 		return doctortList;
 	}
 
-	// --------------------------------------------------------------------------
-
-	/**
-	 * metodo que retona todas las citas del doctor en un string tipo json
-	 * 
-	 * @param idDoctor
-	 * @return
-	 * @throws Exception
-	 */
-	public String getAppointDoctorJson(String idDoctor) throws Exception {
-		String listAppointmentString = new Gson().toJson(showAppointementDoctor(idDoctor));
-		return listAppointmentString;
-	}
-
-	/**
-	 * metodo que retona todas las citas por status del doctor en un string tipo
-	 * json
-	 * 
-	 * @param idDoctor
-	 * @return
-	 * @throws Exception
-	 */
-	public String getAppointDoctorJson(String idDoctor, AppointmentStatus appointmentStatus) throws Exception {
-		String listAppointmentString = new Gson().toJson(showAppointementDoctor(idDoctor, appointmentStatus));
-		return listAppointmentString;
-	}
-
-	/**
-	 * metodo que retona todas las citas del paciente en un string tipo json
-	 * 
-	 * @param idPatient
-	 * @return
-	 * @throws Exception
-	 */
-	public String getAppointPatientJson(String idPatient) throws Exception {
-		String listAppointmentString = new Gson().toJson(showAppointementDoctor(idPatient));
-		return listAppointmentString;
-	}
-
-	/**
-	 * metodo que retona todas las citas por status del paciente en un string tipo
-	 * json
-	 * 
-	 * @param idPatient
-	 * @param appointmentStatus
-	 * @return
-	 * @throws Exception
-	 */
-	public String getAppointPatientJson(String idPatient, AppointmentStatus appointmentStatus) throws Exception {
-		String listAppointmentString = new Gson().toJson(showAppointementDoctor(idPatient, appointmentStatus));
-		return listAppointmentString;
-	}
-
 	public Patient getPatientByCredentials(String id, String password) throws IncorrectData {
 		try {
 			Patient p = this.patientList.search(new Patient(id)).getInfo();
 			if (p.getPassword().equals(password)) {
 				return p;
-			}else {
+			} else {
 				throw new IncorrectData("The password is'nt correct");
 			}
-		}catch (IncorrectData ie) {
+		} catch (IncorrectData ie) {
 			throw ie;
-		}catch (Exception e) {
+		} catch (Exception e) {
 			throw new IncorrectData("The patient doesnt exist in the system");
 		}
 	}
@@ -381,14 +336,21 @@ public class EPSManager {
 			Doctor d = this.doctortList.search(new Doctor(id)).getInfo();
 			if (d.getPassword().equals(password)) {
 				return d;
-			}else {
+			} else {
 				throw new IncorrectData("The password is'nt correct");
 			}
-		}catch (IncorrectData ie) {
+		} catch (IncorrectData ie) {
 			throw ie;
-		}catch (Exception e) {
+		} catch (Exception e) {
 			throw new IncorrectData("The doctor doesnt exist in the system");
 		}
 	}
 
+	public void setPatientList(TreeAvl<Patient> patientList) {
+		this.patientList = patientList;
+	}
+
+	public void setDoctortList(TreeAvl<Doctor> doctortList) {
+		this.doctortList = doctortList;
+	}
 }

@@ -1,22 +1,18 @@
 package model.entity;
 
-import com.google.gson.annotations.Expose;
-
 import structure.TreeAvl;
 
-public class Doctor extends Person{
-	
+public class Doctor extends Person {
+
 	private MedicalSpeciality speciality;
-	@Expose (serialize = false, deserialize = false)
 	private TreeAvl<Appointment> appointmentList;
 
-	
 	public Doctor(String id, String name, String phone, String email, MedicalSpeciality speciality, String password) {
 		super(id, name, phone, email, password);
 		this.speciality = speciality;
 		this.appointmentList = new TreeAvl<>();
 	}
-	
+
 	public void addAppointment(Appointment appointment) throws Exception {
 		this.appointmentList.insert(appointment);
 	}
@@ -32,7 +28,7 @@ public class Doctor extends Person{
 	public void setSpeciality(MedicalSpeciality speciality) {
 		this.speciality = speciality;
 	}
-	
+
 	/**
 	 * @return the appointmentList
 	 */
@@ -49,6 +45,7 @@ public class Doctor extends Person{
 
 	@Override
 	public String toString() {
-		return "Doctor [Id: " + getId() + " Name: " + getName() + " Phone: " + getPhone() +" Em@ail: "+ getEmail() +" Speciality:" + speciality + " ]";
+		return "Doctor [Id: " + getId() + " Name: " + getName() + " Phone: " + getPhone() + " Em@ail: " + getEmail()
+				+ " Speciality:" + speciality + " ]";
 	}
 }

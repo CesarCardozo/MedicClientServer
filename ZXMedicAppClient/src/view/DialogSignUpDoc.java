@@ -27,7 +27,7 @@ public class DialogSignUpDoc extends JDialog {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private JPanel pn1, pn2, pn4;
+	private JPanel pn1, pn2;
 	private JButton btnOk, btnImg;
 	private JLabel jlId, ljPassw, jlName, jlPhone, jlEmail, jlSpeciality;
 	private JTextArea txAId, txAName, txAPhone, txAEmail;

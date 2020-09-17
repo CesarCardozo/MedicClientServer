@@ -24,11 +24,12 @@ import javax.swing.table.DefaultTableModel;
 import controller.Actions;
 import controller.ControllerClient;
 import model.entity.Appointment;
+import model.entity.AppointmentStatus;
 import model.entity.Patient;
 
 public class FramePatient extends JFrame {
 
-	private JPanel pn1, pn2, pn3;
+	private JPanel pn1, pn2;
 	private JButton btnAddAppo, btnDlete;
 	private DefaultTableModel modelTAppoint;
 	private JTable tableAppoitn;
@@ -88,8 +89,7 @@ public class FramePatient extends JFrame {
 		this.add(btnExit, c);
 
 		// ---- Nombre paciente
-		String texto = "<html>Nombre del paciente <P>" +
-				 "<html>  " + patient.getName() + "<P>";
+		String texto = "<html>Nombre del paciente <P>" + "<html>  " + patient.getName() + "<P>";
 		JLabel lbNameUser = new JLabel(texto);
 		lbNameUser.setFont(new java.awt.Font("Tahoma", 1, 14));
 		lbNameUser.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -105,7 +105,7 @@ public class FramePatient extends JFrame {
 
 		// ----- botones agregar y eliminar
 		c.fill = GridBagConstraints.HORIZONTAL;
-		//c.anchor = GridBagConstraints.LINE_START;
+		// c.anchor = GridBagConstraints.LINE_START;
 		c.insets = new Insets(40, 0, 0, 0);
 		c.gridx = 0;
 		c.gridy = 1;
@@ -121,7 +121,8 @@ public class FramePatient extends JFrame {
 				new ImageIcon(getClass().getResource("/img/basura.png")).getImage().getScaledInstance(40, 40, 40)));
 		this.btnDlete.addActionListener(controller);
 		this.btnDlete.setActionCommand(Actions.BTN_CANCEL_APPOINTMENT.toString());
-		this.btnDlete.setText("Delete");;
+		this.btnDlete.setText("Delete");
+		;
 		this.btnDlete.setBackground(ConstansUI.COLOR_BOTON_BLANCO);
 		this.btnDlete.setFocusable(false);
 		pn1.add(btnAddAppo);
@@ -136,8 +137,8 @@ public class FramePatient extends JFrame {
 		c.gridx = 1;
 		c.gridy = 1;
 		add(lbr, c);
-		
-		//----- Tabla pacientes
+
+		// ----- Tabla pacientes
 		createTablePerson(c);
 	}
 
@@ -156,24 +157,35 @@ public class FramePatient extends JFrame {
 		pn2.setBackground(Color.decode(ConstansUI.COLOR_BACKGROUND_APP));
 		pn2.setBorder(BorderFactory.createTitledBorder(null, "Mis Citas", SwingConstants.RIGHT, 1,
 				new java.awt.Font("Tahoma", 1, 18), Color.white));
-		
+
 		modelTAppoint = new DefaultTableModel();
-		modelTAppoint.setColumnIdentifiers(new String[] { "Date", "Status", "Doctor" });
+		modelTAppoint.setColumnIdentifiers(new String[] { "Date", "Status", "Doctor's Office" });
 		tableAppoitn = new JTable(modelTAppoint);
 		tableAppoitn.setBackground(Color.gray);
 
 		JScrollPane jScrollPane = new JScrollPane(tableAppoitn);
 		jScrollPane.setBackground(Color.black);
 		this.pn2.add(jScrollPane, BorderLayout.CENTER);
-		this.add(pn2,c);
+		this.add(pn2, c);
 
 	}
 
 	public void fillTable(ArrayList<Appointment> appointmentList) {
 		this.clearTable();
-		String status = appointmentList.get(i).getStatus();
 		for (int i = 0; i < appointmentList.size(); i++) {
-			modelTAppoint.addRow(new Object[] { appointmentList.get(i).getDate(), appointmentList.get(i).getStatus(),
+			String appointmentStatus = "";
+			switch (AppointmentStatus.valueOf(appointmentList.get(i).getStatus().name())) {
+			case AVAILABLE:
+				appointmentStatus = "Availabe";
+				break;
+			case NOT_AVAILABLE:
+				appointmentStatus = "Pending";
+				break;
+			case ATTENDED:
+				appointmentStatus = "Attended";
+				break;
+			}
+			modelTAppoint.addRow(new Object[] { appointmentList.get(i).getDate(), appointmentStatus,
 					appointmentList.get(i).getDoctor() });
 		}
 	}

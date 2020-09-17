@@ -25,7 +25,7 @@ public class MainFrame extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private JButton btnAddPerson,  btnAddDoctor,  btnUptc;
+	private JButton btnAddPerson, btnAddDoctor, btnUptc;
 	private DialogLogin dialogLogin;
 
 	public MainFrame(ControllerClient controller) {
@@ -48,7 +48,7 @@ public class MainFrame extends JFrame {
 			@Override
 			public void windowClosing(WindowEvent e) {
 				controller.closeConection();
-			    System.exit(0);
+				System.exit(0);
 			}
 		});
 	}
@@ -72,12 +72,12 @@ public class MainFrame extends JFrame {
 		this.btnUptc = new JButton(new ImageIcon(
 				new ImageIcon(getClass().getResource("/img/eps.jpg")).getImage().getScaledInstance(400, 180, 300)));
 		this.btnUptc.setBorder(null);
-		 this.btnUptc.setBackground(Color.cyan);
+		this.btnUptc.setBackground(Color.cyan);
 		this.btnUptc.setFocusable(false);
 		nn5.add(btnUptc);
 		add(btnUptc, gbc);
 
-		//----Panel formulario Login
+		// ----Panel formulario Login
 		gbc.gridx = 0;
 		gbc.gridy = 1;
 		gbc.gridwidth = 1;
@@ -87,21 +87,21 @@ public class MainFrame extends JFrame {
 		gbc.fill = GridBagConstraints.HORIZONTAL;
 		dialogLogin = new DialogLogin(controller);
 		add(dialogLogin, gbc);
-		 
-		//----Botones de registrar
+
+		// ----Botones de registrar
 		gbc.gridx = 0;
 		gbc.gridy = 2;
 		gbc.gridwidth = 1;
 		gbc.gridheight = 1;
 		gbc.weightx = 0.2;
 		gbc.weighty = 0;
-		gbc.insets = new Insets(0,20,30,20); 
+		gbc.insets = new Insets(0, 20, 30, 20);
 		gbc.fill = GridBagConstraints.HORIZONTAL;
-		JLabel lbText =  new JLabel("Crea tu cuenta para acceder a los servicios!");
-		lbText.setForeground(Color.WHITE);	
+		JLabel lbText = new JLabel("Crea tu cuenta para acceder a los servicios!");
+		lbText.setForeground(Color.WHITE);
 		lbText.setHorizontalAlignment(SwingConstants.CENTER);
 		add(lbText, gbc);
-		
+
 		gbc.gridx = 0;
 		gbc.gridy = 3;
 		gbc.gridwidth = 1;
@@ -111,7 +111,7 @@ public class MainFrame extends JFrame {
 		gbc.fill = GridBagConstraints.BOTH;
 		JPanel nn = new JPanel();
 		nn.setBackground(Color.red);
-		
+
 		JPanel pnbBtnRegister = new JPanel();
 		pnbBtnRegister.setLayout(new GridLayout(1, 2, 10, 3));
 		pnbBtnRegister.setBackground(Color.decode(ConstansUI.COLOR_BACKGROUND_APP));
@@ -130,11 +130,10 @@ public class MainFrame extends JFrame {
 		this.btnAddDoctor.setActionCommand(Actions.BTN_SIGNUP_DOCTOR.toString());
 		this.btnAddDoctor.setBackground(Color.decode("#ffc20e"));
 		pnbBtnRegister.add(this.btnAddDoctor);
-		
+
 		add(pnbBtnRegister, gbc);
 	}
-	
-	
+
 	public static void designWindow() {
 		try {
 			for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -158,7 +157,7 @@ public class MainFrame extends JFrame {
 	public String getId() {
 		return this.dialogLogin.getId();
 	}
-	
+
 	public String getPassword() {
 		return this.dialogLogin.getPassword();
 	}
@@ -166,11 +165,4 @@ public class MainFrame extends JFrame {
 	public DialogLogin getDialogLogin() {
 		return dialogLogin;
 	}
-	
-	public static void main(String[] args) {
-	//	designWindow();
-		MainFrame mf = new MainFrame(null);
-		
-	}
-
 }
