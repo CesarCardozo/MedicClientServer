@@ -113,6 +113,7 @@ public class FramePatient extends JFrame {
 
 	public void fillTable(ArrayList<Appointment> appointmentList) {
 		this.clearTable();
+		String status = appointmentList.get(i).getStatus();
 		for (int i = 0; i < appointmentList.size(); i++) {
 			modelTAppoint.addRow(new Object[] { appointmentList.get(i).getDate(), appointmentList.get(i).getStatus(),
 					appointmentList.get(i).getDoctor() });
