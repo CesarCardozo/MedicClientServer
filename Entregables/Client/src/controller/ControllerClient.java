@@ -188,42 +188,28 @@ public class ControllerClient implements ActionListener {
 	}
 
 	private void registerDoctor() {
-		String id = this.dialogSignUpDoc.getId();
-		String name = this.dialogSignUpDoc.getName();
-		String phone = this.dialogSignUpDoc.getPhone();
-		String mail = this.dialogSignUpDoc.getEmail();
-		String password = this.dialogSignUpDoc.getPassword();
-		if (id.equals("") || name.equals("") || phone.equals("") || mail.equals("") || password.equals("")) {
-			ViewUtils.showError(this.dialogSignUpDoc, "Please, fill all the fields");
-		} else {
-			Doctor d = new Doctor(id, name, phone, mail, this.dialogSignUpDoc.getSpeciality(), password);
-			try {
-				client.registerDoctor(d);
-				this.dialogSignUpDoc.setVisible(false);
-				this.mainFrame.setVisible(true);
-			} catch (Exception e) {
-				ViewUtils.showError(this.dialogSignUpDoc, e.getMessage());
-			}
+		Doctor d = new Doctor(this.dialogSignUpDoc.getId(), this.dialogSignUpDoc.getName(),
+				this.dialogSignUpDoc.getPhone(), this.dialogSignUpDoc.getPhone(), this.dialogSignUpDoc.getSpeciality(),
+				this.dialogSignUpDoc.getPassword());
+		try {
+			client.registerDoctor(d);
+			this.dialogSignUpDoc.setVisible(false);
+			this.mainFrame.setVisible(true);
+		} catch (Exception e) {
+			ViewUtils.showError(this.dialogSignUpDoc, e.getMessage());
 		}
 	}
 
 	private void registerPatient() {
-		String id = this.dialogSignUpPatient.getId();
-		String name = this.dialogSignUpPatient.getName();
-		String phone = this.dialogSignUpPatient.getPhone();
-		String mail = this.dialogSignUpPatient.getEmail();
-		String password = this.dialogSignUpPatient.getPassword();
-		if (id.equals("") || name.equals("") || phone.equals("") || mail.equals("") || password.equals("")) {
-			ViewUtils.showError(this.dialogSignUpPatient, "Please, fill all the fields");
-		} else {
-			Patient p = new Patient(id, name, phone, mail, password);
-			try {
-				client.registerPatient(p);
-				this.dialogSignUpPatient.setVisible(false);
-				this.mainFrame.setVisible(true);
-			} catch (Exception e) {
-				ViewUtils.showError(this.dialogSignUpPatient, e.getMessage());
-			}
+		Patient p = new Patient(this.dialogSignUpPatient.getId(), this.dialogSignUpPatient.getName(),
+				this.dialogSignUpPatient.getPhone(), this.dialogSignUpPatient.getPhone(),
+				this.dialogSignUpPatient.getPassword());
+		try {
+			client.registerPatient(p);
+			this.dialogSignUpPatient.setVisible(false);
+			this.mainFrame.setVisible(true);
+		} catch (Exception e) {
+			ViewUtils.showError(this.dialogSignUpPatient, e.getMessage());
 		}
 	}
 
@@ -242,7 +228,7 @@ public class ControllerClient implements ActionListener {
 		ArrayList<Appointment> allAppointments = client.showAppointment(speciality);
 		ArrayList<Appointment> appointments = new ArrayList<>();
 		for (Appointment appointment : allAppointments) {
-			if (appointment.getDate().compareTo(new Date()) > 0) {
+			if (appointment.getDate().compareTo(new Date())>0) {
 				appointments.add(appointment);
 			}
 		}

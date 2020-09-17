@@ -1,0 +1,6 @@
+package model.entity;
+
+public enum MedicalSpeciality {
+	GENERAL, DENTISTRY, PEDIATRIC, PSYCHOLOGY, ORTHOPEDIST, PHYSIATRIST, CARDIOLOGIST
+
+}
