@@ -45,40 +45,6 @@ public class DialogLogin extends JPanel {
 	}
 
 	private void putElements(ControllerClient controller) {
-//		this.pn2 = new JPanel();
-//		//pn2.setBackground(Color.GRAY);
-//		this.pn2.setLayout(new GridLayout(6, 1, 0, 0));
-//		
-//		jlId = new JLabel("Id");
-//		this.pn2.add(jlId);
-//		
-//		txAId = new JTextArea();
-//		this.pn2.add(txAId);
-//		this.pn2.add(new JLabel(""));
-//		
-//		ljPassw = new JLabel("Password");
-//		this.pn2.add(ljPassw);
-//		
-//		txAPassw = new JPasswordField();
-//		this.pn2.add(txAPassw);
-//		
-//		
-//		this.pn4 = new JPanel();
-//		//pn4.setBackground(Color.GRAY);
-//		this.pn4.setLayout(new BorderLayout());
-//		this.btnOk = new JButton(new ImageIcon(new ImageIcon(getClass().getResource("/img/oklogin.png")).getImage().getScaledInstance(200, 200, 200)));
-//		this.btnOk = new JButton("LOGIN");
-//		this.btnOk.setBorder(null);
-//		this.btnOk.setBackground(Color.BLUE);
-//		this.btnOk.setFocusable(false);
-//		this.btnOk.addActionListener(controller);
-//		//this.btnOk.setActionCommand(action.toString());
-//		this.pn4.add(btnOk);
-//		this.pn2.add(pn4);
-//		
-//		this.add(this.pn2, BorderLayout.CENTER);
-//	
-
 		JLabel jLabel;
 		this.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
@@ -129,7 +95,7 @@ public class DialogLogin extends JPanel {
 
 		JButton jButtonPacient = new JButton("Login Patient");
 		jButtonPacient.addActionListener(controller);
-		jButtonPacient.setActionCommand(Actions.BTN_LOGIN_PATIENT.toString());
+		jButtonPacient.setActionCommand(Actions.LOGIN_PATIENT.toString());
 		jButtonPacient.setBackground(Color.GREEN);
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.ipady = 0; 
@@ -143,7 +109,7 @@ public class DialogLogin extends JPanel {
 		
 		JButton jButtonDoctor = new JButton("Login Doctor");
 		jButtonDoctor.addActionListener(controller);
-		jButtonDoctor.setActionCommand(Actions.BTN_LOGIN_DOCTOR.toString());
+		jButtonDoctor.setActionCommand(Actions.LOGIN_DOCTOR.toString());
 		jButtonDoctor.setBackground(Color.GREEN);
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.ipady = 0; 

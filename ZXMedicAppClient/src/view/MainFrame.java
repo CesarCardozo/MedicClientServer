@@ -25,8 +25,8 @@ public class MainFrame extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private JButton btnAddPerson, btnAddAppointment, btnAddDoctor, btnAddAppointment2, btnExit, btnUptc;
-	private JPanel pn1, pn2, pn3, pn4;
+	private JButton btnAddPerson,  btnAddDoctor,  btnUptc;
+	private DialogLogin dialogLogin;
 
 	public MainFrame(ControllerClient controller) {
 		this.setVisible(true);
@@ -35,6 +35,7 @@ public class MainFrame extends JFrame {
 	}
 
 	private void init(ControllerClient controller) {
+		designWindow();
 		this.setLayout(new GridLayout(4, 1));
 		getContentPane().setBackground(Color.decode(ConstansUI.COLOR_BACKGROUND_APP));
 		addBtns(controller);
@@ -76,6 +77,7 @@ public class MainFrame extends JFrame {
 		nn5.add(btnUptc);
 		add(btnUptc, gbc);
 
+		//----Panel formulario Login
 		gbc.gridx = 0;
 		gbc.gridy = 1;
 		gbc.gridwidth = 1;
@@ -83,7 +85,7 @@ public class MainFrame extends JFrame {
 		gbc.weightx = 0.5;
 		gbc.weighty = 0.3;
 		gbc.fill = GridBagConstraints.HORIZONTAL;
-		DialogLogin dialogLogin = new DialogLogin(controller);
+		dialogLogin = new DialogLogin(controller);
 		add(dialogLogin, gbc);
 		 
 		//----Botones de registrar
@@ -115,7 +117,7 @@ public class MainFrame extends JFrame {
 		pnbBtnRegister.setBackground(Color.decode(ConstansUI.COLOR_BACKGROUND_APP));
 		this.btnAddPerson = new JButton("Register Patient");
 		this.btnAddPerson.addActionListener(controller);
-		this.btnAddPerson.setActionCommand(Actions.BTN_LOGIN_PATIENT.toString());
+		this.btnAddPerson.setActionCommand(Actions.BTN_SIGNUP_PATIENT.toString());
 		this.btnAddPerson.setBorder(null);
 		this.btnAddPerson.setBackground(Color.decode("#ffc20e"));
 		this.btnAddPerson.setFocusable(false);
@@ -125,71 +127,11 @@ public class MainFrame extends JFrame {
 		ImageIcon iconobtn = new ImageIcon("/img/appointment.png");
 		this.btnAddDoctor.setIcon(iconobtn);
 		this.btnAddDoctor.addActionListener(controller);
-		this.btnAddDoctor.setActionCommand(Actions.BTN_LOGIN_PATIENT.toString());
-		//this.btnAddDoctor.setBorder(null);
-		 this.btnAddDoctor.setBackground(Color.decode("#ffc20e"));
-		//this.btnAddDoctor.setFocusable(false);
+		this.btnAddDoctor.setActionCommand(Actions.BTN_SIGNUP_DOCTOR.toString());
+		this.btnAddDoctor.setBackground(Color.decode("#ffc20e"));
 		pnbBtnRegister.add(this.btnAddDoctor);
 		
 		add(pnbBtnRegister, gbc);
-
-//		pn1.setBackground(Color.GRAY);
-//		pn1.setBorder(BorderFactory.createTitledBorder("Login"));
-//		this.pn1.setLayout(new GridLayout(1, 2));
-//		this.btnAddPerson = new JButton(new ImageIcon(new ImageIcon(getClass().getResource("/img/cliente.png")).getImage().getScaledInstance(100, 100, 100)));
-//		this.btnAddPerson.addActionListener(controller);
-//		this.btnAddPerson.setActionCommand(Actions.BTN_LOGIN_PATIENT.toString());
-//		this.btnAddPerson.setBorder(null);
-//		this.btnAddPerson.setBackground(Color.DARK_GRAY);
-//		this.btnAddPerson.setFocusable(false);
-//		pn1.add(btnAddPerson);
-//		
-//		this.btnAddAppointment = new JButton(new ImageIcon(new ImageIcon(getClass().getResource("/img/doctor.png")).getImage().getScaledInstance(100, 100, 100)));
-//		this.btnAddAppointment.addActionListener(controller);
-//		this.btnAddAppointment.setActionCommand(Actions.BTN_LOGIN_DOCTOR.toString());
-//		this.btnAddAppointment.setBorder(null);
-//		this.btnAddAppointment.setBackground(Color.DARK_GRAY);
-//		this.btnAddAppointment.setFocusable(false);
-//		this.pn1.add(btnAddAppointment);
-//		
-//		this.add(pn1);
-//		
-//		pn2 = new JPanel();
-//		pn2.setBackground(Color.GRAY);
-//		pn2.setBorder(BorderFactory.createTitledBorder("SignUp"));
-//		this.pn2.setLayout(new GridLayout(1, 2));
-//		this.btnAddPerson2 = new JButton(new ImageIcon(new ImageIcon(getClass().getResource("/img/cliente.png")).getImage().getScaledInstance(100, 100, 100)));
-//		this.btnAddPerson2.addActionListener(controller);
-//		this.btnAddPerson2.setActionCommand(Actions.BTN_SIGNUP_PATIENT.toString());
-//		this.btnAddPerson2.setBorder(null);
-//		this.btnAddPerson2.setBackground(Color.DARK_GRAY);
-//		this.btnAddPerson2.setFocusable(false);
-//		pn2.add(btnAddPerson2);
-//		
-//		this.btnAddAppointment2 = new JButton(new ImageIcon(new ImageIcon(getClass().getResource("/img/doctor.png")).getImage().getScaledInstance(100, 100, 100)));
-//		this.btnAddAppointment2.addActionListener(controller);
-//		this.btnAddAppointment2.setActionCommand(Actions.BTN_SIGNUP_DOCTOR.toString());
-//		this.btnAddAppointment2.setBorder(null);
-//		this.btnAddAppointment2.setBackground(Color.DARK_GRAY);
-//		this.btnAddAppointment2.setFocusable(false);
-//		this.pn2.add(btnAddAppointment2);
-//		
-//		this.add(pn2);
-//		
-//		pn3 = new JPanel();
-//		pn3.setBackground(Color.GRAY);
-//		pn3.setBorder(BorderFactory.createTitledBorder("Exit..."));
-//		
-//		this.btnExit = new JButton(new ImageIcon(new ImageIcon(getClass().getResource("/img/exit.png")).getImage().getScaledInstance(100, 100, 100)));
-//		this.btnExit.addActionListener(controller);
-//		this.btnExit.setActionCommand(Actions.EXIT.toString());
-//		this.btnExit.setBorder(null);
-//		this.btnExit.setBackground(Color.DARK_GRAY);
-//		this.btnExit.setBounds(10, 110, 100, 100);
-//		this.btnExit.setFocusable(false);
-//		this.pn3.add(btnExit);
-//		
-//		this.add(pn3);
 	}
 	
 	
@@ -213,11 +155,24 @@ public class MainFrame extends JFrame {
 	}
 	// ------------------------
 
+	public String getId() {
+		return this.dialogLogin.getId();
+	}
 	
+	public String getPassword() {
+		return this.dialogLogin.getPassword();
+	}
 
+	public DialogLogin getDialogLogin() {
+		return dialogLogin;
+	}
+	
 	public static void main(String[] args) {
 		designWindow();
-		new MainFrame(null);
+		MainFrame mf = new MainFrame(null);
+		while(true) {
+			System.out.println("ingreso---" +  mf.getDialogLogin().getId());
+		}
 	}
 
 }
