@@ -3,6 +3,8 @@ package view;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
@@ -46,7 +48,13 @@ public class FramePatient extends JFrame {
 		setTitle("UPTC-EPS PATIENT MANAGER");
 		setSize(490, 600);
 		setLocationRelativeTo(null);
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		this.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				controller.closeConection();
+				System.exit(0);
+			}
+		});
 	}
 
 	private void addPnl(ControllerClient controller, Patient patient) {
@@ -62,7 +70,7 @@ public class FramePatient extends JFrame {
 		this.btnDlete = new JButton(new ImageIcon(
 				new ImageIcon(getClass().getResource("/img/basura.png")).getImage().getScaledInstance(100, 100, 100)));
 		this.btnDlete.addActionListener(controller);
-//		this.btnDlete.setActionCommand(Actions.PATIENT.toString());
+		this.btnDlete.setActionCommand(Actions.BTN_CANCEL_APPOINTMENT.toString());
 		this.btnDlete.setBorder(null);
 		this.btnDlete.setBackground(Color.DARK_GRAY);
 		this.btnDlete.setFocusable(false);

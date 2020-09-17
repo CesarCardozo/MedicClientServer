@@ -2,6 +2,8 @@ package view;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
@@ -21,7 +23,7 @@ import model.entity.Doctor;
 public class FrameDoctor extends JFrame{
 
 	private JPanel pn1, pn2, pn3;
-	private JButton btnAddAppo, btnDlete;
+	private JButton btnAddAppo, btnDlete, btnAttend;
 	private DefaultTableModel modelTAppoint;
 	private JTable tableAppoitn;
 	private JButton btnExit;
@@ -46,7 +48,13 @@ public class FrameDoctor extends JFrame{
 		setTitle("UPTC-EPS DOCTOR MANAGER");
 		setSize(490, 450);
 		setLocationRelativeTo(null);
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		this.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				controller.closeConection();
+			    System.exit(0);
+			}
+		});
 	}
 
 	private void addPnl(ControllerClient controller, Doctor doctor) {
@@ -63,8 +71,15 @@ public class FrameDoctor extends JFrame{
 		this.btnDlete.setBorder(null);
 		this.btnDlete.setBackground(Color.DARK_GRAY);
 		this.btnDlete.setFocusable(false);
+		this.btnAttend = new JButton(new ImageIcon(new ImageIcon(getClass().getResource("/img/ok.png")).getImage().getScaledInstance(100, 100, 100)));
+		this.btnAttend.addActionListener(controller);
+		this.btnAttend.setActionCommand(Actions.BTN_ATTEND_APPOINTMENT.toString());
+		this.btnAttend.setBorder(null);
+		this.btnAttend.setBackground(Color.DARK_GRAY);
+		this.btnAttend.setFocusable(false);
 		pn1.add(btnAddAppo);
 		pn1.add(btnDlete);
+		pn1.add(btnAttend);
 		this.pn1.add(new JLabel(doctor.getName()));
 		pn1.setBackground(Color.DARK_GRAY);
 		this.add(pn1);

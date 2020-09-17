@@ -142,6 +142,12 @@ public class ControllerClient implements ActionListener {
 			this.bookAppointment2 = new DialogBookAppointment2(this, showAppointmentDoctor(),
 					Actions.DELETE_APPOINTMENT);
 			break;
+		case BTN_CANCEL_APPOINTMENT:
+			this.bookAppointment2 = new DialogBookAppointment2(this, showAppointmentPatient(), Actions.CANCEL_APPOINTMENT);
+			break;
+		case BTN_ATTEND_APPOINTMENT:
+			this.bookAppointment2 = new DialogBookAppointment2(this, showAppointmentDoctorNotAvailable(), Actions.ATTEND_APPOINTMENT);
+			break;
 		default:
 			break;
 		}
@@ -153,6 +159,7 @@ public class ControllerClient implements ActionListener {
 		try {
 			client.loginDoctor(idDoctor, passwordDoctor);
 			ArrayList<Appointment> appointments = new ArrayList<>();
+			appointments.addAll(client.showAppointmentDoctorStatus(AppointmentStatus.ATTENDED));
 			appointments.addAll(client.showAppointmentDoctorStatus(AppointmentStatus.AVAILABLE));
 			appointments.addAll(client.showAppointmentDoctorStatus(AppointmentStatus.NOT_AVAILABLE));
 			this.frameDoctor = new FrameDoctor(this, (Doctor) client.getClient(), appointments);
@@ -168,6 +175,7 @@ public class ControllerClient implements ActionListener {
 		try {
 			client.loginPatient(idPatient, passwordPatient);
 			ArrayList<Appointment> appointments = new ArrayList<>();
+			appointments.addAll(client.showAppointmentPatientSatus(AppointmentStatus.ATTENDED));
 			appointments.addAll(client.showAppointmentPatientSatus(AppointmentStatus.AVAILABLE));
 			appointments.addAll(client.showAppointmentPatientSatus(AppointmentStatus.NOT_AVAILABLE));
 			this.framePatient = new FramePatient(this, (Patient) client.getClient(), appointments);
@@ -204,13 +212,14 @@ public class ControllerClient implements ActionListener {
 	}
 
 	private void attendAppointment() {
-		// Se seleccion de la vista desde la perspectiva del doctor la appointment que
-		// quiere atender
-		Appointment a = new Appointment(new Date());
-		a.setDoctor("1");
-		// se reemplaza la seleccion de la appointment de arriba por la obtencion desde
-		// la vista
+		bookAppointment2.setVisible(false);
+		Appointment a = bookAppointment2.getAppointment();
 		client.attendAppointment(a);
+		ArrayList<Appointment> appointments = new ArrayList<>();
+		appointments.addAll(client.showAppointmentDoctorStatus(AppointmentStatus.AVAILABLE));
+		appointments.addAll(client.showAppointmentDoctorStatus(AppointmentStatus.NOT_AVAILABLE));
+		this.frameDoctor = new FrameDoctor(this, (Doctor) client.getClient(), appointments);
+		
 	}
 
 	private ArrayList<Appointment> showAppointment(MedicalSpeciality speciality) {
@@ -224,11 +233,17 @@ public class ControllerClient implements ActionListener {
 		appointments.addAll(client.showAppointmentDoctorStatus(AppointmentStatus.NOT_AVAILABLE));
 		return appointments;
 	}
+	
+	private ArrayList<Appointment> showAppointmentDoctorNotAvailable() {
+		ArrayList<Appointment> appointments = new ArrayList<Appointment>();
+		appointments.addAll(client.showAppointmentDoctorStatus(AppointmentStatus.NOT_AVAILABLE));
+		return appointments;
+	}
 
-	private void showAppointmentPatient() {
-		client.showAppointmentPatient();
-		// eso de arriba devuelve una lista de citas del paciente hay que usarla en la
-		// vista
+	private ArrayList<Appointment> showAppointmentPatient() {
+		ArrayList<Appointment> appointments = new ArrayList<Appointment>();
+		appointments.addAll(client.showAppointmentPatientSatus(AppointmentStatus.NOT_AVAILABLE));
+		return appointments;
 	}
 
 	private void bookAppointment() {
@@ -238,17 +253,19 @@ public class ControllerClient implements ActionListener {
 		ArrayList<Appointment> appointments = new ArrayList<>();
 		appointments.addAll(client.showAppointmentPatientSatus(AppointmentStatus.AVAILABLE));
 		appointments.addAll(client.showAppointmentPatientSatus(AppointmentStatus.NOT_AVAILABLE));
+		appointments.addAll(client.showAppointmentPatientSatus(AppointmentStatus.ATTENDED));
 		this.framePatient = new FramePatient(this, (Patient) client.getClient(), appointments);
 	}
 
 	private void cancelAppointment() {
-		// Se seleccion de la vista desde la perspectiva del usuario la appointment que
-		// quiere cancelar
-		Appointment a = new Appointment(new Date());
-		a.setDoctor("1");
-		// se reemplaza la seleccion de la appointment de arriba por la obtencion desde
-		// la vista
+		bookAppointment2.setVisible(false);
+		Appointment a = bookAppointment2.getAppointment();
 		client.cancelAppointment(a);
+		ArrayList<Appointment> appointments = new ArrayList<>();
+		appointments.addAll(client.showAppointmentPatientSatus(AppointmentStatus.AVAILABLE));
+		appointments.addAll(client.showAppointmentPatientSatus(AppointmentStatus.NOT_AVAILABLE));
+		appointments.addAll(client.showAppointmentPatientSatus(AppointmentStatus.ATTENDED));
+		this.framePatient = new FramePatient(this, (Patient) client.getClient(), appointments);
 	}
 
 	private void deleteAppointment() {
@@ -256,8 +273,9 @@ public class ControllerClient implements ActionListener {
 		Appointment a = bookAppointment2.getAppointment();
 		client.deleteAppointment(a.getDate());
 		ArrayList<Appointment> appointments = new ArrayList<>();
-		appointments.addAll(client.showAppointmentDoctorStatus(AppointmentStatus.AVAILABLE));
 		appointments.addAll(client.showAppointmentDoctorStatus(AppointmentStatus.NOT_AVAILABLE));
+		appointments.addAll(client.showAppointmentDoctorStatus(AppointmentStatus.AVAILABLE));
+		appointments.addAll(client.showAppointmentDoctorStatus(AppointmentStatus.ATTENDED));
 		this.frameDoctor = new FrameDoctor(this, (Doctor) client.getClient(), appointments);
 	}
 
@@ -271,6 +289,7 @@ public class ControllerClient implements ActionListener {
 		ArrayList<Appointment> appointments = new ArrayList<>();
 		appointments.addAll(client.showAppointmentDoctorStatus(AppointmentStatus.NOT_AVAILABLE));
 		appointments.addAll(client.showAppointmentDoctorStatus(AppointmentStatus.AVAILABLE));
+		appointments.addAll(client.showAppointmentDoctorStatus(AppointmentStatus.ATTENDED));
 		this.frameDoctor = new FrameDoctor(this, (Doctor) client.getClient(), appointments);
 
 	}
