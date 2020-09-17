@@ -86,7 +86,7 @@ public class MedicClient {
 		}
 	}
 
-	public void loginDoctor(String id, String password) {
+	public void loginDoctor(String id, String password) throws Exception {
 		try {
 			output.writeUTF(Actions.LOGIN_DOCTOR.name());
 			String response = input.readUTF();
@@ -96,11 +96,17 @@ public class MedicClient {
 				if (response.equals(Actions.OK.name())) {
 					output.writeUTF(password);
 					response = input.readUTF();
-					client = JSonUtil.toDoctor(response);
+					if (response.equals(Actions.OK.name())) {
+						response = input.readUTF(); 
+						client = JSonUtil.toDoctor(response);
+					}else {
+						response = input.readUTF(); 
+						throw new Exception(response);
+					}
 				}
 			}
 		} catch (IOException e) {
-			e.printStackTrace();
+			throw new Exception("Internal error");
 		}
 	}
 

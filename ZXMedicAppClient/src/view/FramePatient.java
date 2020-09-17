@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -34,8 +33,8 @@ public class FramePatient extends JFrame {
 	public FramePatient(ControllerClient controller, Patient patient, ArrayList<Appointment> appointments) {
 		this.setVisible(true);
 		init(controller, patient);
-		if (appointments!=null && !appointments.isEmpty()) {
-			fillTable(appointments);	
+		if (appointments != null && !appointments.isEmpty()) {
+			fillTable(appointments);
 		}
 	}
 

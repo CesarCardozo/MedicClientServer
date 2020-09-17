@@ -10,7 +10,6 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
-import javax.swing.JSpinner.DefaultEditor;
 import javax.swing.SpinnerNumberModel;
 
 import com.toedter.calendar.JCalendar;
@@ -56,7 +55,7 @@ public class DialogCreateAppointment extends JDialog {
 
 		this.sppinerH = new JSpinner();
 		sppinerH.setEditor(new JSpinner.DefaultEditor(sppinerH));
-		this.sppinerH.setSize(100, 50);
+		this.sppinerH.setSize(100, 10);
 		SpinnerNumberModel modeloSpinner = new SpinnerNumberModel();
 		modeloSpinner.setMaximum(23);
 		modeloSpinner.setMinimum(0);
@@ -99,6 +98,7 @@ public class DialogCreateAppointment extends JDialog {
 		this.add(pn3);
 	}
 
+	@SuppressWarnings("deprecation")
 	public Date getDate() {
 		return new Date(calendarG.getCalendar().getTime().getYear(), calendarG.getCalendar().getTime().getMonth(),
 				calendarG.getCalendar().getTime().getDate(), (Integer) sppinerH.getValue(),

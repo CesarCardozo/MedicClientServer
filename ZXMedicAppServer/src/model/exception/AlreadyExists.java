@@ -1,7 +1,5 @@
 package model.exception;
 
-import model.entity.Patient;
-
 public class AlreadyExists extends Exception {
 
 	/**

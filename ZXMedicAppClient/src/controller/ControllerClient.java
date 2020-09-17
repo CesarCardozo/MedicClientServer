@@ -153,13 +153,16 @@ public class ControllerClient implements ActionListener {
 	private void loginDoctor() {
 		String idDoctor = this.dialogLogin.getId();
 		String passwordDoctor = this.dialogLogin.getPassword();
-		this.dialogLogin.setVisible(false);
-		client.loginDoctor(idDoctor, passwordDoctor);
-		// usar ese doctor a discrecion
-		ArrayList<Appointment> appointments = new ArrayList<>();
-		appointments.addAll(client.showAppointmentDoctorStatus(AppointmentStatus.AVAILABLE));
-		appointments.addAll(client.showAppointmentDoctorStatus(AppointmentStatus.NOT_AVAILABLE));
-		this.frameDoctor = new FrameDoctor(this, (Doctor) client.getClient(), appointments);
+		try {
+			client.loginDoctor(idDoctor, passwordDoctor);
+			ArrayList<Appointment> appointments = new ArrayList<>();
+			appointments.addAll(client.showAppointmentDoctorStatus(AppointmentStatus.AVAILABLE));
+			appointments.addAll(client.showAppointmentDoctorStatus(AppointmentStatus.NOT_AVAILABLE));
+			this.frameDoctor = new FrameDoctor(this, (Doctor) client.getClient(), appointments);
+			this.dialogLogin.setVisible(false);
+		}catch (Exception e) {
+			ViewUtils.showError(this.dialogLogin, e.getMessage());
+		}
 	}
 
 	private void loginPatient() {
@@ -167,8 +170,9 @@ public class ControllerClient implements ActionListener {
 		String passwordPatient = this.dialogLogin.getPassword();
 		try {
 			client.loginPatient(idPatient, passwordPatient);
-			ArrayList<Appointment> appointments = client.showAppointmentPatientSatus(AppointmentStatus.NOT_AVAILABLE);
-			// usar ese paciente a discrecion
+			ArrayList<Appointment> appointments = new ArrayList<>();
+			appointments.addAll(client.showAppointmentPatientSatus(AppointmentStatus.AVAILABLE));
+			appointments.addAll(client.showAppointmentPatientSatus(AppointmentStatus.NOT_AVAILABLE));
 			this.framePatient = new FramePatient(this, (Patient) client.getClient(), appointments);
 			this.dialogLogin.setVisible(false);
 		} catch (Exception e) {
@@ -231,11 +235,8 @@ public class ControllerClient implements ActionListener {
 	}
 
 	private void bookAppointment() {
-
 		bookAppointment2.setVisible(false);
 		mainFrame.setVisible(true);
-		// Se seleccion de la vista desde la perspectiva del usuario la appointment que
-		// quiere cancelar
 		Appointment a = bookAppointment2.getAppointment();
 		client.bookAppointment(a);
 	}
