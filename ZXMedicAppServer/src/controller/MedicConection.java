@@ -4,8 +4,10 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.ArrayList;
 
 import model.dao.EPSManager;
+import model.entity.Appointment;
 import model.entity.AppointmentStatus;
 import model.entity.Doctor;
 import model.entity.MedicalSpeciality;
@@ -223,8 +225,9 @@ public class MedicConection extends Thread {
 			this.out.writeUTF(MessageActions.OK.name());
 			String patient = in.readUTF();
 			String statusAppoint = in.readUTF();
-			out.writeUTF(JSonUtil.toJson(manager.showAppointementPatient((JSonUtil.toPatient(patient).getId()),
-					AppointmentStatus.valueOf(statusAppoint))));
+			ArrayList<Appointment> appointments = new ArrayList<Appointment>();
+					appointments.addAll(manager.showAppointementPatient(JSonUtil.toPatient(patient).getId(),AppointmentStatus.valueOf(statusAppoint)));
+			out.writeUTF(JSonUtil.toJson(appointments));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

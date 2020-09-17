@@ -236,9 +236,10 @@ public class ControllerClient implements ActionListener {
 
 	private void bookAppointment() {
 		bookAppointment2.setVisible(false);
-		mainFrame.setVisible(true);
+		mainFrame = new MainFrame(this);
 		Appointment a = bookAppointment2.getAppointment();
 		client.bookAppointment(a);
+		
 	}
 
 	private void cancelAppointment() {

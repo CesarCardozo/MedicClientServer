@@ -95,7 +95,7 @@ public class EPSManager {
 		for (Doctor doctor : doctors) {
 			ArrayList<Appointment> appointments = doctor.getAppointmentList().inOrden();
 			for (Appointment appointment : appointments) {
-				if (appointment.getPatient().equals(patient)) {
+				if (appointment.getDate()!=null&&appointment.getPatient().equals(patient)) {
 					appointmentsPatient.insert(appointment);
 				}
 			}
@@ -118,7 +118,7 @@ public class EPSManager {
 		for (Doctor doctor : doctors) {
 			ArrayList<Appointment> appointments = doctor.getAppointmentList().inOrden();
 			for (Appointment appointment : appointments) {
-				if (appointment.getPatient().equals(patient) && appointment.getStatus().equals(appointmentStatus)) {
+				if (appointment.getPatient()!=null && appointment.getPatient().equals(patient) && appointment.getStatus().equals(appointmentStatus)) {
 					appointmentsPatient.insert(appointment);
 				}
 			}
