@@ -213,10 +213,11 @@ public class ControllerClient implements ActionListener {
 		String phone = this.dialogSignUpPatient.getPhone();
 		String mail = this.dialogSignUpPatient.getEmail();
 		String password = this.dialogSignUpPatient.getPassword();
+		String history = this.dialogSignUpPatient.getHistory();
 		if (id.equals("") || name.equals("") || phone.equals("") || mail.equals("") || password.equals("")) {
 			ViewUtils.showError(this.dialogSignUpPatient, "Please, fill all the fields");
 		} else {
-			Patient p = new Patient(id, name, phone, mail, password);
+			Patient p = new Patient(id, name, phone, mail, password, history);
 			try {
 				client.registerPatient(p);
 				this.dialogSignUpPatient.setVisible(false);
@@ -230,7 +231,8 @@ public class ControllerClient implements ActionListener {
 	private void attendAppointment() {
 		bookAppointment2.setVisible(false);
 		Appointment a = bookAppointment2.getAppointment();
-		client.attendAppointment(a);
+		String diagnostic = ViewUtils.showMessage();
+		client.attendAppointment(a, diagnostic);
 		ArrayList<Appointment> appointments = new ArrayList<>();
 		appointments.addAll(client.showAppointmentDoctorStatus(AppointmentStatus.AVAILABLE));
 		appointments.addAll(client.showAppointmentDoctorStatus(AppointmentStatus.NOT_AVAILABLE));

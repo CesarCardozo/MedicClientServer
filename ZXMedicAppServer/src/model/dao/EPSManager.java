@@ -200,10 +200,13 @@ public class EPSManager {
 	 * @param a
 	 * @throws Exception
 	 */
-	public void attendAppointment(Appointment a) throws Exception {
+	public void attendAppointment(Appointment a, String diagnostic) throws Exception {
 		doctortList.search(new Doctor(a.getDoctor())).getInfo().getAppointmentList().search(a).getInfo()
 				.setStatus(AppointmentStatus.ATTENDED);
 		Persistence.WriteDoctors(JSonUtil.toJson(this.doctortList.inOrden()));
+		Patient p = patientList.search(a.getPatient()).getInfo();
+		p.setHistoy((p.getHistoy().equals(null)|| p.getHistoy().equals("null")?"":p.getHistoy())+" | " + diagnostic);
+		Persistence.WritePatients(JSonUtil.toJson(this.patientList.inOrden()));
 	}
 
 	/**

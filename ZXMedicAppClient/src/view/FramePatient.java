@@ -89,7 +89,7 @@ public class FramePatient extends JFrame {
 		this.add(btnExit, c);
 
 		// ---- Nombre paciente
-		String texto = "<html>Nombre del paciente <P>" + "<html>  " + patient.getName() + "<P>";
+		String texto = "<html>Nombre del paciente <P>" + "<html>  " + patient.getName() + "<P>" + "History, : " + patient.getHistoy();
 		JLabel lbNameUser = new JLabel(texto);
 		lbNameUser.setFont(new java.awt.Font("Tahoma", 1, 14));
 		lbNameUser.setHorizontalAlignment(SwingConstants.RIGHT);

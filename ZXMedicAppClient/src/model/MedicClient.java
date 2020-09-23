@@ -137,12 +137,13 @@ public class MedicClient {
 		}
 	}
 
-	public void attendAppointment(Appointment a) {
+	public void attendAppointment(Appointment a, String diagnostic) {
 		try {
 			output.writeUTF(Actions.ATTEND_APPOINTMENT.name());
 			String response = input.readUTF();
 			if (response.equals(Actions.OK.name())) {
 				output.writeUTF(JSonUtil.toJson(a));
+				output.writeUTF(diagnostic);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();

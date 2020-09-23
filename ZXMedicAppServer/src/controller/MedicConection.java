@@ -187,7 +187,8 @@ public class MedicConection extends Thread {
 		try {
 			this.out.writeUTF(MessageActions.OK.name());
 			String appointmentJson = in.readUTF();
-			manager.attendAppointment(JSonUtil.toAppointment(appointmentJson));
+			String diagnostic = in.readUTF();
+			manager.attendAppointment(JSonUtil.toAppointment(appointmentJson), diagnostic);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
